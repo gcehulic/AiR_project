@@ -15,7 +15,7 @@ import hr.foi.air602.watchme.helper.MockData;
 public class MainActivity extends AppCompatActivity {
 
     private Button mBottonNavigation;
-
+    private Button  mLogin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,5 +34,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        mLogin = (Button)findViewById(R.id.bottomLogin);
+        mLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, Login.class);
+                startActivity(i);
+            }
+        });
+
+
+
     }
 }
