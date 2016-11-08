@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">WatchMe</string>
 
-    <string name="tab_1">Home</string>
-    <string name="tab_2">Odabrane</string>
-    <string name="tab_3">Preporučene </string>
+    <string name="tab_1">Početna</string>
+    <string name="tab_2">Favoriti</string>
+    <string name="tab_3">Preporučeno</string>
     <string name="menu_1">menu 1</string>
     <string name="menu_2">menu 2</string>
     <string name="menu_3">menu 3</string>
