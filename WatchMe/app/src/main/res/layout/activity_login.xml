@@ -16,11 +16,11 @@
         android:paddingRight="20dp" >
 
         <EditText
-            android:id="@+id/email"
+            android:id="@+id/kor_ime"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:hint="Email"
+            android:hint="Korisničko ime"
             android:inputType="textEmailAddress"
             android:padding="10dp"
        />
@@ -30,7 +30,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:hint="lozinka"
+            android:hint="Lozinka"
             android:inputType="textPassword"
             android:padding="10dp"
             android:singleLine="true"

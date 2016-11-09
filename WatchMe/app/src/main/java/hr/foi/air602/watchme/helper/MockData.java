@@ -1,7 +1,5 @@
 package hr.foi.air602.watchme.helper;
 
-import hr.foi.air602.database.entities.Korisnik;
-
 /**
  * Created by Goran on 2.11.2016..
  */

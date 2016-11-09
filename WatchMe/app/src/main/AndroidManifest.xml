@@ -19,7 +19,8 @@
             android:name=".BottomNavigationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".Login"></activity>
+        <activity android:name=".Login" />
+        <activity android:name=".Registracija"></activity>
     </application>
 
 </manifest>
