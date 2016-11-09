@@ -10,7 +10,6 @@ import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
 import butterknife.ButterKnife;
-import hr.foi.air602.watchme.helper.MockData;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,8 +22,6 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
         FlowManager.init(new FlowConfig.Builder(this).build());
-
-        MockData.writeAll();
 
         mBottonNavigation = (Button)findViewById(R.id.bottomNavigationButton);
         mBottonNavigation.setOnClickListener(new View.OnClickListener() {
