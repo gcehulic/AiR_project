@@ -56,7 +56,7 @@ public class Registracija extends AppCompatActivity {
                 {
                     loginDataBaseAdapter.insertEntry(ime, prezime, mail, korisnicko_ime, lozinka);
                     Toast.makeText(getApplicationContext(), "Račun je uspješno kreiran!", Toast.LENGTH_LONG).show();
-                    Intent i = new Intent(Registracija.this, Login.class);
+                    Intent i = new Intent(Registracija.this,MainActivity.class);
                     startActivity(i);
                     finish();
                 }

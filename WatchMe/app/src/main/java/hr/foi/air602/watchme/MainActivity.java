@@ -1,20 +1,24 @@
 package hr.foi.air602.watchme;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
 import butterknife.ButterKnife;
+import hr.foi.air602.database.entities.LoginDataBaseAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button mBottonNavigation;
-    private Button  mLogin;
+   private Button btnPrijava, btnRegistracija;
+    LoginDataBaseAdapter loginDataBaseAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,25 +27,60 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         FlowManager.init(new FlowConfig.Builder(this).build());
 
-        mBottonNavigation = (Button)findViewById(R.id.bottomNavigationButton);
-        mBottonNavigation.setOnClickListener(new View.OnClickListener() {
-            @Override
+        loginDataBaseAdapter = new LoginDataBaseAdapter(this);
+        loginDataBaseAdapter = loginDataBaseAdapter.open();
+
+        btnPrijava = (Button)findViewById(R.id.btnLogin);
+        btnRegistracija = (Button) findViewById(R.id.btnReg);
+
+        btnRegistracija.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, BottomNavigationActivity.class);
+                Intent i = new Intent(getApplicationContext(), Registracija.class);
                 startActivity(i);
             }
         });
 
-        mLogin = (Button)findViewById(R.id.bottomLogin);
-        mLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
+        btnPrijava.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, Login.class);
-                startActivity(i);
+                signIn(v);
             }
         });
-
-
 
     }
+
+    public void signIn(View V) {
+        final EditText editTextUserName = (EditText) findViewById(R.id.kor_ime);
+        final EditText editTextPassword = (EditText) findViewById(R.id.password);
+
+        Button btnSignIn = (Button) findViewById(R.id.btnLogin);
+
+        btnSignIn.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+
+                String userName = editTextUserName.getText().toString();
+                String password = editTextPassword.getText().toString();
+                String storedPassword = loginDataBaseAdapter.getSinlgeEntry(userName);
+                if (password.equals(storedPassword)) {
+                    Toast.makeText(MainActivity.this, "Prijava je uspješno izvršena!", Toast.LENGTH_LONG).show();
+                    btnPrijava.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(MainActivity.this, BottomNavigationActivity.class);
+                            startActivity(i);
+                        }
+                    });
+                } else {
+                    Toast.makeText(MainActivity.this, "Pogrešno korisničko ime ili lozinka!", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        loginDataBaseAdapter.close();
+    }
+
 }

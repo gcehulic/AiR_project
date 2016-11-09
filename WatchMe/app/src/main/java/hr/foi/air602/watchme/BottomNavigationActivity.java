@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -14,12 +15,18 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
 
@@ -43,6 +50,11 @@ public class BottomNavigationActivity extends AppCompatActivity {
     private AHBottomNavigationViewPager mNavigationViewPager;
     private AHBottomNavigation mBottomNavigation;
     private FloatingActionButton mFloatingActionButton;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +65,12 @@ public class BottomNavigationActivity extends AppCompatActivity {
 
 
         initUI();
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
+
+
 
 
     private void initUI() {
@@ -73,18 +90,17 @@ public class BottomNavigationActivity extends AppCompatActivity {
         mBottomNavigationItems.add(item1);
         mBottomNavigationItems.add(item2);
         mBottomNavigationItems.add(item3);
-       // mBottomNavigationItems.add(item4);
-       // mBottomNavigationItems.add(item5);
+        // mBottomNavigationItems.add(item4);
+        // mBottomNavigationItems.add(item5);
 
         mBottomNavigation.addItems(mBottomNavigationItems);
         mBottomNavigation.setOnTabSelectedListener(new TabSelectedListener());
 
         mBottomNavigation.setColored(true);
-        if(!mBottomNavigation.isColored()) {
+        if (!mBottomNavigation.isColored()) {
             mBottomNavigation.setAccentColor(Color.GREEN);
             mBottomNavigation.setInactiveColor(Color.BLUE);
         }
-
 
 
         mNavigationViewPager.setOffscreenPageLimit(4);
@@ -99,8 +115,6 @@ public class BottomNavigationActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
 
     public void showSnackBar() {
@@ -187,13 +201,48 @@ public class BottomNavigationActivity extends AppCompatActivity {
     }
 
 
-
     public void showBottomNavigation(boolean show) {
         if (show) {
             mBottomNavigation.restoreBottomNavigation(true);
         } else {
             mBottomNavigation.hideBottomNavigation(true);
         }
+    }
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("BottomNavigation Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
     }
 
 
@@ -207,14 +256,13 @@ public class BottomNavigationActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             String msg = "Wecome to page: ";//  return new SimpleFragment(String.valueOf(position + 1));
 
-            if(position == 0) {
+            if (position == 0) {
                 return new HomeFragment();
-            } else if(position == 1) {
+            } else if (position == 1) {
                 return new PregledFragment();
-            } else if (position ==2 ){
+            } else if (position == 2) {
                 return new PreporucenoFragment();
-            }
-            else {
+            } else {
                 return new SimpleFragment(msg + String.valueOf(position + 1));
             }
         }
