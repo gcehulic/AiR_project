@@ -52,29 +52,16 @@ public class MainActivity extends AppCompatActivity {
         final EditText editTextUserName = (EditText) findViewById(R.id.kor_ime);
         final EditText editTextPassword = (EditText) findViewById(R.id.password);
 
-        Button btnSignIn = (Button) findViewById(R.id.btnLogin);
-
-        btnSignIn.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-
-                String userName = editTextUserName.getText().toString();
-                String password = editTextPassword.getText().toString();
-                String storedPassword = loginDataBaseAdapter.getSinlgeEntry(userName);
-                if (password.equals(storedPassword)) {
-                    Toast.makeText(MainActivity.this, "Prijava je uspješno izvršena!", Toast.LENGTH_LONG).show();
-                    btnPrijava.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent i = new Intent(MainActivity.this, BottomNavigationActivity.class);
-                            startActivity(i);
-                        }
-                    });
-                } else {
-                    Toast.makeText(MainActivity.this, "Pogrešno korisničko ime ili lozinka!", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+        String userName = editTextUserName.getText().toString();
+        String password = editTextPassword.getText().toString();
+        String storedPassword = loginDataBaseAdapter.getSinlgeEntry(userName);
+        if (password.equals(storedPassword)) {
+            Toast.makeText(MainActivity.this, "Prijava je uspješno izvršena!", Toast.LENGTH_LONG).show();
+            Intent i = new Intent(MainActivity.this, BottomNavigationActivity.class);
+            startActivity(i);
+        } else {
+            Toast.makeText(MainActivity.this, "Pogrešno korisničko ime ili lozinka!", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
