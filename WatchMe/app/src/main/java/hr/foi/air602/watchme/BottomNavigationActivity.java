@@ -34,6 +34,8 @@ import hr.foi.air602.watchme.fragments.HomeFragment;
 import hr.foi.air602.watchme.fragments.PregledFragment;
 import hr.foi.air602.watchme.fragments.PreporucenoFragment;
 
+import static android.R.attr.fragment;
+
 /**
  * Created by markopc on 11/2/2016.
  */
@@ -255,16 +257,25 @@ public class BottomNavigationActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             String msg = "Wecome to page: ";//  return new SimpleFragment(String.valueOf(position + 1));
+            Fragment fragment = new Fragment();
+            switch (position) {
+                case 0:
+                    fragment = new HomeFragment();
+                    break;
 
-            if (position == 0) {
-                return new HomeFragment();
-            } else if (position == 1) {
-                return new PregledFragment();
-            } else if (position == 2) {
-                return new PreporucenoFragment();
-            } else {
-                return new SimpleFragment(msg + String.valueOf(position + 1));
+                case 1:
+                    fragment = new PregledFragment();
+                    break;
+
+                case 2:
+                    fragment = new PreporucenoFragment();
+                    break;
             }
+
+            return fragment;
+
+
+
         }
 
         @Override
