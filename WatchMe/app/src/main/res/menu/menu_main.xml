@@ -2,15 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
-    <item android:id="@+id/item_menu_ok"
-        android:icon="@drawable/ic_action_ok"
-        android:title="@string/ok"
-        app:showAsAction="always"/>
+    <item android:id="@+id/action_settings"
+        android:title="Postavke"
+        app:showAsAction="never"/>
 
-    <item android:id="@+id/item_menu_cancel"
-        android:icon="@drawable/ic_action_cancel"
-        android:title="@string/cancel"
-        app:showAsAction="always"/>
+    <item android:id="@+id/action_about"
+        android:title="O aplikaciji"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_odjava"
+        android:title="Odjava"
+        app:showAsAction="never"/>
 </menu>
 
 

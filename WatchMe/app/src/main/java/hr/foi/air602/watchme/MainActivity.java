@@ -1,14 +1,9 @@
 package hr.foi.air602.watchme;
 
-import android.app.ActionBar;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -16,11 +11,8 @@ import android.widget.Toast;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
-import java.lang.reflect.Field;
-
 import butterknife.ButterKnife;
 import hr.foi.air602.database.entities.LoginDataBaseAdapter;
-import hr.foi.air602.watchme.fragments.o_programu;
 
 public class MainActivity extends AppCompatActivity{
 
