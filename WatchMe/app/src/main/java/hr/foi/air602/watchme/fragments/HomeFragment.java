@@ -11,8 +11,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import hr.foi.air602.watchme.MainActivity;
 import hr.foi.air602.watchme.R;
+import hr.foi.air602.watchme.Serija;
 import hr.foi.air602.watchme.Utilities;
 import hr.foi.air602.watchme.async_tasks.DohvatSerijaAsyncTask;
 import hr.foi.air602.watchme.listeners.SerijeDohvaceneListener;
@@ -23,6 +27,7 @@ import hr.foi.air602.watchme.listeners.SerijeDohvaceneListener;
 
 public class HomeFragment extends Fragment implements SerijeDohvaceneListener {
     private TextView mTextView;
+    public static ArrayList<Serija> dohvaceneSerije;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,7 +72,10 @@ public class HomeFragment extends Fragment implements SerijeDohvaceneListener {
     }
 
     @Override
-    public void serijeDohvacene(String json, int scroll) {
-        Log.d("HOMEFRAGMENT", "serijeDohvacene: "+json);
+    public void serijeDohvacene(ArrayList<Serija> serije, int scroll) {
+        HomeFragment.dohvaceneSerije = serije;
+        for (Serija s:HomeFragment.dohvaceneSerije) {
+            Log.d("HOMEFRAGMENT", "serijeDohvacene: "+s.getNaslov()+" "+s.getGodina()+" godina");
+        }
     }
 }

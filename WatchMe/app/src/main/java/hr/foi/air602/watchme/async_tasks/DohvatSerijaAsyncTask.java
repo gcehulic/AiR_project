@@ -3,13 +3,19 @@ package hr.foi.air602.watchme.async_tasks;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
+import hr.foi.air602.watchme.Serija;
 import hr.foi.air602.watchme.listeners.SerijeDohvaceneListener;
 
 /**
@@ -80,6 +86,21 @@ public class DohvatSerijaAsyncTask extends AsyncTask<String, String, String> {
             return;
         }
 
-        serijeDohvaceneListener.serijeDohvacene(s, this.scroll);
+        ArrayList<Serija> listaSerija = new ArrayList<>();
+
+        try {
+            JSONArray jsonArray = new JSONArray(s);
+            for (int i = 0; i < jsonArray.length(); i++){
+                JSONObject serija = jsonArray.getJSONObject(i).getJSONObject("show");
+                listaSerija.add(new Serija(serija));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        if(s.equals("otkazano") || this.isCancelled()){
+            return;
+        }
+        serijeDohvaceneListener.serijeDohvacene(listaSerija, this.scroll);
     }
 }
