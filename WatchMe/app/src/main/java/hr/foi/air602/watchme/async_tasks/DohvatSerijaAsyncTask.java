@@ -25,9 +25,9 @@ import hr.foi.air602.watchme.listeners.SerijeDohvaceneListener;
 public class DohvatSerijaAsyncTask extends AsyncTask<String, String, String> {
 
     private SerijeDohvaceneListener serijeDohvaceneListener;
-    private Context context;
-    private String url;
-    private int scroll;
+    Context context;
+    String url;
+    int scroll;
 
     public DohvatSerijaAsyncTask(SerijeDohvaceneListener serijeDohvaceneListener, Context context, String url) {
         this.serijeDohvaceneListener = serijeDohvaceneListener;

@@ -54,7 +54,7 @@ public class PopisSerijaAdapter extends BaseAdapter {
 
         Serija serija = (Serija) getItem(position);
         holder.naslov.setText(serija.getNaslov());
-
+        holder.godina.setText(""+serija.getGodina()+".");
 
 
         return convertView;
@@ -62,10 +62,11 @@ public class PopisSerijaAdapter extends BaseAdapter {
 
 
     private class ViewHolder{
-        private TextView naslov;
+        private TextView naslov, godina;
 
         public ViewHolder(View v){
             this.naslov = (TextView) v.findViewById(R.id.serija_naslov);
+            this.godina = (TextView) v.findViewById(R.id.serija_godina);
         }
     }
 
