@@ -2,6 +2,7 @@ package hr.foi.air602.watchme.async_tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -87,7 +88,6 @@ public class DohvatSerijaAsyncTask extends AsyncTask<String, String, String> {
         }
 
         ArrayList<Serija> listaSerija = new ArrayList<>();
-
         try {
             JSONArray jsonArray = new JSONArray(s);
             for (int i = 0; i < jsonArray.length(); i++){

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -33,6 +34,7 @@ public class HomeFragment extends Fragment implements SerijeDohvaceneListener,Ad
     public static ArrayList<Serija> dohvaceneSerije;
     private PopisSerijaAdapter popisSerijaAdapter;
     private ListView listaSerija;
+    private int brojStranica = 1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,17 +46,6 @@ public class HomeFragment extends Fragment implements SerijeDohvaceneListener,Ad
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.home_layout, container, false);
 
-        mTextView = (TextView)rootView.findViewById(R.id.homeLayoutTextView);
-
-
-        mTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    Toast.makeText(getContext(), "Click!!", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
 
         return rootView;
     }
@@ -71,16 +62,21 @@ public class HomeFragment extends Fragment implements SerijeDohvaceneListener,Ad
 
         listaSerija = (ListView) this.getActivity().findViewById(R.id.home_lista_serija);
 
-        if(Utilities.povezanost(getActivity().getApplicationContext())){
-            String url = "https://api.trakt.tv/shows/trending";
-            new DohvatSerijaAsyncTask(this,this.getContext(),url).execute();
-            setListViewAdapter();
-            listaSerija.setOnItemClickListener(this);
+            if(Utilities.povezanost(getActivity().getApplicationContext())){
+                String url = Utilities.izradaUrlSerije("trending",brojStranica);
+                this.dohvatSerija(url);
+                setListViewAdapter();
+                listaSerija.setOnItemClickListener(this);
+                listaSerija.setOnScrollListener(this.onScrollListener());
 
         } else {
             Toast.makeText(this.getContext(),"No connection",Toast.LENGTH_LONG).show();
         }
 
+    }
+
+    private void dohvatSerija(String url){
+        new DohvatSerijaAsyncTask(this,this.getContext(),url).execute();
     }
 
     private void setListViewAdapter(){
@@ -100,5 +96,28 @@ public class HomeFragment extends Fragment implements SerijeDohvaceneListener,Ad
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+    }
+
+    private AbsListView.OnScrollListener onScrollListener(){
+        return new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                int prag = 1;
+                int broj = listaSerija.getCount();
+
+                if(scrollState == SCROLL_STATE_IDLE){
+                    if(listaSerija.getLastVisiblePosition() >= broj - prag){
+                        Log.d("HOMEFRAGMENT", "onScrollStateChanged: loading more data");
+                        brojStranica++;
+                        dohvatSerija(Utilities.izradaUrlSerije("trending",brojStranica));
+                    }
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+        };
     }
 }
