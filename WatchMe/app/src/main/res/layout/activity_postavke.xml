@@ -13,8 +13,29 @@
         android:layout_marginTop="10px"
         android:textSize="35px"
         android:text=" Notifikacije"
+        android:layout_gravity="center"
         android:textColor="#000000"
         android:textStyle="bold" />
+
+    <CheckBox
+        android:text="Notifikacija za pameni sat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/checkBoxSat" />
+
+    <CheckBox
+        android:text="Notifikacija za mobitel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/checkBoxMob" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Posalji"/>
 
 
 </LinearLayout>

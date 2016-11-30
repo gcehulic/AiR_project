@@ -99,7 +99,7 @@ public class BottomNavigationActivity extends AppCompatActivity {
        if(item.getItemId() == R.id.action_settings){
            Intent i = new Intent(getApplicationContext(), Postavke.class);
            startActivity(i);
-           Toast.makeText(BottomNavigationActivity.this, "Kliknuli ste", Toast.LENGTH_LONG).show();
+
        }
         if(item.getItemId() == R.id.action_about){
             Intent i = new Intent(getApplicationContext(), O_programu.class);

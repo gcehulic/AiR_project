@@ -8,35 +8,56 @@
     <TextView android:text="O Programu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#FFFFFF"
+        android:textColor="#000000"
         android:textStyle="bold"
         android:textSize="50px"
         android:layout_gravity="center"/>
 
 
-          <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-              android:textColor="#000000"
-              android:textStyle="bold"
-            android:layout_marginTop="10px"
-            android:textSize="35px"
-            android:text="IZRADILI: MARKO MARCIUŠ
-                                    MATEO CINDRIĆ
-                                     GORAN ČEHULIĆ"
-             />
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10px"
+        android:textSize="35px"
+        android:layout_gravity="center"
+        android:text="IZRADILI:"/>
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10px"
+        android:layout_gravity="center"
+        android:textSize="35px"
+        android:text="MARKO MARCIUŠ"/>
 
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10px"
+        android:layout_gravity="center"
+        android:textSize="35px"
+        android:text="GORAN ČEHULIĆ"/>
 
-        <TextView
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10px"
+        android:textSize="35px"
+        android:text="MATEO CINDRIĆ"/>
+
+    <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginTop="10px"
             android:textSize="35px"
             android:text="VERZIJA 2.0.0"
-            android:textColor="#000000"
-            android:textStyle="bold" />
+             />
 
 
 </LinearLayout>

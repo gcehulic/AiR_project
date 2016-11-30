@@ -50,19 +50,9 @@ android:padding="10dp"
             android:textColorHint="@color/cardview_light_background"
             android:inputType="textPassword"
             android:padding="10dp"
-            android:singleLine="true"
             />
 
-        <!-- Login Button -->
-        <!--   <Button
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:text="Bottom Navigation"
-               android:id="@+id/bottomNavigationButton"
-               android:layout_marginTop="26dp"
-               android:layout_alignParentStart="true" />
 
-               -->
         <Button
             android:id="@+id/btnLogin"
             android:text="Prijava"
