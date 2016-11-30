@@ -144,7 +144,7 @@
                         android:textSize="12sp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginBottom="4dp"
-                        android:text="Obiteljska"/>
+                        android:text="Obiteljski"/>
 
                     <TextView
                         android:id="@+id/fantazija"
@@ -181,6 +181,30 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginBottom="4dp"
                         android:text="Triler"/>
+
+                    <TextView
+                        android:id="@+id/reality"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#fff"
+                        android:visibility="gone"
+                        android:background="#004C99"
+                        android:textSize="12sp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="Reality"/>
+
+                    <TextView
+                        android:id="@+id/animirani"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#fff"
+                        android:visibility="gone"
+                        android:background="#004C99"
+                        android:textSize="12sp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="Animirani"/>
 
                 </LinearLayout>
             </RelativeLayout>

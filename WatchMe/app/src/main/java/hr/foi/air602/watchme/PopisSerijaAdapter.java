@@ -61,24 +61,52 @@ public class PopisSerijaAdapter extends BaseAdapter {
         if(zanr!=null && !zanr.equals("")){
             if (zanr.contains("action"))
                holder.zanr_akcija.setVisibility(View.VISIBLE);
+            else
+                holder.zanr_akcija.setVisibility(View.GONE);
             if (zanr.contains("adventure"))
                 holder.zanr_avantura.setVisibility(View.VISIBLE);
+            else
+                holder.zanr_avantura.setVisibility(View.GONE);
             if (zanr.contains("comedy"))
                 holder.zanr_komedija.setVisibility(View.VISIBLE);
+            else
+                holder.zanr_komedija.setVisibility(View.GONE);
             if (zanr.contains("crime"))
                 holder.zanr_krim.setVisibility(View.VISIBLE);
+            else
+                holder.zanr_krim.setVisibility(View.GONE);
             if (zanr.contains("documentary"))
                 holder.zanr_dokumentarni.setVisibility(View.VISIBLE);
+            else
+                holder.zanr_dokumentarni.setVisibility(View.GONE);
             if (zanr.contains("drama"))
                 holder.zanr_drama.setVisibility(View.VISIBLE);
+            else
+                holder.zanr_drama.setVisibility(View.GONE);
             if (zanr.contains("family"))
                 holder.zanr_obiteljska.setVisibility(View.VISIBLE);
+            else
+                holder.zanr_obiteljska.setVisibility(View.GONE);
             if (zanr.contains("fantasy"))
                 holder.zanr_fantazija.setVisibility(View.VISIBLE);
+            else
+                holder.zanr_fantazija.setVisibility(View.GONE);
             if (zanr.contains("science-fiction"))
                 holder.zanr_sf.setVisibility(View.VISIBLE);
+            else
+                holder.zanr_sf.setVisibility(View.GONE);
             if (zanr.contains("thriller"))
                 holder.zanr_triler.setVisibility(View.VISIBLE);
+            else
+                holder.zanr_triler.setVisibility(View.GONE);
+            if (zanr.contains("reality"))
+                holder.zanr_reality.setVisibility(View.VISIBLE);
+            else
+                holder.zanr_reality.setVisibility(View.GONE);
+            if (zanr.contains("animation"))
+                holder.zanr_animirani.setVisibility(View.VISIBLE);
+            else
+                holder.zanr_animirani.setVisibility(View.GONE);
         }
 
         return convertView;
@@ -88,7 +116,7 @@ public class PopisSerijaAdapter extends BaseAdapter {
     private class ViewHolder{
         private TextView naslov, godina;
         private TextView zanr_akcija, zanr_avantura, zanr_komedija, zanr_krim, zanr_dokumentarni, zanr_drama,
-                zanr_obiteljska, zanr_fantazija, zanr_sf, zanr_triler;
+                zanr_obiteljska, zanr_fantazija, zanr_sf, zanr_triler, zanr_reality, zanr_animirani;
 
         public ViewHolder(View v){
             this.naslov = (TextView) v.findViewById(R.id.serija_naslov);
@@ -104,6 +132,8 @@ public class PopisSerijaAdapter extends BaseAdapter {
             this.zanr_fantazija = (TextView) v.findViewById(R.id.fantazija);
             this.zanr_sf = (TextView) v.findViewById(R.id.sf);
             this.zanr_triler = (TextView) v.findViewById(R.id.triler);
+            this.zanr_reality = (TextView) v.findViewById(R.id.reality);
+            this.zanr_animirani = (TextView) v.findViewById(R.id.animirani);
         }
     }
 

@@ -31,7 +31,7 @@ public class Serija {
             this.godina = jsonObject.getInt("year");
 
             JSONArray zanr = jsonObject.getJSONArray("genres");
-            this.genres=zanr.toString();
+            this.genres = zanr.toString();
 
             this.id_trakt = jsonObject.getJSONObject("ids").getInt("trakt");
             this.id_imdb = jsonObject.getJSONObject("ids").getInt("imdb");
