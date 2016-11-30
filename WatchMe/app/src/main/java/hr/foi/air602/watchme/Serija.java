@@ -1,7 +1,16 @@
 package hr.foi.air602.watchme;
 
+import android.util.Log;
+import android.widget.Toast;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import hr.foi.air602.watchme.fragments.HomeFragment;
 
 /**
  * Created by Goran on 23.11.2016..
@@ -13,19 +22,24 @@ public class Serija {
     private int godina;
 
     private int id_trakt, id_tvdb, id_imdb, id_tvrage;
-    private String slug, imdb;
+    private String slug, imdb, genres;
 
     public Serija(JSONObject jsonObject) {
 
         try {
             this.naslov = jsonObject.getString("title");
             this.godina = jsonObject.getInt("year");
+
+            JSONArray zanr = jsonObject.getJSONArray("genres");
+            this.genres=zanr.toString();
+
             this.id_trakt = jsonObject.getJSONObject("ids").getInt("trakt");
             this.id_imdb = jsonObject.getJSONObject("ids").getInt("imdb");
             this.id_tvdb = jsonObject.getJSONObject("ids").getInt("tvdb");
             this.id_tvrage = jsonObject.getJSONObject("ids").getInt("tvrage");
             this.slug = jsonObject.getJSONObject("ids").getString("slug");
             this.imdb = jsonObject.getJSONObject("ids").getString("imdb");
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -93,5 +107,13 @@ public class Serija {
 
     public void setImdb(String imdb) {
         this.imdb = imdb;
+    }
+
+    public String getGenres() {
+        return genres;
+    }
+
+    public void setGenres(String genres) {
+        this.genres = genres;
     }
 }

@@ -88,7 +88,7 @@ public class HomeFragment extends Fragment implements SerijeDohvaceneListener,Ad
     public void serijeDohvacene(ArrayList<Serija> serije, int scroll) {
         HomeFragment.dohvaceneSerije.addAll(serije);
         for (Serija s:HomeFragment.dohvaceneSerije) {
-            Log.d("HOMEFRAGMENT", "serijeDohvacene: "+s.getNaslov()+" "+s.getGodina()+" godina");
+            Log.d("HOMEFRAGMENT", "serijeDohvacene: "+s.getNaslov()+" "+s.getGodina()+" "+ s.getGenres());
         }
         popisSerijaAdapter.notifyDataSetChanged();
     }

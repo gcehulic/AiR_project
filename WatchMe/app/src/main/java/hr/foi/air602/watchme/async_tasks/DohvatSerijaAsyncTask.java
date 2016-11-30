@@ -103,4 +103,5 @@ public class DohvatSerijaAsyncTask extends AsyncTask<String, String, String> {
         }
         serijeDohvaceneListener.serijeDohvacene(listaSerija, this.scroll);
     }
+
 }

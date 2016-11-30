@@ -37,7 +37,8 @@
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:id="@+id/linearLayout">
 
                     <TextView
                         android:text="Naslov serije"
@@ -51,6 +52,136 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/serija_godina" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="-5dp"
+                    android:layout_below="@+id/linearLayout"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="13dp">
+                    <TextView
+                        android:id="@+id/akcija"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#fff"
+                        android:visibility="gone"
+                        android:background="#004C99"
+                        android:textSize="12sp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="Akcija"/>
+
+                    <TextView
+                        android:id="@+id/avantura"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#fff"
+                        android:visibility="gone"
+                        android:background="#004C99"
+                        android:textSize="12sp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="Avantura"/>
+
+                    <TextView
+                        android:id="@+id/komedija"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#fff"
+                        android:visibility="gone"
+                        android:background="#004C99"
+                        android:textSize="12sp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="Komedija"/>
+
+                    <TextView
+                        android:id="@+id/krim"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#fff"
+                        android:visibility="gone"
+                        android:background="#004C99"
+                        android:textSize="12sp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="Krim"/>
+
+                    <TextView
+                        android:id="@+id/dokumentarni"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#fff"
+                        android:visibility="gone"
+                        android:background="#004C99"
+                        android:textSize="12sp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="Dokumentarac"/>
+
+                    <TextView
+                        android:id="@+id/drama"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#fff"
+                        android:visibility="gone"
+                        android:background="#004C99"
+                        android:textSize="12sp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="Drama"/>
+
+                    <TextView
+                        android:id="@+id/obiteljska"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#fff"
+                        android:visibility="gone"
+                        android:background="#004C99"
+                        android:textSize="12sp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="Obiteljska"/>
+
+                    <TextView
+                        android:id="@+id/fantazija"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#fff"
+                        android:visibility="gone"
+                        android:background="#004C99"
+                        android:textSize="12sp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="Fantazija"/>
+
+                    <TextView
+                        android:id="@+id/sf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#fff"
+                        android:visibility="gone"
+                        android:background="#004C99"
+                        android:textSize="12sp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="SF"/>
+
+                    <TextView
+                        android:id="@+id/triler"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#fff"
+                        android:visibility="gone"
+                        android:background="#004C99"
+                        android:textSize="12sp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="Triler"/>
+
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
