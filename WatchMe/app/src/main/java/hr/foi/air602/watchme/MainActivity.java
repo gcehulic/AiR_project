@@ -59,11 +59,11 @@ public class MainActivity extends AppCompatActivity{
         String password = editTextPassword.getText().toString();
         String storedPassword = loginDataBaseAdapter.getSinlgeEntry(userName);
         if (password.equals(storedPassword)) {
-            Toast.makeText(MainActivity.this, "Prijava je uspješno izvršena!", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "Prijava je uspješno izvršena!", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(MainActivity.this, BottomNavigationActivity.class);
             startActivity(i);
         } else {
-            Toast.makeText(MainActivity.this, "Pogrešno korisničko ime ili lozinka!", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "Pogrešno korisničko ime ili lozinka!", Toast.LENGTH_SHORT).show();
         }
     }
 

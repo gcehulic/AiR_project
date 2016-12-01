@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ public class HomeFragment extends Fragment implements SerijeDohvaceneListener,Ad
     private PopisSerijaAdapter popisSerijaAdapter;
     private ListView listaSerija;
     private int brojStranica = 1;
+    private ProgressBar mProgressBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,7 +47,8 @@ public class HomeFragment extends Fragment implements SerijeDohvaceneListener,Ad
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.home_layout, container, false);
-
+        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_spinner);
+        mProgressBar.setVisibility(View.VISIBLE);
 
         return rootView;
     }
@@ -70,7 +73,8 @@ public class HomeFragment extends Fragment implements SerijeDohvaceneListener,Ad
                 listaSerija.setOnScrollListener(this.onScrollListener());
 
         } else {
-            Toast.makeText(this.getContext(),"No connection",Toast.LENGTH_LONG).show();
+                Toast.makeText(this.getContext(),"No connection",Toast.LENGTH_LONG).show();
+                mProgressBar.setVisibility(View.GONE);
         }
 
     }
@@ -91,6 +95,7 @@ public class HomeFragment extends Fragment implements SerijeDohvaceneListener,Ad
             Log.d("HOMEFRAGMENT", "serijeDohvacene: "+s.getNaslov()+" "+s.getGodina()+" "+ s.getGenres());
         }
         popisSerijaAdapter.notifyDataSetChanged();
+        mProgressBar.setVisibility(View.GONE);
     }
 
     @Override

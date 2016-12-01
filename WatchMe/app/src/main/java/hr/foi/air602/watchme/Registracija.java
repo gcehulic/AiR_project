@@ -45,17 +45,17 @@ public class Registracija extends AppCompatActivity {
 
                 if(ime.equals("")||prezime.equals("")||mail.equals("")||korisnicko_ime.equals("")||lozinka.equals(""))
                 {
-                    Toast.makeText(getApplicationContext(), "Niste popunili sva polja!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Niste popunili sva polja!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else if (korisnicko_ime.equals(spremljeno_kor_ime))
                 {
-                    Toast.makeText(Registracija.this, "Korisničko ime već postoji u bazi!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Registracija.this, "Korisničko ime već postoji u bazi!", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
                     loginDataBaseAdapter.insertEntry(ime, prezime, mail, korisnicko_ime, lozinka);
-                    Toast.makeText(getApplicationContext(), "Račun je uspješno kreiran!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Račun je uspješno kreiran!", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(Registracija.this,MainActivity.class);
                     startActivity(i);
                     finish();

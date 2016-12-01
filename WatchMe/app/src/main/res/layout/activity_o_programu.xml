@@ -1,17 +1,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
    >
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        android:minHeight="?attr/actionBarSize"
+        android:id="@+id/toolbar"
+        android:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <TextView android:text="O Programu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#000000"
         android:textStyle="bold"
-        android:textSize="50px"
-        android:layout_gravity="center"/>
+        android:textSize="30dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"/>
 
 
     <TextView
@@ -19,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10px"
-        android:textSize="35px"
+        android:textSize="20dp"
         android:layout_gravity="center"
         android:text="IZRADILI:"/>
     <TextView
@@ -28,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10px"
         android:layout_gravity="center"
-        android:textSize="35px"
+        android:textSize="20dp"
         android:text="MARKO MARCIUŠ"/>
 
     <TextView
@@ -37,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10px"
         android:layout_gravity="center"
-        android:textSize="35px"
+        android:textSize="20dp"
         android:text="GORAN ČEHULIĆ"/>
 
     <TextView
@@ -46,8 +56,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10px"
-        android:textSize="35px"
-        android:text="MATEO CINDRIĆ"/>
+        android:textSize="20dp"
+        android:text="MATEO CINDRIĆ"
+        android:layout_marginBottom="30dp"/>
 
     <TextView
             android:id="@+id/textView3"
@@ -55,9 +66,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10px"
-            android:textSize="35px"
-            android:text="VERZIJA 2.0.0"
-             />
+            android:textSize="20dp"
+            android:text="VERZIJA 1.0" />
 
 
 </LinearLayout>

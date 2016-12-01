@@ -108,7 +108,7 @@
                         android:textSize="12sp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginBottom="4dp"
-                        android:text="Krim"/>
+                        android:text="Krimi"/>
 
                     <TextView
                         android:id="@+id/dokumentarni"
