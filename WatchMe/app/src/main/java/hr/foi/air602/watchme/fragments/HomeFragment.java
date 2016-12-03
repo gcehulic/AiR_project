@@ -1,5 +1,6 @@
 package hr.foi.air602.watchme.fragments;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,9 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hr.foi.air602.watchme.MainActivity;
+import hr.foi.air602.watchme.O_programu;
 import hr.foi.air602.watchme.PopisSerijaAdapter;
+import hr.foi.air602.watchme.Postavke;
 import hr.foi.air602.watchme.R;
 import hr.foi.air602.watchme.Serija;
+import hr.foi.air602.watchme.SerijaDetalji;
 import hr.foi.air602.watchme.Utilities;
 import hr.foi.air602.watchme.async_tasks.DohvatSerijaAsyncTask;
 import hr.foi.air602.watchme.listeners.SerijeDohvaceneListener;
@@ -100,6 +104,15 @@ public class HomeFragment extends Fragment implements SerijeDohvaceneListener,Ad
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        Serija serije = dohvaceneSerije.get(position);
+
+        Intent i = new Intent(getActivity(), SerijaDetalji.class);
+          i.putExtra("naslov",serije.getNaslov());
+          i.putExtra("godina",serije.getGodina());
+          i.putExtra("zanrovi",serije.getGenres());
+          i.putExtra("trailer", serije.getTrailer());
+        startActivity(i);
 
     }
 

@@ -22,8 +22,12 @@ public class Serija {
     private int godina;
 
     private int id_trakt, id_tvdb, id_imdb, id_tvrage;
-    private String slug, imdb, genres;
+    private String slug, imdb, genres, trailer;
 
+    public Serija(){
+        naslov = "";
+        godina = 0;
+    }
     public Serija(JSONObject jsonObject) {
 
         try {
@@ -39,6 +43,7 @@ public class Serija {
             this.id_tvrage = jsonObject.getJSONObject("ids").getInt("tvrage");
             this.slug = jsonObject.getJSONObject("ids").getString("slug");
             this.imdb = jsonObject.getJSONObject("ids").getString("imdb");
+            this.trailer = jsonObject.getJSONObject("ids").getString("trailer");
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -84,6 +89,15 @@ public class Serija {
     public void setId_imdb(int id_imdb) {
         this.id_imdb = id_imdb;
     }
+
+    public String getTrailer() {
+        return trailer;
+    }
+
+    public void setTrailer(String trailer) {
+        this.trailer = trailer;
+    }
+
 
     public int getId_tvrage() {
         return id_tvrage;

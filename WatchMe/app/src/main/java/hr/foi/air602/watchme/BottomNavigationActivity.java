@@ -43,9 +43,6 @@ import hr.foi.air602.watchme.fragments.PreporucenoFragment;
  * Created by markopc on 11/2/2016.
  */
 
-
-
-
 public class BottomNavigationActivity extends AppCompatActivity {
     private static final String TAG = BottomNavigationActivity.class.getSimpleName();
 
@@ -111,6 +108,7 @@ public class BottomNavigationActivity extends AppCompatActivity {
             startActivity(i);
            //Toast.makeText(BottomNavigationActivity.this, "Kliknuli ste odjava", Toast.LENGTH_LONG).show();
        }
+
         return super.onOptionsItemSelected(item);
     }
 

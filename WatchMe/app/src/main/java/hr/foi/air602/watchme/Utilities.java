@@ -13,6 +13,8 @@ public class Utilities {
 
     public static String BASE_URL = "https://api.trakt.tv/";
 
+    public static final String YOUTUBE_API_KEY = "AIzaSyA0Fqtk9oTJzXTL9nyozp0RLtlvTSCUg6A";
+
     public static boolean povezanost(Context context){
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
