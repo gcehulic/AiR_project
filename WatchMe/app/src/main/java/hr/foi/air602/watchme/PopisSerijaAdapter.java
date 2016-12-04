@@ -5,8 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 
 import java.util.ArrayList;
 
@@ -50,64 +54,100 @@ public class PopisSerijaAdapter extends BaseAdapter {
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
-           holder = (ViewHolder) convertView.getTag();
+            holder = (ViewHolder) convertView.getTag();
         }
 
         Serija serija = (Serija) getItem(position);
         holder.naslov.setText(serija.getNaslov());
         holder.godina.setText(""+serija.getGodina()+".");
 
+        String naslov_serije = serija.getNaslov().toString();
+        String prvo_slovo_naslova = naslov_serije.substring(0,1);
+
+        ColorGenerator generator = ColorGenerator.MATERIAL;
+
+        int boja = generator.getColor(naslov_serije);
+
         String zanr = serija.getGenres();
         if(zanr!=null && !zanr.equals("")){
-            if (zanr.contains("action"))
-               holder.zanr_akcija.setVisibility(View.VISIBLE);
+            if (zanr.contains("action")) {
+                holder.zanr_akcija.setVisibility(View.VISIBLE);
+                holder.zanr_akcija.setBackgroundColor(boja);
+            }
             else
                 holder.zanr_akcija.setVisibility(View.GONE);
-            if (zanr.contains("adventure"))
+            if (zanr.contains("adventure")) {
                 holder.zanr_avantura.setVisibility(View.VISIBLE);
+                holder.zanr_avantura.setBackgroundColor(boja);
+            }
             else
                 holder.zanr_avantura.setVisibility(View.GONE);
-            if (zanr.contains("comedy"))
+            if (zanr.contains("comedy")) {
                 holder.zanr_komedija.setVisibility(View.VISIBLE);
+                holder.zanr_komedija.setBackgroundColor(boja);
+            }
             else
                 holder.zanr_komedija.setVisibility(View.GONE);
-            if (zanr.contains("crime"))
+            if (zanr.contains("crime")) {
                 holder.zanr_krim.setVisibility(View.VISIBLE);
+                holder.zanr_krim.setBackgroundColor(boja);
+            }
             else
                 holder.zanr_krim.setVisibility(View.GONE);
-            if (zanr.contains("documentary"))
+            if (zanr.contains("documentary")) {
                 holder.zanr_dokumentarni.setVisibility(View.VISIBLE);
+                holder.zanr_dokumentarni.setBackgroundColor(boja);
+            }
             else
                 holder.zanr_dokumentarni.setVisibility(View.GONE);
-            if (zanr.contains("drama"))
+            if (zanr.contains("drama")) {
                 holder.zanr_drama.setVisibility(View.VISIBLE);
+                holder.zanr_drama.setBackgroundColor(boja);
+            }
             else
                 holder.zanr_drama.setVisibility(View.GONE);
-            if (zanr.contains("family"))
+            if (zanr.contains("family")) {
                 holder.zanr_obiteljska.setVisibility(View.VISIBLE);
+                holder.zanr_obiteljska.setBackgroundColor(boja);
+            }
             else
                 holder.zanr_obiteljska.setVisibility(View.GONE);
-            if (zanr.contains("fantasy"))
+            if (zanr.contains("fantasy")) {
                 holder.zanr_fantazija.setVisibility(View.VISIBLE);
+                holder.zanr_fantazija.setBackgroundColor(boja);
+            }
             else
                 holder.zanr_fantazija.setVisibility(View.GONE);
-            if (zanr.contains("science-fiction"))
+            if (zanr.contains("science-fiction")) {
                 holder.zanr_sf.setVisibility(View.VISIBLE);
+                holder.zanr_sf.setBackgroundColor(boja);
+            }
             else
                 holder.zanr_sf.setVisibility(View.GONE);
-            if (zanr.contains("thriller"))
+            if (zanr.contains("thriller")) {
                 holder.zanr_triler.setVisibility(View.VISIBLE);
+                holder.zanr_triler.setBackgroundColor(boja);
+            }
             else
                 holder.zanr_triler.setVisibility(View.GONE);
-            if (zanr.contains("reality"))
+            if (zanr.contains("reality")) {
                 holder.zanr_reality.setVisibility(View.VISIBLE);
+                holder.zanr_reality.setBackgroundColor(boja);
+            }
             else
                 holder.zanr_reality.setVisibility(View.GONE);
-            if (zanr.contains("animation"))
+            if (zanr.contains("animation")) {
                 holder.zanr_animirani.setVisibility(View.VISIBLE);
+                holder.zanr_animirani.setBackgroundColor(boja);
+            }
             else
                 holder.zanr_animirani.setVisibility(View.GONE);
         }
+
+        TextDrawable drawable = TextDrawable.builder()
+                .buildRoundRect(prvo_slovo_naslova, boja, 100); // radius u px
+
+        holder.prvo_slovo_naslova.setImageDrawable(drawable);
 
         return convertView;
     }
@@ -117,6 +157,7 @@ public class PopisSerijaAdapter extends BaseAdapter {
         private TextView naslov, godina;
         private TextView zanr_akcija, zanr_avantura, zanr_komedija, zanr_krim, zanr_dokumentarni, zanr_drama,
                 zanr_obiteljska, zanr_fantazija, zanr_sf, zanr_triler, zanr_reality, zanr_animirani;
+        private ImageView prvo_slovo_naslova;
 
         public ViewHolder(View v){
             this.naslov = (TextView) v.findViewById(R.id.serija_naslov);
@@ -134,6 +175,8 @@ public class PopisSerijaAdapter extends BaseAdapter {
             this.zanr_triler = (TextView) v.findViewById(R.id.triler);
             this.zanr_reality = (TextView) v.findViewById(R.id.reality);
             this.zanr_animirani = (TextView) v.findViewById(R.id.animirani);
+
+            this.prvo_slovo_naslova = (ImageView) v.findViewById(R.id.image_view);
         }
     }
 

@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity{
         String password = editTextPassword.getText().toString();
         String storedPassword = loginDataBaseAdapter.getSinlgeEntry(userName);
         if (password.equals(storedPassword)) {
-            Toast.makeText(MainActivity.this, "Prijava je uspješno izvršena!", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(MainActivity.this, "Prijava je uspješno izvršena!", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(MainActivity.this, BottomNavigationActivity.class);
             startActivity(i);
         } else {

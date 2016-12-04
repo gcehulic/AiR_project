@@ -20,6 +20,12 @@ android {
     }
 }
 
+repositories{
+    maven {
+        url 'http://dl.bintray.com/amulyakhare/maven'
+    }
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -42,4 +48,5 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     compile files('libs/YouTubeAndroidPlayerApi.jar')
     compile files('src/main/java/hr/foi/air602/watchme/libs/YouTubeAndroidPlayerApi.jar')
+    compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
 }

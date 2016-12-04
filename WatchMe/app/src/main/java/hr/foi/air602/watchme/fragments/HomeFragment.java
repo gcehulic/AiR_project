@@ -1,6 +1,7 @@
 package hr.foi.air602.watchme.fragments;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -41,6 +43,8 @@ public class HomeFragment extends Fragment implements SerijeDohvaceneListener,Ad
     private ListView listaSerija;
     private int brojStranica = 1;
     private ProgressBar mProgressBar;
+    private ImageView internetGreska;
+    private ListView homeListaSerija;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,7 +56,10 @@ public class HomeFragment extends Fragment implements SerijeDohvaceneListener,Ad
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.home_layout, container, false);
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_spinner);
+        mProgressBar.getIndeterminateDrawable().setColorFilter(0xFF3F51B5, android.graphics.PorterDuff.Mode.MULTIPLY);
         mProgressBar.setVisibility(View.VISIBLE);
+        internetGreska = (ImageView) rootView.findViewById(R.id.slikaInternet);
+        homeListaSerija = (ListView) rootView.findViewById(R.id.home_lista_serija);
 
         return rootView;
     }
@@ -75,10 +82,13 @@ public class HomeFragment extends Fragment implements SerijeDohvaceneListener,Ad
                 setListViewAdapter();
                 listaSerija.setOnItemClickListener(this);
                 listaSerija.setOnScrollListener(this.onScrollListener());
+                internetGreska.setVisibility(View.GONE);
 
         } else {
-                Toast.makeText(this.getContext(),"No connection",Toast.LENGTH_LONG).show();
+                Toast.makeText(this.getContext(),"Niste spojeni na internet",Toast.LENGTH_LONG).show();
                 mProgressBar.setVisibility(View.GONE);
+                internetGreska.setVisibility(View.VISIBLE);
+                homeListaSerija.setBackgroundColor(Color.WHITE);
         }
 
     }
