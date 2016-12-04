@@ -26,6 +26,7 @@ public class SerijaDetalji extends YouTubeBaseActivity implements YouTubePlayer.
     private static final int RECOVERY_DIALOG_REQUEST = 1;
     private YouTubePlayerView youTubePrikaz;
     private ProgressBar mProgressBar;
+    private ImageView youTubeGreska;
 
     Serija serija;
     private  TextView godina, naslov, zanrovi;
@@ -42,6 +43,7 @@ public class SerijaDetalji extends YouTubeBaseActivity implements YouTubePlayer.
         naslov = (TextView) findViewById(R.id.naslovSerije); naslov.setOnClickListener(this);
         zanrovi = (TextView) findViewById(R.id.zanrovi); zanrovi.setOnClickListener(this);
 
+        youTubeGreska = (ImageView) findViewById(R.id.youtube_slika);
 
         getIntentPodaci();
 
@@ -68,7 +70,6 @@ public class SerijaDetalji extends YouTubeBaseActivity implements YouTubePlayer.
         serija.setGenres(getIntent().getStringExtra("zanrovi"));
         serija.setTrailer(getIntent().getStringExtra("trailer"));
 
-
     }
 
     @Override
@@ -81,7 +82,13 @@ public class SerijaDetalji extends YouTubeBaseActivity implements YouTubePlayer.
                                         boolean wasRestored) {
 
         if (!wasRestored) {
-            player.cueVideo(serija.getTrailer().split("=")[1]);
+
+            try {
+                player.cueVideo(serija.getTrailer().split("=")[1]);
+            }catch (Exception e){
+                youTubePrikaz.setVisibility(View.GONE);
+                youTubeGreska.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -91,7 +98,7 @@ public class SerijaDetalji extends YouTubeBaseActivity implements YouTubePlayer.
         if (errorReason.isUserRecoverableError()) {
             errorReason.getErrorDialog(this, RECOVERY_DIALOG_REQUEST).show();
         } else {
-            String errorMessage = String.format(" error initializing YouTubePlayer", errorReason.toString());
+            String errorMessage = String.format("Greška s YouTubePlayer-om", errorReason.toString());
             Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
         }
     }

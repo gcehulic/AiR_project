@@ -37,13 +37,14 @@ public class Serija {
             JSONArray zanr = jsonObject.getJSONArray("genres");
             this.genres = zanr.toString();
 
+            this.trailer = jsonObject.getString("trailer");
+
             this.id_trakt = jsonObject.getJSONObject("ids").getInt("trakt");
             this.id_imdb = jsonObject.getJSONObject("ids").getInt("imdb");
             this.id_tvdb = jsonObject.getJSONObject("ids").getInt("tvdb");
             this.id_tvrage = jsonObject.getJSONObject("ids").getInt("tvrage");
             this.slug = jsonObject.getJSONObject("ids").getString("slug");
             this.imdb = jsonObject.getJSONObject("ids").getString("imdb");
-            this.trailer = jsonObject.getJSONObject("ids").getString("trailer");
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -97,7 +98,6 @@ public class Serija {
     public void setTrailer(String trailer) {
         this.trailer = trailer;
     }
-
 
     public int getId_tvrage() {
         return id_tvrage;
