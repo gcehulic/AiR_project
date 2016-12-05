@@ -46,10 +46,6 @@
                 android:layout_weight="1"
                 />
 
-
-
-
-
         </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -57,23 +53,70 @@
         android:background="#8e848484"
         android:layout_height="40dp">
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="194dp"
             android:layout_height="match_parent"
             android:layout_margin="4dp"
-            android:layout_weight="1"
             android:padding="2dp"
-            android:text="  ŽANR:"
+            android:text="  ŽANRI:"
             />
-        <TextView
-            android:id="@+id/zanrovi"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="4dp"
-            android:layout_weight="1"
-            />
+ <HorizontalScrollView
+     android:layout_width="fill_parent"
+     android:layout_height="match_parent">
+     <LinearLayout
+         android:layout_width="fill_parent"
+         android:layout_height="40dp"
+         android:orientation="horizontal">
+         <TextView
+             android:id="@+id/akcija"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:text="Akcija "
+             android:visibility="gone" />
+
+         <TextView
+             android:id="@+id/komedija"
+             android:visibility="gone"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:text="Komedija "/>
+         <TextView
+             android:id="@+id/romantika"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:visibility="gone"
+             android:text="Romantika "/>
+         <TextView
+             android:id="@+id/drama"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:visibility="gone"
+             android:text="Drama "/>
+         <TextView
+             android:id="@+id/fantazija"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:visibility="gone"
+             android:text="Fantazija "/>
+         <TextView
+             android:id="@+id/s_f"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:visibility="gone"
+             android:text="Si-Fi "/>
+         <TextView
+             android:id="@+id/avantura"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:visibility="gone"
+             android:text="Avantura "/>
+
+     </LinearLayout>
+ </HorizontalScrollView>
 
 
     </LinearLayout>
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="horizontal"
@@ -98,10 +141,34 @@
             />
 
     </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:background="#8e848484"
+            android:layout_height="40dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="69dp"
+                android:padding="2dp"
+                android:text="  SADRŽAJ SERIJE:"  />
 
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
 
-
-
+        <TextView
+            android:id="@+id/tv_opis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="Times New Roman"
+            android:text=""
+            android:textSize="17sp" />
+    </LinearLayout>
     </LinearLayout>
 
 </ScrollView>
+

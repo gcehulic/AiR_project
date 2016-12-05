@@ -22,7 +22,7 @@ public class Serija {
     private int godina;
 
     private int id_trakt, id_tvdb, id_imdb, id_tvrage;
-    private String slug, imdb, genres, trailer;
+    private String slug, imdb, genres, trailer, opis, overview;
 
     public Serija(){
         naslov = "";
@@ -33,6 +33,7 @@ public class Serija {
         try {
             this.naslov = jsonObject.getString("title");
             this.godina = jsonObject.getInt("year");
+            this.opis = jsonObject.getString("overview");
 
             JSONArray zanr = jsonObject.getJSONArray("genres");
             this.genres = zanr.toString();
@@ -49,6 +50,13 @@ public class Serija {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+    public String getOpis() {
+        return opis;
+    }
+
+    public void setOpis(String opis) {
+        this.opis = opis;
     }
 
     public String getNaslov() {
@@ -98,6 +106,7 @@ public class Serija {
     public void setTrailer(String trailer) {
         this.trailer = trailer;
     }
+
 
     public int getId_tvrage() {
         return id_tvrage;

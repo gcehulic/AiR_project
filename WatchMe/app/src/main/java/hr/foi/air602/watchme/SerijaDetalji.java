@@ -25,11 +25,10 @@ public class SerijaDetalji extends YouTubeBaseActivity implements YouTubePlayer.
 
     private static final int RECOVERY_DIALOG_REQUEST = 1;
     private YouTubePlayerView youTubePrikaz;
-    private ProgressBar mProgressBar;
     private ImageView youTubeGreska;
 
     Serija serija;
-    private  TextView godina, naslov, zanrovi;
+    private  TextView godina, naslov, opisFilma;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +40,9 @@ public class SerijaDetalji extends YouTubeBaseActivity implements YouTubePlayer.
 
         godina = (TextView) findViewById(R.id.godina); godina.setOnClickListener(this);
         naslov = (TextView) findViewById(R.id.naslovSerije); naslov.setOnClickListener(this);
-        zanrovi = (TextView) findViewById(R.id.zanrovi); zanrovi.setOnClickListener(this);
+        opisFilma = (TextView) findViewById(R.id.tv_opis); opisFilma.setOnClickListener(this);
+
+
 
         youTubeGreska = (ImageView) findViewById(R.id.youtube_slika);
 
@@ -56,8 +57,35 @@ public class SerijaDetalji extends YouTubeBaseActivity implements YouTubePlayer.
     private void setPodaci() {
         naslov.setText(serija.getNaslov()+" ");
         godina.setText(serija.getGodina()+" ");
-        zanrovi.setText(serija.getGenres());
+        opisFilma.setText(serija.getOpis());
 
+
+        TextView t_akcija,t_komedija, t_drama,t_avatura ,t_s_f,t_romantika,t_fantazija;
+        t_akcija = (TextView) findViewById(R.id.akcija);
+        t_komedija = (TextView) findViewById(R.id.komedija);
+        t_drama = (TextView) findViewById(R.id.drama);
+        t_avatura = (TextView) findViewById(R.id.avantura);
+        t_s_f = (TextView) findViewById(R.id.s_f);
+        t_romantika = (TextView) findViewById(R.id.romantika);
+        t_fantazija = (TextView) findViewById(R.id.fantazija);
+
+        String zanrovi = serija.getGenres();
+        if(zanrovi!=null && !zanrovi.equals("")){
+            if (zanrovi.contains("action"))
+                t_akcija.setVisibility(View.VISIBLE);
+            if (zanrovi.contains("adventure"))
+                t_avatura.setVisibility(View.VISIBLE);
+            if (zanrovi.contains("fantasy"))
+                t_fantazija.setVisibility(View.VISIBLE);
+            if (zanrovi.contains("science-fiction"))
+                t_s_f.setVisibility(View.VISIBLE);
+            if (zanrovi.contains("drama"))
+                t_drama.setVisibility(View.VISIBLE);
+            if (zanrovi.contains("comedy"))
+                t_komedija.setVisibility(View.VISIBLE);
+            if (zanrovi.contains("romance"))
+                t_romantika.setVisibility(View.VISIBLE);
+        }
 
 
     }
@@ -65,10 +93,11 @@ public class SerijaDetalji extends YouTubeBaseActivity implements YouTubePlayer.
 
      serija = new Serija();
 
-     serija.setNaslov(getIntent().getStringExtra("naslov"));
-     serija.setGodina(getIntent().getIntExtra("godina",2013));
+        serija.setNaslov(getIntent().getStringExtra("naslov"));
+        serija.setGodina(getIntent().getIntExtra("godina",2013));
         serija.setGenres(getIntent().getStringExtra("zanrovi"));
         serija.setTrailer(getIntent().getStringExtra("trailer"));
+        serija.setOpis(getIntent().getStringExtra("opis"));
 
     }
 

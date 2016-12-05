@@ -122,6 +122,9 @@ public class HomeFragment extends Fragment implements SerijeDohvaceneListener,Ad
           i.putExtra("godina",serije.getGodina());
           i.putExtra("zanrovi",serije.getGenres());
           i.putExtra("trailer", serije.getTrailer());
+          i.putExtra("opis", serije.getOpis());
+
+
         startActivity(i);
 
     }
