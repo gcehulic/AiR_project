@@ -16,6 +16,7 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 /**
  * Created by markopc on 12/1/2016.
@@ -60,14 +61,20 @@ public class SerijaDetalji extends YouTubeBaseActivity implements YouTubePlayer.
         opisFilma.setText(serija.getOpis());
 
 
-        TextView t_akcija,t_komedija, t_drama,t_avatura ,t_s_f,t_romantika,t_fantazija;
+        TextView t_akcija,t_komedija, t_drama,t_avatura ,t_s_f,t_krim, t_dokumentarac,
+                t_obiteljska, t_fantazija, t_triler, t_reality, t_animirani;
         t_akcija = (TextView) findViewById(R.id.akcija);
         t_komedija = (TextView) findViewById(R.id.komedija);
-        t_drama = (TextView) findViewById(R.id.drama);
         t_avatura = (TextView) findViewById(R.id.avantura);
         t_s_f = (TextView) findViewById(R.id.s_f);
-        t_romantika = (TextView) findViewById(R.id.romantika);
+        t_dokumentarac = (TextView) findViewById(R.id.dokumentarni);
+        t_drama = (TextView) findViewById(R.id.drama);
+        t_krim=(TextView)findViewById(R.id.krimi);
+        t_obiteljska= (TextView) findViewById(R.id.obiteljska);
         t_fantazija = (TextView) findViewById(R.id.fantazija);
+        t_triler = (TextView) findViewById(R.id.triler);
+        t_reality = (TextView) findViewById(R.id.reality);
+        t_animirani = (TextView) findViewById(R.id.animirani);
 
         String zanrovi = serija.getGenres();
         if(zanrovi!=null && !zanrovi.equals("")){
@@ -75,16 +82,28 @@ public class SerijaDetalji extends YouTubeBaseActivity implements YouTubePlayer.
                 t_akcija.setVisibility(View.VISIBLE);
             if (zanrovi.contains("adventure"))
                 t_avatura.setVisibility(View.VISIBLE);
+            if (zanrovi.contains("comedy"))
+                t_komedija.setVisibility(View.VISIBLE);
+            if (zanrovi.contains("crime"))
+                t_krim.setVisibility(View.VISIBLE);
+            if (zanrovi.contains("documentary"))
+                t_dokumentarac.setVisibility(View.VISIBLE);
+            if (zanrovi.contains("drama"))
+                t_drama.setVisibility(View.VISIBLE);
+            if (zanrovi.contains("family"))
+                t_obiteljska.setVisibility(View.VISIBLE);
             if (zanrovi.contains("fantasy"))
                 t_fantazija.setVisibility(View.VISIBLE);
             if (zanrovi.contains("science-fiction"))
                 t_s_f.setVisibility(View.VISIBLE);
-            if (zanrovi.contains("drama"))
-                t_drama.setVisibility(View.VISIBLE);
-            if (zanrovi.contains("comedy"))
-                t_komedija.setVisibility(View.VISIBLE);
-            if (zanrovi.contains("romance"))
-                t_romantika.setVisibility(View.VISIBLE);
+            if (zanrovi.contains("thriller"))
+                t_triler.setVisibility(View.VISIBLE);
+            if (zanrovi.contains("reality"))
+                t_reality.setVisibility(View.VISIBLE);
+            if (zanrovi.contains("animation"))
+                t_animirani.setVisibility(View.VISIBLE);
+
+
         }
 
 
