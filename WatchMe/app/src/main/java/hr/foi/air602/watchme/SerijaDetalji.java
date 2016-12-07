@@ -70,7 +70,7 @@ public class SerijaDetalji extends YouTubeBaseActivity implements YouTubePlayer.
         t_dokumentarac = (TextView) findViewById(R.id.dokumentarni);
         t_drama = (TextView) findViewById(R.id.drama);
         t_krim=(TextView)findViewById(R.id.krimi);
-        t_obiteljska= (TextView) findViewById(R.id.obiteljska);
+        t_obiteljska= (TextView) findViewById(R.id.obiteljski);
         t_fantazija = (TextView) findViewById(R.id.fantazija);
         t_triler = (TextView) findViewById(R.id.triler);
         t_reality = (TextView) findViewById(R.id.reality);

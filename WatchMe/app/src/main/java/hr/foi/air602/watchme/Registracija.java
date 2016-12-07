@@ -3,26 +3,28 @@ package hr.foi.air602.watchme;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import hr.foi.air602.database.entities.LoginDataBaseAdapter;
+import hr.foi.air602.watchme.database.UserAdapter;
+import hr.foi.air602.watchme.database.entities.User;
 
 public class Registracija extends AppCompatActivity {
 
     EditText editTextIme, editTextPrezime, editTextEmail, editTextKorIme, editTextLozinka;
     Button btnRegistrirajSe;
-    LoginDataBaseAdapter loginDataBaseAdapter;
+
+    UserAdapter userAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registracija);
 
-        loginDataBaseAdapter = new LoginDataBaseAdapter(this);
-        loginDataBaseAdapter = loginDataBaseAdapter.open();
+        userAdapter = new UserAdapter(this);
 
         editTextIme=(EditText)findViewById(R.id.editTextIme);
         editTextPrezime=(EditText)findViewById(R.id.editTextPrezime);
@@ -38,23 +40,29 @@ public class Registracija extends AppCompatActivity {
                 String ime=editTextIme.getText().toString();
                 String prezime=editTextPrezime.getText().toString();
                 String mail=editTextEmail.getText().toString();
-                String korisnicko_ime=editTextKorIme.getText().toString();
+                String korisnickoIme=editTextKorIme.getText().toString();
                 String lozinka=editTextLozinka.getText().toString();
 
-                String spremljeno_kor_ime = loginDataBaseAdapter.getSinlgeEntry(korisnicko_ime);
+                boolean postoji = false;
 
-                if(ime.equals("")||prezime.equals("")||mail.equals("")||korisnicko_ime.equals("")||lozinka.equals(""))
+                for(User user : userAdapter.getAllUsers()){
+                    if(user.username.equals(korisnickoIme)) {
+                        postoji = true;
+                    }
+                }
+
+                if(ime.equals("")||prezime.equals("")||mail.equals("")||korisnickoIme.equals("")||lozinka.equals(""))
                 {
                     Toast.makeText(getApplicationContext(), "Niste popunili sva polja!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                else if (korisnicko_ime.equals(spremljeno_kor_ime))
+                else if (postoji==true)
                 {
                     Toast.makeText(Registracija.this, "Korisničko ime već postoji u bazi!", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    loginDataBaseAdapter.insertEntry(ime, prezime, mail, korisnicko_ime, lozinka);
+                    userAdapter.insertUser(new User(ime, prezime, mail, korisnickoIme, lozinka));
                     Toast.makeText(getApplicationContext(), "Račun je uspješno kreiran!", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(Registracija.this,MainActivity.class);
                     startActivity(i);
@@ -68,8 +76,7 @@ public class Registracija extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        loginDataBaseAdapter.close();
+        userAdapter.close();
     }
 
 }

@@ -44,7 +44,7 @@
 
 
         <CheckBox
-        android:text="Notifikacija za pameni sat"
+        android:text="Notifikacija za pametni sat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -54,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Pošalji"/>
+        android:text="Spremi"/>
 
     </LinearLayout>
 

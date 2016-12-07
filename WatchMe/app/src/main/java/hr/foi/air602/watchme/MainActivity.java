@@ -8,26 +8,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.raizlabs.android.dbflow.config.FlowConfig;
-import com.raizlabs.android.dbflow.config.FlowManager;
-
-import butterknife.ButterKnife;
-import hr.foi.air602.database.entities.LoginDataBaseAdapter;
+import hr.foi.air602.watchme.database.UserAdapter;
+import hr.foi.air602.watchme.database.entities.User;
 
 public class MainActivity extends AppCompatActivity{
 
-   private Button btnPrijava, btnRegistracija;
-    LoginDataBaseAdapter loginDataBaseAdapter;
+    private Button btnPrijava, btnRegistracija;
+    UserAdapter userAdapter = new UserAdapter(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        ButterKnife.bind(this);
-        FlowManager.init(new FlowConfig.Builder(this).build());
-
-        loginDataBaseAdapter = new LoginDataBaseAdapter(this);
-        loginDataBaseAdapter = loginDataBaseAdapter.open();
 
         btnPrijava = (Button)findViewById(R.id.btnLogin);
         btnRegistracija = (Button) findViewById(R.id.btnReg);
@@ -42,23 +34,27 @@ public class MainActivity extends AppCompatActivity{
         btnPrijava.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 signIn(v);
-            }
-        });
+                    }
+                });
 
     }
 
 
-
-
-
-    public void signIn(View V) {
+    public void signIn(View V){
         final EditText editTextUserName = (EditText) findViewById(R.id.kor_ime);
         final EditText editTextPassword = (EditText) findViewById(R.id.password);
 
         String userName = editTextUserName.getText().toString();
         String password = editTextPassword.getText().toString();
-        String storedPassword = loginDataBaseAdapter.getSinlgeEntry(userName);
-        if (password.equals(storedPassword)) {
+
+        boolean postoji = false;
+
+        for(User user : userAdapter.getAllUsers()){
+            if(user.username.equals(userName) && user.password.equals(password))
+                postoji=true;
+        }
+
+        if (postoji==true) {
             //Toast.makeText(MainActivity.this, "Prijava je uspješno izvršena!", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(MainActivity.this, BottomNavigationActivity.class);
             startActivity(i);
@@ -70,7 +66,7 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        loginDataBaseAdapter.close();
+        userAdapter.close();
     }
 
 }

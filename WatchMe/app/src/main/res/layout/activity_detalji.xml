@@ -59,15 +59,13 @@
                 android:padding="2dp"
                 android:text="ŽANROVI:"
                 />
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.19">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="right"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
 
                 <TextView
                     android:id="@+id/akcija"
@@ -159,7 +157,7 @@
                  android:layout_width="match_parent"
                  android:layout_height="match_parent"
                  android:visibility="gone"
-                 android:text="Anirmirani"/>
+                 android:text="Animirani"/>
              <TextView
                  android:id="@+id/avantura"
                  android:layout_margin="4dp"
@@ -169,8 +167,6 @@
                  android:visibility="gone"
                  android:text="Avantura"/>
             </LinearLayout>
-
-                </ScrollView>
 
 
         </LinearLayout>
