@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity{
 
         if (postoji==true) {
             //Toast.makeText(MainActivity.this, "Prijava je uspješno izvršena!", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(MainActivity.this, BottomNavigationActivity.class);
+            Intent i = new Intent(MainActivity.this, NavigacijaActivity.class);
             startActivity(i);
         } else {
             Toast.makeText(MainActivity.this, "Pogrešno korisničko ime ili lozinka!", Toast.LENGTH_SHORT).show();

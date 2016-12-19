@@ -22,7 +22,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
-import android.widget.Toast;
 
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
@@ -35,7 +34,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
 
-import hr.foi.air602.watchme.fragments.HomeFragment;
+import hr.foi.air602.watchme.fragments.PocetnaFragment;
 import hr.foi.air602.watchme.fragments.PregledFragment;
 import hr.foi.air602.watchme.fragments.PreporucenoFragment;
 
@@ -43,8 +42,8 @@ import hr.foi.air602.watchme.fragments.PreporucenoFragment;
  * Created by markopc on 11/2/2016.
  */
 
-public class BottomNavigationActivity extends AppCompatActivity {
-    private static final String TAG = BottomNavigationActivity.class.getSimpleName();
+public class NavigacijaActivity extends AppCompatActivity {
+    private static final String TAG = NavigacijaActivity.class.getSimpleName();
 
     private ViewPagerAdapter mViewPagerAdapter;
     private ArrayList<AHBottomNavigationItem> mBottomNavigationItems = new ArrayList<>();
@@ -65,8 +64,8 @@ public class BottomNavigationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_navigation);
-        mContext = BottomNavigationActivity.this;
-        mActivity = BottomNavigationActivity.this;
+        mContext = NavigacijaActivity.this;
+        mActivity = NavigacijaActivity.this;
 
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -99,14 +98,14 @@ public class BottomNavigationActivity extends AppCompatActivity {
 
        }
         if(item.getItemId() == R.id.action_about){
-            Intent i = new Intent(getApplicationContext(), O_programu.class);
+            Intent i = new Intent(getApplicationContext(), Informacije.class);
             startActivity(i);
-          // Toast.makeText(BottomNavigationActivity.this, "Kliknuli ste", Toast.LENGTH_LONG).show();
+          // Toast.makeText(NavigacijaActivity.this, "Kliknuli ste", Toast.LENGTH_LONG).show();
        }
         if(item.getItemId() == R.id.action_odjava){
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
-           //Toast.makeText(BottomNavigationActivity.this, "Kliknuli ste odjava", Toast.LENGTH_LONG).show();
+           //Toast.makeText(NavigacijaActivity.this, "Kliknuli ste odjava", Toast.LENGTH_LONG).show();
        }
 
         return super.onOptionsItemSelected(item);
@@ -123,15 +122,10 @@ public class BottomNavigationActivity extends AppCompatActivity {
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(getString(R.string.tab_1), ContextCompat.getDrawable(mContext, R.drawable.ic_home_black_24dp), ContextCompat.getColor(mContext, R.color.color_tab_1));
         AHBottomNavigationItem item2 = new AHBottomNavigationItem(getString(R.string.tab_2), ContextCompat.getDrawable(mContext, R.drawable.ic_stars_black_24dp), ContextCompat.getColor(mContext, R.color.color_tab_2));
         AHBottomNavigationItem item3 = new AHBottomNavigationItem(getString(R.string.tab_3), ContextCompat.getDrawable(mContext, R.drawable.ic_favorite_black_24dp), ContextCompat.getColor(mContext, R.color.color_tab_3));
-        //AHBottomNavigationItem item4 = new AHBottomNavigationItem(getString(R.string.tab_4), ContextCompat.getDrawable(mContext, R.drawable.ic_home_black_24dp), ContextCompat.getColor(mContext, R.color.color_tab_4));
-        //AHBottomNavigationItem item5 = new AHBottomNavigationItem(getString(R.string.tab_5), ContextCompat.getDrawable(mContext, R.drawable.ic_home_black_24dp), ContextCompat.getColor(mContext, R.color.color_tab_5));
-
 
         mBottomNavigationItems.add(item1);
         mBottomNavigationItems.add(item2);
         mBottomNavigationItems.add(item3);
-        // mBottomNavigationItems.add(item4);
-        // mBottomNavigationItems.add(item5);
 
         mBottomNavigation.addItems(mBottomNavigationItems);
         mBottomNavigation.setOnTabSelectedListener(new TabSelectedListener());
@@ -294,11 +288,10 @@ public class BottomNavigationActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            String msg = "Wecome to page: ";//  return new SimpleFragment(String.valueOf(position + 1));
             Fragment fragment = new Fragment();
             switch (position) {
                 case 0:
-                    fragment = new HomeFragment();
+                    fragment = new PocetnaFragment();
                     break;
 
                 case 1:
@@ -327,14 +320,11 @@ public class BottomNavigationActivity extends AppCompatActivity {
         @Override
         public boolean onTabSelected(int position, boolean wasSelected) {
 
-
             mNavigationViewPager.setCurrentItem(position, false);
 
             if (position == 1) {
-
-                ////showFloatingActionButton(true);
+                //showFloatingActionButton(true);
                 //sakrivanje float buttona true ili false
-
             } else {
                 showFloatingActionButton(false);
             }

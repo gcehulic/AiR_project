@@ -1,16 +1,8 @@
 package hr.foi.air602.watchme;
 
-import android.util.Log;
-import android.widget.Toast;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import hr.foi.air602.watchme.fragments.HomeFragment;
 
 /**
  * Created by Goran on 23.11.2016..

@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import hr.foi.air602.watchme.database.UserAdapter;
 import hr.foi.air602.watchme.database.entities.User;
 
@@ -43,6 +46,9 @@ public class Registracija extends AppCompatActivity {
                 String korisnickoIme=editTextKorIme.getText().toString();
                 String lozinka=editTextLozinka.getText().toString();
 
+                final String mail1 = mail;
+                final String pass = lozinka;
+
                 boolean postoji = false;
 
                 for(User user : userAdapter.getAllUsers()){
@@ -60,6 +66,13 @@ public class Registracija extends AppCompatActivity {
                 {
                     Toast.makeText(Registracija.this, "Korisničko ime već postoji u bazi!", Toast.LENGTH_SHORT).show();
                 }
+                else  if (!isValidEmail(mail1)) {
+                    editTextEmail.setError("Pogrešan mail: net@net.hr");
+                }
+               else if (!isValidPassword(pass)) {
+                    editTextLozinka.setError("Pogrešna lozinka, potrebno više od 6 znakova");
+                }
+
                 else
                 {
                     userAdapter.insertUser(new User(ime, prezime, mail, korisnickoIme, lozinka));
@@ -68,10 +81,28 @@ public class Registracija extends AppCompatActivity {
                     startActivity(i);
                     finish();
                 }
-
             }
         });
     }
+
+    // validating email id
+    private boolean isValidEmail(String mail1) {
+        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(mail1);
+        return matcher.matches();
+    }
+
+    // validating password with retype password
+    private boolean isValidPassword(String pass) {
+        if (pass != null && pass.length() > 6) {
+            return true;
+        }
+        return false;
+    }
+
 
     @Override
     protected void onDestroy() {

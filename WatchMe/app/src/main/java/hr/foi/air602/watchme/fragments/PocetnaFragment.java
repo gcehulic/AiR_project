@@ -3,7 +3,6 @@ package hr.foi.air602.watchme.fragments;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -19,12 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import hr.foi.air602.watchme.MainActivity;
-import hr.foi.air602.watchme.O_programu;
 import hr.foi.air602.watchme.PopisSerijaAdapter;
-import hr.foi.air602.watchme.Postavke;
 import hr.foi.air602.watchme.R;
 import hr.foi.air602.watchme.Serija;
 import hr.foi.air602.watchme.SerijaDetalji;
@@ -36,7 +31,7 @@ import hr.foi.air602.watchme.listeners.SerijeDohvaceneListener;
  * Created by markopc on 11/2/2016.
  */
 
-public class HomeFragment extends Fragment implements SerijeDohvaceneListener,AdapterView.OnItemClickListener {
+public class PocetnaFragment extends Fragment implements SerijeDohvaceneListener,AdapterView.OnItemClickListener {
     private TextView mTextView;
     public static ArrayList<Serija> dohvaceneSerije;
     private PopisSerijaAdapter popisSerijaAdapter;
@@ -104,8 +99,8 @@ public class HomeFragment extends Fragment implements SerijeDohvaceneListener,Ad
 
     @Override
     public void serijeDohvacene(ArrayList<Serija> serije, int scroll) {
-        HomeFragment.dohvaceneSerije.addAll(serije);
-        for (Serija s:HomeFragment.dohvaceneSerije) {
+        PocetnaFragment.dohvaceneSerije.addAll(serije);
+        for (Serija s: PocetnaFragment.dohvaceneSerije) {
             Log.d("HOMEFRAGMENT", "serijeDohvacene: "+s.getNaslov()+" "+s.getGodina()+" "+ s.getGenres());
         }
         popisSerijaAdapter.notifyDataSetChanged();
