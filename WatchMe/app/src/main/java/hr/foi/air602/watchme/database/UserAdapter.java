@@ -61,4 +61,15 @@ public class UserAdapter extends DataAdapter{
 
         }
 
+    public int getUserId(String username, String password){
+        String[] columns = new String[]{KEY_ID, "name", "surname", "mail", "username", "password"};
+        SQLiteDatabase db = openToRead();
+
+        String[] args = {username, password};
+        Cursor cursor = db.query(TABLE, columns, "username=? AND password=?", args, null, null, null);
+        cursor.moveToFirst();
+        int id = cursor.getInt(cursor.getColumnIndex("id"));
+        return id;
+    }
+
 }

@@ -18,6 +18,8 @@ public class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE User (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, surname TEXT, mail TEXT, username TEXT, password TEXT);");
+        db.execSQL("CREATE TABLE Favorite (id TEXT PRIMARY KEY, slug TEXT, genres TEXT, airs TEXT, network TEXT);");
+        db.execSQL("CREATE TABLE UserFavorites (userid INTEGER FOREIGN KEY (userid) REFERENCES User(id), favoriteid TEXT FOREIGN KEY (favoriteid) REFERENCES Favorite(id), PRIMARY KEY(userid, favoriteid)");
     }
 
     @Override
