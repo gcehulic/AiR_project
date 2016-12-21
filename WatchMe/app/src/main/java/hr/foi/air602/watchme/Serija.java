@@ -13,6 +13,7 @@ public class Serija {
     private String naslov;
     private int godina;
 
+
     private int id_trakt, id_tvdb, id_imdb, id_tvrage;
     private String slug, imdb, genres, trailer, opis, overview;
 
@@ -43,6 +44,8 @@ public class Serija {
             e.printStackTrace();
         }
     }
+
+
     public String getOpis() {
         return opis;
     }

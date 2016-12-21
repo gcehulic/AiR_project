@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
     android:layout_marginLeft="11dp"
     android:layout_marginRight="11dp"
     android:layout_marginTop="11dp"
@@ -15,7 +16,6 @@
     app:contentPadding="0dp">
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="100dp">
@@ -29,14 +29,18 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginLeft="10dp"
-                android:id="@+id/image_view"/>
+                android:id="@+id/image_view"
+                android:layout_alignParentStart="true" />
 
         </RelativeLayout>
+
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="vertical"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="10dp">
 
             <RelativeLayout
@@ -62,6 +66,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/serija_godina" />
                 </LinearLayout>
+
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -215,8 +220,30 @@
                         android:layout_marginBottom="4dp"
                         android:text="Animirani"/>
 
+
                 </LinearLayout>
+
+
+
             </RelativeLayout>
         </LinearLayout>
+
     </LinearLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <CheckBox
+            android:layout_width="60dp"
+            style="?android:attr/starStyle"
+            android:checked="true"
+            android:focusable="false"
+            android:clickable="false"
+            android:layout_height="60dp"
+            android:layout_marginLeft="350dp"
+            android:id="@+id/odabir"/>
+
+    </RelativeLayout>
+
 </android.support.v7.widget.CardView>

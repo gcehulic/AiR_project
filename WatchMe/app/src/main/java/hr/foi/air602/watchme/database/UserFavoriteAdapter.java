@@ -30,15 +30,21 @@ public class UserFavoriteAdapter extends DataAdapter {
 
         contentValues.put("userid",userFavorite.userid);
         contentValues.put("favoritesid",userFavorite.favoriteid);
+        //contentValues.put("odabrano",userFavorite.odabrano);
+
 
         SQLiteDatabase db = openToWrite();
         return db.insert(TABLE,null,contentValues);
+    }
+//napraviti update
+    public void updateUserFavorite(UserFavorite userFavorite){
+
     }
 
     public List<Favorite> getAllUserFavorites(int userid){
         List<Favorite> favorites = new ArrayList<>();
 
-        String[] columns = {"userid","favoriteid"};
+        String[] columns = {"userid","favoriteid", "odabrano"};
         SQLiteDatabase db = openToRead();
         String[] args = {""+userid};
         Cursor cursor = db.query(TABLE,columns,"userid=?",args,null,null,null);

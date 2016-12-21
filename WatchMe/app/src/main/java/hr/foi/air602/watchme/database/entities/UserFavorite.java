@@ -7,9 +7,11 @@ package hr.foi.air602.watchme.database.entities;
 public class UserFavorite {
     public int userid;
     public String favoriteid;
+    public boolean odabrano = false;
 
-    public UserFavorite(int userid, String favoriteid){
+    public UserFavorite(int userid, String favoriteid, boolean odabrano){
         this.userid = userid;
         this.favoriteid = favoriteid;
+        this.odabrano = odabrano;
     }
 }

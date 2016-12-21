@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -110,6 +111,7 @@ public class PocetnaFragment extends Fragment implements SerijeDohvaceneListener
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+
         Serija serije = dohvaceneSerije.get(position);
 
         Intent i = new Intent(getActivity(), SerijaDetalji.class);
@@ -139,6 +141,8 @@ public class PocetnaFragment extends Fragment implements SerijeDohvaceneListener
                     }
                 }
             }
+
+
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
