@@ -232,16 +232,17 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_marginTop="15dp"
+        android:layout_gravity="right">
 
         <CheckBox
-            android:layout_width="60dp"
+            android:layout_width="40dp"
             style="?android:attr/starStyle"
             android:checked="true"
             android:focusable="false"
             android:clickable="false"
             android:layout_height="60dp"
-            android:layout_marginLeft="330dp"
+            android:layout_marginRight="5dp"
             android:id="@+id/odabir"/>
 
         <TextView
@@ -251,7 +252,8 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
             android:layout_marginStart="76dp"
-            android:id="@+id/idserije" />
+            android:id="@+id/idserije"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 

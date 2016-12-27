@@ -1,5 +1,6 @@
 package hr.foi.air602.watchme.fragments;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ import java.util.List;
 import hr.foi.air602.watchme.PopisSerijaAdapter;
 import hr.foi.air602.watchme.R;
 import hr.foi.air602.watchme.Serija;
+import hr.foi.air602.watchme.SerijaDetalji;
 import hr.foi.air602.watchme.Utilities;
 import hr.foi.air602.watchme.async_tasks.DohvatSerijaPoIdAsyncTask;
 import hr.foi.air602.watchme.database.UserAdapter;
@@ -39,6 +42,7 @@ public class FavoritiFragment extends Fragment implements AdapterView.OnItemClic
     private ProgressBar mProgressBar;
     public static ArrayList<Serija> dohvaceneSerije;
     public static PopisSerijaAdapter popisSerijaAdapter;
+    private TextView nemaFavorita;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,7 @@ public class FavoritiFragment extends Fragment implements AdapterView.OnItemClic
         View rootView = inflater.inflate(R.layout.pregled_layout, container, false);
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_spinner);
         mProgressBar.getIndeterminateDrawable().setColorFilter(0xFF3F51B5, android.graphics.PorterDuff.Mode.MULTIPLY);
+        nemaFavorita = (TextView) rootView.findViewById(R.id.nema_favorita);
 
         return rootView;
     }
@@ -77,6 +82,7 @@ public class FavoritiFragment extends Fragment implements AdapterView.OnItemClic
             this.favoriti = this.userFavoriteAdapter.getAllUserFavorites(this.userAdapter.getUserFromSharedPrefs());
 
             if(this.favoriti.size() > 0) {
+                nemaFavorita.setVisibility(View.GONE);
                 for (Favorite f : this.favoriti) {
                     Log.d("WATCHME", "onViewCreated: id:" + f.id + " slug:" + f.slug);
                     String url = Utilities.izradaUrlSerijePoId(f.id);
@@ -84,6 +90,8 @@ public class FavoritiFragment extends Fragment implements AdapterView.OnItemClic
                 }
             } else {
                 Log.d("WATCHME", "onViewCreated: favoriti prazni");
+                mProgressBar.setVisibility(View.GONE);
+                nemaFavorita.setVisibility(View.VISIBLE);
             }
 
             setListViewAdapter();
@@ -118,6 +126,16 @@ public class FavoritiFragment extends Fragment implements AdapterView.OnItemClic
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+        Serija serije = dohvaceneSerije.get(position);
+
+        Intent i = new Intent(getActivity(), SerijaDetalji.class);
+        i.putExtra("naslov",serije.getNaslov());
+        i.putExtra("godina",serije.getGodina());
+        i.putExtra("zanrovi",serije.getGenres());
+        i.putExtra("trailer", serije.getTrailer());
+        i.putExtra("opis", serije.getOpis());
+
+        startActivity(i);
     }
 
     @Override

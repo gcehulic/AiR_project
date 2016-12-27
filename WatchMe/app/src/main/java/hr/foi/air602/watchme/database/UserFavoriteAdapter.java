@@ -40,9 +40,9 @@ public class UserFavoriteAdapter extends DataAdapter {
     }
 
     public long deleteUserFavorite(UserFavorite userFavorite){
-        SQLiteDatabase db = openToWrite();
-        String[] args = {userFavorite.userid+"",userFavorite.favoriteid};
-        return db.delete(TABLE,"userid = ? and favoriteid = ?",args);
+            SQLiteDatabase db = openToWrite();
+            String[] args = {userFavorite.userid+"",userFavorite.favoriteid};
+            return db.delete(TABLE,"userid = ? and favoriteid = ?",args);
     }
 
     public boolean doesFavoriteExists(int userID, String favoriteID){
