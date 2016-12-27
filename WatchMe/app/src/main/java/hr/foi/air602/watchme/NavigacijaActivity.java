@@ -35,7 +35,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import java.util.ArrayList;
 
 import hr.foi.air602.watchme.fragments.PocetnaFragment;
-import hr.foi.air602.watchme.fragments.PregledFragment;
+import hr.foi.air602.watchme.fragments.FavoritiFragment;
 import hr.foi.air602.watchme.fragments.PreporucenoFragment;
 
 /**
@@ -59,6 +59,8 @@ public class NavigacijaActivity extends AppCompatActivity {
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+    private FavoritiFragment mPregledFragment;
+    private Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,8 @@ public class NavigacijaActivity extends AppCompatActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        mPregledFragment = new FavoritiFragment();
+
     }
 
 
@@ -100,12 +104,10 @@ public class NavigacijaActivity extends AppCompatActivity {
         if(item.getItemId() == R.id.action_about){
             Intent i = new Intent(getApplicationContext(), Informacije.class);
             startActivity(i);
-          // Toast.makeText(NavigacijaActivity.this, "Kliknuli ste", Toast.LENGTH_LONG).show();
        }
         if(item.getItemId() == R.id.action_odjava){
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
-           //Toast.makeText(NavigacijaActivity.this, "Kliknuli ste odjava", Toast.LENGTH_LONG).show();
        }
 
         return super.onOptionsItemSelected(item);
@@ -288,14 +290,14 @@ public class NavigacijaActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            Fragment fragment = new Fragment();
+            fragment = new Fragment();
             switch (position) {
                 case 0:
                     fragment = new PocetnaFragment();
                     break;
 
                 case 1:
-                    fragment = new PregledFragment();
+                    fragment = mPregledFragment;
                     break;
 
                 case 2:
@@ -304,7 +306,6 @@ public class NavigacijaActivity extends AppCompatActivity {
             }
 
             return fragment;
-
 
 
         }
@@ -323,6 +324,10 @@ public class NavigacijaActivity extends AppCompatActivity {
             mNavigationViewPager.setCurrentItem(position, false);
 
             if (position == 1) {
+
+                mPregledFragment.init();
+
+
                 //showFloatingActionButton(true);
                 //sakrivanje float buttona true ili false
             } else {
@@ -332,4 +337,7 @@ public class NavigacijaActivity extends AppCompatActivity {
             return true;
         }
     }
+
+
+
 }

@@ -1,32 +1,25 @@
 package hr.foi.air602.watchme;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import hr.foi.air602.watchme.database.FavoriteAdapter;
 import hr.foi.air602.watchme.database.UserAdapter;
 import hr.foi.air602.watchme.database.UserFavoriteAdapter;
 import hr.foi.air602.watchme.database.entities.Favorite;
-import hr.foi.air602.watchme.database.entities.User;
 import hr.foi.air602.watchme.database.entities.UserFavorite;
-import hr.foi.air602.watchme.fragments.PregledFragment;
 
 /**
  * Created by Goran on 23.11.2016..
@@ -167,7 +160,6 @@ public class PopisSerijaAdapter extends BaseAdapter {
                 mChecked = !mChecked;
                 holder.odabirSerije.setChecked(mChecked);
 
-                //db.serija.update(id, mChecked);
                 Log.d("WATCHME", "onClick: serijaID : "+holder.idserije.getText());
                 String serijaID = holder.idserije.getText().toString();
                 UserFavoriteAdapter userFavoriteAdapter = new UserFavoriteAdapter(context);
@@ -180,6 +172,7 @@ public class PopisSerijaAdapter extends BaseAdapter {
 
                         Log.d("WATCHME", "onClick: oznaceno " + serijaID + " dodano u bazu" );
                         favoriteAdapter.insertFavorite(new Favorite(serijaID,holder.naslov.getText().toString(),"","","")); //PROMENITI
+
                     }
 
                 } else {

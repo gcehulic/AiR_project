@@ -1,19 +1,14 @@
 package hr.foi.air602.watchme.fragments;
 
-import android.graphics.Color;
-import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -29,23 +24,21 @@ import hr.foi.air602.watchme.async_tasks.DohvatSerijaPoIdAsyncTask;
 import hr.foi.air602.watchme.database.UserAdapter;
 import hr.foi.air602.watchme.database.UserFavoriteAdapter;
 import hr.foi.air602.watchme.database.entities.Favorite;
-import hr.foi.air602.watchme.listeners.SerijeDohvaceneListener;
 import hr.foi.air602.watchme.listeners.SerijeDohvacenePoIdListener;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by markopc on 11/2/2016.
  */
 
-public class PregledFragment extends Fragment implements AdapterView.OnItemClickListener, SerijeDohvacenePoIdListener {
+public class FavoritiFragment extends Fragment implements AdapterView.OnItemClickListener, SerijeDohvacenePoIdListener {
+
     private UserFavoriteAdapter userFavoriteAdapter = null;
     private UserAdapter userAdapter = null;
     private List<Favorite> favoriti = new ArrayList<>();
     private ListView listaSerija = null;
     private ProgressBar mProgressBar;
     public static ArrayList<Serija> dohvaceneSerije;
-    private PopisSerijaAdapter popisSerijaAdapter;
+    public static PopisSerijaAdapter popisSerijaAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,31 +51,22 @@ public class PregledFragment extends Fragment implements AdapterView.OnItemClick
         View rootView = inflater.inflate(R.layout.pregled_layout, container, false);
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_spinner);
         mProgressBar.getIndeterminateDrawable().setColorFilter(0xFF3F51B5, android.graphics.PorterDuff.Mode.MULTIPLY);
-        mProgressBar.setVisibility(View.VISIBLE);
+
         return rootView;
+    }
+
+    public FavoritiFragment() {
+
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //init();
 
-        this.userFavoriteAdapter = new UserFavoriteAdapter(getContext());
-        this.userAdapter = new UserAdapter(getContext());
-        this.favoriti = this.userFavoriteAdapter.getAllUserFavorites(this.userAdapter.getUserFromSharedPrefs());
 
-        if(this.favoriti.size() > 0) {
-            for (Favorite f : this.favoriti) {
-                Log.d("WATCHME", "onViewCreated: id:" + f.id + " slug:" + f.slug);
-            }
-        } else {
-            Log.d("WATCHME", "onViewCreated: favoriti prazni");
-        }
-        initialize();
     }
-
-
-
-    private  void initialize(){
+   private  void initialize(){
 
         dohvaceneSerije = new ArrayList<>();
 
@@ -120,9 +104,6 @@ public class PregledFragment extends Fragment implements AdapterView.OnItemClick
             public void onScrollStateChanged(AbsListView view, int scrollState) {
 
             }
-
-
-
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
@@ -141,7 +122,7 @@ public class PregledFragment extends Fragment implements AdapterView.OnItemClick
 
     @Override
     public void serijeDohvacenePoId(Serija serija) {
-        PregledFragment.dohvaceneSerije.add(serija);
+        FavoritiFragment.dohvaceneSerije.add(serija);
         for (Serija s: PocetnaFragment.dohvaceneSerije) {
             Log.d("HOMEFRAGMENT", "serijeDohvacene: "+s.getNaslov()+" "+s.getGodina()+" "+ s.getGenres());
         }
@@ -152,6 +133,27 @@ public class PregledFragment extends Fragment implements AdapterView.OnItemClick
     private void setListViewAdapter(){
         this.popisSerijaAdapter = new PopisSerijaAdapter(dohvaceneSerije,this.getContext());
         listaSerija.setAdapter(this.popisSerijaAdapter);
+
     }
+
+    public void init() {
+        this.userFavoriteAdapter = new UserFavoriteAdapter(getContext());
+        this.userAdapter = new UserAdapter(getContext());
+        this.favoriti = this.userFavoriteAdapter.getAllUserFavorites(this.userAdapter.getUserFromSharedPrefs());
+
+        if(this.favoriti.size() > 0) {
+            for (Favorite f : this.favoriti) {
+                Log.d("WATCHME", "onViewCreated: id:" + f.id + " slug:" + f.slug);
+
+            }
+        } else {
+            Log.d("WATCHME", "onViewCreated: favoriti prazni");
+        }
+        initialize();
+        popisSerijaAdapter.notifyDataSetChanged();
+        mProgressBar.setVisibility(View.GONE);
+    }
+
+
 }
 
