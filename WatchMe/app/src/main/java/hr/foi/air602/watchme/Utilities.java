@@ -29,4 +29,11 @@ public class Utilities {
         Log.d("UTIL", "izradaUrlSerije: "+url.toString());
         return url.toString();
     }
+
+    public static String izradaUrlSerijePoId(String id){
+        StringBuilder url = new StringBuilder();
+        url.append(BASE_URL).append("search").append("/").append("trakt").append("/").append(id).append("?type=show").append("&extended=full");
+        Log.d("UTIL", "izradaUrlSerijeID: "+url.toString());
+        return url.toString();
+    }
 }

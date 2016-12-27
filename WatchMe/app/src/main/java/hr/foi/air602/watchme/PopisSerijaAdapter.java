@@ -2,6 +2,7 @@ package hr.foi.air602.watchme;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,6 +77,8 @@ public class PopisSerijaAdapter extends BaseAdapter {
         final Serija serija = (Serija) getItem(position);
         holder.naslov.setText(serija.getNaslov());
         holder.godina.setText("" + serija.getGodina() + ".");
+
+        holder.idserije.setText(""+serija.getId_trakt());
 
         final String naslov_serije = serija.getNaslov().toString();
         String prvo_slovo_naslova = naslov_serije.substring(0, 1);
@@ -152,7 +155,11 @@ public class PopisSerijaAdapter extends BaseAdapter {
                 .buildRoundRect(prvo_slovo_naslova, boja, 100); // radius u px
 
         holder.prvo_slovo_naslova.setImageDrawable(drawable);
-        mChecked = false;
+
+        UserAdapter userAdapter = new UserAdapter(context);
+        UserFavoriteAdapter userFavoriteAdapter = new UserFavoriteAdapter(context);
+        mChecked = userFavoriteAdapter.doesFavoriteExists(userAdapter.getUserFromSharedPrefs(),holder.idserije.getText().toString());
+
         holder.odabirSerije.setChecked(mChecked);
         holder.odabirSerije.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,6 +168,27 @@ public class PopisSerijaAdapter extends BaseAdapter {
                 holder.odabirSerije.setChecked(mChecked);
 
                 //db.serija.update(id, mChecked);
+                Log.d("WATCHME", "onClick: serijaID : "+holder.idserije.getText());
+                String serijaID = holder.idserije.getText().toString();
+                UserFavoriteAdapter userFavoriteAdapter = new UserFavoriteAdapter(context);
+                UserAdapter userAdapter = new UserAdapter(context);
+                FavoriteAdapter favoriteAdapter = new FavoriteAdapter(context);
+                int korisnik = userAdapter.getUserFromSharedPrefs();
+                if(holder.odabirSerije.isChecked()){
+                    if(!userFavoriteAdapter.doesFavoriteExists(korisnik, serijaID)){
+                        userFavoriteAdapter.insertUserFavorite(new UserFavorite(korisnik,serijaID));
+
+                        Log.d("WATCHME", "onClick: oznaceno " + serijaID + " dodano u bazu" );
+                        favoriteAdapter.insertFavorite(new Favorite(serijaID,holder.naslov.getText().toString(),"","","")); //PROMENITI
+                    }
+
+                } else {
+                    if(userFavoriteAdapter.doesFavoriteExists(korisnik,serijaID)){
+                       // userFavoriteAdapter.deleteUserFavorite(new UserFavorite(korisnik,serijaID));
+                        Log.d("WATCHME", "onClick: odznaceno i obrisano");
+                    }
+
+                }
             }
         });
 
@@ -172,16 +200,19 @@ public class PopisSerijaAdapter extends BaseAdapter {
 
 
     private class ViewHolder{
-        private TextView naslov, godina;
+        private TextView naslov, godina, idserije;
         private TextView zanr_akcija, zanr_avantura, zanr_komedija, zanr_krim, zanr_dokumentarni, zanr_drama,
                 zanr_obiteljska, zanr_fantazija, zanr_sf, zanr_triler, zanr_reality, zanr_animirani;
         private ImageView prvo_slovo_naslova;
         private CheckBox odabirSerije;
+        private TextView kratica, emitranje, mreza;
 
         public ViewHolder(View v){
             this.naslov = (TextView) v.findViewById(R.id.serija_naslov);
             this.godina = (TextView) v.findViewById(R.id.serija_godina);
             this.odabirSerije = (CheckBox) v.findViewById(R.id.odabir);
+
+            this.idserije = (TextView) v.findViewById(R.id.idserije);
 
             this.zanr_akcija = (TextView) v.findViewById(R.id.akcija);
             this.zanr_avantura = (TextView) v.findViewById(R.id.avantura);

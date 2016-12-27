@@ -18,26 +18,27 @@ import java.util.ArrayList;
 
 import hr.foi.air602.watchme.Serija;
 import hr.foi.air602.watchme.listeners.SerijeDohvaceneListener;
+import hr.foi.air602.watchme.listeners.SerijeDohvacenePoIdListener;
 
 /**
  * Created by Goran on 23.11.2016..
  */
 
-public class DohvatSerijaAsyncTask extends AsyncTask<String, String, String> {
+public class DohvatSerijaPoIdAsyncTask extends AsyncTask<String, String, String> {
 
-    private SerijeDohvaceneListener serijeDohvaceneListener;
+    private SerijeDohvacenePoIdListener serijeDohvaceneListener;
     Context context;
     String url;
     int scroll;
 
-    public DohvatSerijaAsyncTask(SerijeDohvaceneListener serijeDohvaceneListener, Context context, String url) {
+    public DohvatSerijaPoIdAsyncTask(SerijeDohvacenePoIdListener serijeDohvaceneListener, Context context, String url) {
         this.serijeDohvaceneListener = serijeDohvaceneListener;
         this.context = context;
         this.url = url;
         this.scroll = 0;
     }
 
-    public DohvatSerijaAsyncTask(SerijeDohvaceneListener serijeDohvaceneListener, Context context, String url, int scroll) {
+    public DohvatSerijaPoIdAsyncTask(SerijeDohvacenePoIdListener serijeDohvaceneListener, Context context, String url, int scroll) {
         this.serijeDohvaceneListener = serijeDohvaceneListener;
         this.context = context;
         this.url = url;
@@ -86,14 +87,13 @@ public class DohvatSerijaAsyncTask extends AsyncTask<String, String, String> {
         if(s.equals("otkazano") || this.isCancelled()){
             return;
         }
-        ArrayList<Serija> listaSerija = new ArrayList<>();
+        Log.d("WATCHME", "onPostExecute: "+s);
+        Serija serija = null;
         try {
 
             JSONArray jsonArray = new JSONArray(s);
-            for (int i = 0; i < jsonArray.length(); i++){
-                JSONObject serija = jsonArray.getJSONObject(i).getJSONObject("show");
-                listaSerija.add(new Serija(serija));
-            }
+            JSONObject serijaJson = jsonArray.getJSONObject(0).getJSONObject("show");
+            serija = new Serija(serijaJson);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -101,7 +101,7 @@ public class DohvatSerijaAsyncTask extends AsyncTask<String, String, String> {
         if(s.equals("otkazano") || this.isCancelled()){
             return;
         }
-        serijeDohvaceneListener.serijeDohvacene(listaSerija, this.scroll);
+        serijeDohvaceneListener.serijeDohvacenePoId(serija);
     }
 
 }

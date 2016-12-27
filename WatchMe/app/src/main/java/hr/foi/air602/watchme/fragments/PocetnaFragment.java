@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import hr.foi.air602.watchme.PopisSerijaAdapter;
 import hr.foi.air602.watchme.R;
@@ -26,7 +27,12 @@ import hr.foi.air602.watchme.Serija;
 import hr.foi.air602.watchme.SerijaDetalji;
 import hr.foi.air602.watchme.Utilities;
 import hr.foi.air602.watchme.async_tasks.DohvatSerijaAsyncTask;
+import hr.foi.air602.watchme.async_tasks.DohvatSerijaPoIdAsyncTask;
+import hr.foi.air602.watchme.database.UserAdapter;
+import hr.foi.air602.watchme.database.UserFavoriteAdapter;
+import hr.foi.air602.watchme.database.entities.Favorite;
 import hr.foi.air602.watchme.listeners.SerijeDohvaceneListener;
+import hr.foi.air602.watchme.listeners.SerijeDohvacenePoIdListener;
 
 /**
  * Created by markopc on 11/2/2016.
@@ -41,6 +47,9 @@ public class PocetnaFragment extends Fragment implements SerijeDohvaceneListener
     private ProgressBar mProgressBar;
     private ImageView internetGreska;
     private ListView homeListaSerija;
+    private UserFavoriteAdapter userFavoriteAdapter = null;
+    private UserAdapter userAdapter = null;
+    private List<Favorite> favoriti = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,6 +73,19 @@ public class PocetnaFragment extends Fragment implements SerijeDohvaceneListener
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initialize();
+        this.userFavoriteAdapter = new UserFavoriteAdapter(getContext());
+        this.userAdapter = new UserAdapter(getContext());
+        this.favoriti = this.userFavoriteAdapter.getAllUserFavorites(this.userAdapter.getUserFromSharedPrefs());
+
+       /* if(this.favoriti.size() > 0) {
+            for (Favorite f : this.favoriti) {
+                Log.d("WATCHME", "onViewCreated: id:" + f.id + " slug:" + f.slug);
+                String url = Utilities.izradaUrlSerijePoId(f.id);
+                this.dohvatSerijaPoId(url);
+            }
+        } else {
+            Log.d("WATCHME", "onViewCreated: favoriti prazni");
+        }*/
     }
 
     private  void initialize(){
@@ -150,4 +172,6 @@ public class PocetnaFragment extends Fragment implements SerijeDohvaceneListener
             }
         };
     }
+
+
 }

@@ -2,6 +2,7 @@ package hr.foi.air602.watchme.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -18,9 +19,11 @@ public class UserAdapter extends DataAdapter{
 
     private static final String TABLE = "User";
     public static final String KEY_ID = "id";
+    private Context context = null;
 
     public UserAdapter(Context context) {
         super(context);
+        this.context = context;
     }
 
     // dodavanje novog korisnika
@@ -72,4 +75,8 @@ public class UserAdapter extends DataAdapter{
         return id;
     }
 
+    public int getUserFromSharedPrefs(){
+        SharedPreferences sp = context.getSharedPreferences("loggeduser",Context.MODE_PRIVATE);
+        return sp.getInt("user",0);
+    }
 }

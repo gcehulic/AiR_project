@@ -29,9 +29,7 @@ public class UserFavoriteAdapter extends DataAdapter {
         ContentValues contentValues = new ContentValues();
 
         contentValues.put("userid",userFavorite.userid);
-        contentValues.put("favoritesid",userFavorite.favoriteid);
-        //contentValues.put("odabrano",userFavorite.odabrano);
-
+        contentValues.put("favoriteid",userFavorite.favoriteid);
 
         SQLiteDatabase db = openToWrite();
         return db.insert(TABLE,null,contentValues);
@@ -41,10 +39,24 @@ public class UserFavoriteAdapter extends DataAdapter {
 
     }
 
+    public long deleteUserFavorite(UserFavorite userFavorite){
+        SQLiteDatabase db = openToWrite();
+        String[] args = {userFavorite.userid+"",userFavorite.favoriteid};
+        return db.delete(TABLE,"userid = ? and favoriteid = ?",args);
+    }
+
+    public boolean doesFavoriteExists(int userID, String favoriteID){
+        List<Favorite> favorites = this.getAllUserFavorites(userID);
+        for (Favorite f : favorites ) {
+            if(f.id.equals(favoriteID)) return true;
+        }
+        return false;
+    }
+
     public List<Favorite> getAllUserFavorites(int userid){
         List<Favorite> favorites = new ArrayList<>();
 
-        String[] columns = {"userid","favoriteid", "odabrano"};
+        String[] columns = {"userid","favoriteid"};
         SQLiteDatabase db = openToRead();
         String[] args = {""+userid};
         Cursor cursor = db.query(TABLE,columns,"userid=?",args,null,null,null);
