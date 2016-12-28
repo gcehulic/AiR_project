@@ -155,21 +155,27 @@ public class FavoritiFragment extends Fragment implements AdapterView.OnItemClic
     }
 
     public void init() {
-        this.userFavoriteAdapter = new UserFavoriteAdapter(getContext());
-        this.userAdapter = new UserAdapter(getContext());
-        this.favoriti = this.userFavoriteAdapter.getAllUserFavorites(this.userAdapter.getUserFromSharedPrefs());
 
-        if(this.favoriti.size() > 0) {
-            for (Favorite f : this.favoriti) {
-                Log.d("WATCHME", "onViewCreated: id:" + f.id + " slug:" + f.slug);
+        if(Utilities.povezanost(getActivity().getApplicationContext())) {
+            this.userFavoriteAdapter = new UserFavoriteAdapter(getContext());
+            this.userAdapter = new UserAdapter(getContext());
+            this.favoriti = this.userFavoriteAdapter.getAllUserFavorites(this.userAdapter.getUserFromSharedPrefs());
 
+            if (this.favoriti.size() > 0) {
+                for (Favorite f : this.favoriti) {
+                    Log.d("WATCHME", "onViewCreated: id:" + f.id + " slug:" + f.slug);
+
+                }
+            } else {
+                Log.d("WATCHME", "onViewCreated: favoriti prazni");
             }
-        } else {
-            Log.d("WATCHME", "onViewCreated: favoriti prazni");
+            initialize();
+            popisSerijaAdapter.notifyDataSetChanged();
+            mProgressBar.setVisibility(View.GONE);
         }
-        initialize();
-        popisSerijaAdapter.notifyDataSetChanged();
-        mProgressBar.setVisibility(View.GONE);
+        else{
+            //
+        }
     }
 
 
