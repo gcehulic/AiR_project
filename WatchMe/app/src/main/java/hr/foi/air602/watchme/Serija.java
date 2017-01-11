@@ -37,7 +37,7 @@ public class Serija {
             this.zanrovi = "";
             for(int i = 0; i < zanr.length(); i++){
                 this.zanrovi += zanr.get(i).toString();
-                if(i < zanr.length()-1) this.zanrovi += ";";
+                if(i < zanr.length()-1) this.zanrovi += ",";
             }
 
             this.trailer = jsonObject.getString("trailer");

@@ -60,6 +60,7 @@ public class NavigacijaActivity extends AppCompatActivity {
      */
     private GoogleApiClient client;
     private FavoritiFragment mPregledFragment;
+    private PreporucenoFragment mPreporucenoFragment;
     private Fragment fragment;
 
     @Override
@@ -76,6 +77,7 @@ public class NavigacijaActivity extends AppCompatActivity {
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
         mPregledFragment = new FavoritiFragment();
+        mPreporucenoFragment = new PreporucenoFragment();
 
     }
 
@@ -301,7 +303,7 @@ public class NavigacijaActivity extends AppCompatActivity {
                     break;
 
                 case 2:
-                    fragment = new PreporucenoFragment();
+                    fragment = mPreporucenoFragment;
                     break;
             }
 
@@ -330,6 +332,8 @@ public class NavigacijaActivity extends AppCompatActivity {
 
                 //showFloatingActionButton(true);
                 //sakrivanje float buttona true ili false
+            } else if(position == 2){
+                mPreporucenoFragment.initialize();
             } else {
                 showFloatingActionButton(false);
             }

@@ -5,7 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import hr.foi.air602.watchme.database.entities.Favorite;
@@ -79,5 +83,57 @@ public class FavoriteAdapter extends DataAdapter {
         SQLiteDatabase db = openToWrite();
         String[] args = {favorite.id};
         return db.delete(TABLE,"id = ?",args);
+    }
+
+    public String getRecommendedGenres(){
+        String result = "";
+
+        String[] columns = new String[]{"id", "genres"};
+        SQLiteDatabase db = openToRead();
+
+        Cursor cursor = db.query(TABLE, columns, null, null, null, null, null);
+
+        String tempGenres = "";
+        for(cursor.moveToFirst(); !(cursor.isAfterLast()); cursor.moveToNext()){
+            String genres = cursor.getString(cursor.getColumnIndex("genres"));
+            tempGenres += genres;
+            if(!cursor.isLast()){
+                tempGenres += ",";
+            }
+
+        }
+        if(tempGenres == "") return "";
+
+        String[] tempGenresArray = tempGenres.split(",");
+        JSONObject tempGenresJson = new JSONObject();
+        int count = 0;
+        try{
+            for(String genre : tempGenresArray) {
+                if(genre == "") continue;
+                if (tempGenresJson.has(genre)) {
+                    count = tempGenresJson.getInt(genre);
+                    count++;
+                    tempGenresJson.put(genre, count);
+                } else {
+                    tempGenresJson.put(genre, 0);
+                }
+            }
+
+            int maxCount = 0;
+            for(Iterator<String> iter = tempGenresJson.keys(); iter.hasNext();){
+                String genre = iter.next();
+                if(maxCount < tempGenresJson.getInt(genre)){
+                    result = genre;
+                    maxCount = tempGenresJson.getInt(genre);
+                }
+            }
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+
+        return result;
+
     }
 }

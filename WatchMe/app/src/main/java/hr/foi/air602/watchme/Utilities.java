@@ -36,4 +36,12 @@ public class Utilities {
         Log.d("UTIL", "izradaUrlSerijeID: "+url.toString());
         return url.toString();
     }
+
+    public static String izradaUrlSerijePreporuceno(String kategorija, String zanrovi){
+        StringBuilder url = new StringBuilder();
+        url.append(BASE_URL).append("shows").append("/").append(kategorija).append("?limit=").append(20).append("&extended=full").append("&genres=").append(zanrovi);
+        Log.d("UTIL", "izradaUrlSerije: "+url.toString());
+        return url.toString();
+    }
+
 }
