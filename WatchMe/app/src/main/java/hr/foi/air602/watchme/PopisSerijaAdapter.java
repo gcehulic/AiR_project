@@ -72,6 +72,10 @@ public class PopisSerijaAdapter extends BaseAdapter {
         holder.godina.setText("" + serija.getGodina() + ".");
 
         holder.idserije.setText(""+serija.getId_trakt());
+        holder.slug.setText(serija.getSlug());
+        holder.zanrovi.setText(serija.getZanrovi());
+        holder.emitiranje.setText(serija.getEmitiranje());
+        holder.mreza.setText(serija.getMreza());
 
         final String naslov_serije = serija.getNaslov().toString();
         String prvo_slovo_naslova = naslov_serije.substring(0, 1);
@@ -168,16 +172,18 @@ public class PopisSerijaAdapter extends BaseAdapter {
                 int korisnik = userAdapter.getUserFromSharedPrefs();
                 if(holder.odabirSerije.isChecked()){
                     if(!userFavoriteAdapter.doesFavoriteExists(korisnik, serijaID)){
+                        favoriteAdapter.insertFavorite(new Favorite(serijaID,holder.slug.getText().toString(),holder.zanrovi.getText().toString(),holder.emitiranje.getText().toString(),holder.mreza.getText().toString())); //PROMENITI
                         userFavoriteAdapter.insertUserFavorite(new UserFavorite(korisnik,serijaID));
 
                         Log.d("WATCHME", "onClick: oznaceno " + serijaID + " dodano u bazu" );
-                        favoriteAdapter.insertFavorite(new Favorite(serijaID,holder.naslov.getText().toString(),"","","")); //PROMENITI
+
 
                     }
 
                 } else {
                     if(userFavoriteAdapter.doesFavoriteExists(korisnik,serijaID)){
                         userFavoriteAdapter.deleteUserFavorite(new UserFavorite(korisnik,serijaID));
+                        favoriteAdapter.deleteFavorite(new Favorite(serijaID,"","","",""));
                         Log.d("WATCHME", "onClick: odznaceno i obrisano");
                     }
 
@@ -198,7 +204,7 @@ public class PopisSerijaAdapter extends BaseAdapter {
                 zanr_obiteljska, zanr_fantazija, zanr_sf, zanr_triler, zanr_reality, zanr_animirani;
         private ImageView prvo_slovo_naslova;
         private CheckBox odabirSerije;
-        private TextView kratica, emitranje, mreza;
+        private TextView slug, emitiranje, mreza, zanrovi;
 
         public ViewHolder(View v){
             this.naslov = (TextView) v.findViewById(R.id.serija_naslov);
@@ -221,7 +227,10 @@ public class PopisSerijaAdapter extends BaseAdapter {
             this.zanr_animirani = (TextView) v.findViewById(R.id.animirani);
 
             this.prvo_slovo_naslova = (ImageView) v.findViewById(R.id.image_view);
-
+            this.slug = (TextView) v.findViewById(R.id.slug);
+            this.zanrovi = (TextView) v.findViewById(R.id.zanrovi);
+            this.emitiranje = (TextView) v.findViewById(R.id.emitiranje);
+            this.mreza = (TextView) v.findViewById(R.id.mreza);
         }
     }
 

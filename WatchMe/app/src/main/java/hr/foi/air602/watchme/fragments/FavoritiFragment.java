@@ -163,7 +163,7 @@ public class FavoritiFragment extends Fragment implements AdapterView.OnItemClic
 
             if (this.favoriti.size() > 0) {
                 for (Favorite f : this.favoriti) {
-                    Log.d("WATCHME", "onViewCreated: id:" + f.id + " slug:" + f.slug);
+                    Log.d("WATCHME", "onViewCreated: id:" + f.id + " slug:" + f.slug +" zanrovi:" + f.genres + " airs:" + f.airs + " network:"+f.network);
 
                 }
             } else {

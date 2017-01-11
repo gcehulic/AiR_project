@@ -74,4 +74,10 @@ public class FavoriteAdapter extends DataAdapter {
         Favorite favorite = new Favorite(id,slug,genres,airs,network);
         return favorite;
     }
+
+    public long deleteFavorite(Favorite favorite){
+        SQLiteDatabase db = openToWrite();
+        String[] args = {favorite.id};
+        return db.delete(TABLE,"id = ?",args);
+    }
 }

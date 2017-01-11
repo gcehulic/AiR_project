@@ -1,5 +1,7 @@
 package hr.foi.air602.watchme;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,8 +16,10 @@ public class Serija {
     private int godina;
 
 
-    private int id_trakt, id_tvdb, id_imdb, id_tvrage;
+    private String id_trakt, id_tvdb, id_imdb, id_tvrage;
     private String slug, imdb, genres, trailer, opis, overview;
+    private String zanrovi;
+    private String emitiranje, mreza;
 
     public Serija(){
         naslov = "";
@@ -30,16 +34,23 @@ public class Serija {
 
             JSONArray zanr = jsonObject.getJSONArray("genres");
             this.genres = zanr.toString();
+            this.zanrovi = "";
+            for(int i = 0; i < zanr.length(); i++){
+                this.zanrovi += zanr.get(i).toString();
+                if(i < zanr.length()-1) this.zanrovi += ";";
+            }
 
             this.trailer = jsonObject.getString("trailer");
+            this.emitiranje = jsonObject.getJSONObject("airs").getString("day")+";"+jsonObject.getJSONObject("airs").getString("time")+";"+jsonObject.getJSONObject("airs").getString("timezone");
+            this.mreza = jsonObject.getString("network");
 
-            this.id_trakt = jsonObject.getJSONObject("ids").getInt("trakt");
-            this.id_imdb = jsonObject.getJSONObject("ids").getInt("imdb");
-            this.id_tvdb = jsonObject.getJSONObject("ids").getInt("tvdb");
-            this.id_tvrage = jsonObject.getJSONObject("ids").getInt("tvrage");
+
+            this.id_trakt = jsonObject.getJSONObject("ids").getString("trakt");
+            this.id_tvdb = jsonObject.getJSONObject("ids").getString("tvdb");
+            this.id_tvrage = jsonObject.getJSONObject("ids").getString("tvrage");
             this.slug = jsonObject.getJSONObject("ids").getString("slug");
             this.imdb = jsonObject.getJSONObject("ids").getString("imdb");
-
+            Log.d("WATCHME", "Serija: slug:"+this.slug);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -70,30 +81,30 @@ public class Serija {
         this.godina = godina;
     }
 
-    public int getId_trakt() {
+    public String getId_trakt() {
         return id_trakt;
     }
 
-    public void setId_trakt(int id_trakt) {
+    public void setId_trakt(String id_trakt) {
         this.id_trakt = id_trakt;
     }
 
-    public int getId_tvdb() {
+    public String getId_tvdb() {
         return id_tvdb;
     }
 
-    public void setId_tvdb(int id_tvdb) {
+    public void setId_tvdb(String id_tvdb) {
         this.id_tvdb = id_tvdb;
     }
 
-    public int getId_imdb() {
+/*    public String getId_imdb() {
         return id_imdb;
     }
 
     public void setId_imdb(int id_imdb) {
         this.id_imdb = id_imdb;
     }
-
+*/
     public String getTrailer() {
         return trailer;
     }
@@ -103,11 +114,11 @@ public class Serija {
     }
 
 
-    public int getId_tvrage() {
+    public String getId_tvrage() {
         return id_tvrage;
     }
 
-    public void setId_tvrage(int id_tvrage) {
+    public void setId_tvrage(String id_tvrage) {
         this.id_tvrage = id_tvrage;
     }
 
@@ -133,5 +144,17 @@ public class Serija {
 
     public void setGenres(String genres) {
         this.genres = genres;
+    }
+
+    public String getZanrovi() {
+        return zanrovi;
+    }
+
+    public String getEmitiranje() {
+        return emitiranje;
+    }
+
+    public String getMreza() {
+        return mreza;
     }
 }
