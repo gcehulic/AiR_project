@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import hr.foi.air602.watchme.PopisSerijaAdapter;
 import hr.foi.air602.watchme.R;
@@ -22,6 +23,9 @@ import hr.foi.air602.watchme.Utilities;
 import hr.foi.air602.watchme.async_tasks.DohvatSerijaAsyncTask;
 import hr.foi.air602.watchme.async_tasks.DohvatSerijaPreporucenoAsyncTask;
 import hr.foi.air602.watchme.database.FavoriteAdapter;
+import hr.foi.air602.watchme.database.UserAdapter;
+import hr.foi.air602.watchme.database.UserFavoriteAdapter;
+import hr.foi.air602.watchme.database.entities.Favorite;
 import hr.foi.air602.watchme.listeners.SerijeDohvacenePreporucenoListener;
 
 /**
@@ -29,10 +33,14 @@ import hr.foi.air602.watchme.listeners.SerijeDohvacenePreporucenoListener;
  */
 
 public class PreporucenoFragment extends Fragment implements SerijeDohvacenePreporucenoListener {
+
+
     private ArrayList<Serija> dohvaceneSerije;
     private ProgressBar mProgressBar;
     private ImageView internetGreska;
-    private ListView preporucenoListaSerija;
+  //  private ListView preporucenoListaSerija;
+    private ListView preporucenoListaSerija=null;
+
     private PopisSerijaAdapter popisSerijaAdapter;
     private FavoriteAdapter favoriteAdapter;
     @Override
@@ -44,21 +52,22 @@ public class PreporucenoFragment extends Fragment implements SerijeDohvacenePrep
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.preporuceno_layout, container, false);
-        preporucenoListaSerija = (ListView) rootView.findViewById(R.id.preporuceno_lista_serija);
+      //  preporucenoListaSerija = (ListView) rootView.findViewById(R.id.preporuceno_lista_serija);
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_spinner);
         mProgressBar.getIndeterminateDrawable().setColorFilter(0xFF3F51B5, android.graphics.PorterDuff.Mode.MULTIPLY);
-        mProgressBar.setVisibility(View.VISIBLE);
         internetGreska = (ImageView) rootView.findViewById(R.id.slikaInternet);
         favoriteAdapter = new FavoriteAdapter(this.getContext());
+
         initialize();
         return rootView;
     }
+
 
     public void initialize(){
 
         dohvaceneSerije = new ArrayList<>();
 
-        //listaSerija = (ListView) this.getActivity().findViewById(R.id.home_lista_serija);
+        preporucenoListaSerija = (ListView) this.getActivity().findViewById(R.id.preporuceno_lista_serija);
         String genres = favoriteAdapter.getRecommendedGenres();
         if(!genres.equals("")) {
             if (Utilities.povezanost(getActivity().getApplicationContext())) {
@@ -75,6 +84,7 @@ public class PreporucenoFragment extends Fragment implements SerijeDohvacenePrep
                 internetGreska.setVisibility(View.VISIBLE);
                 preporucenoListaSerija.setBackgroundColor(Color.WHITE);
             }
+
         } else {
             internetGreska.setVisibility(View.GONE);
             Log.d("WATCHME", "initialize: nema serija ili zanrova u tablici favoriti.");
@@ -82,6 +92,7 @@ public class PreporucenoFragment extends Fragment implements SerijeDohvacenePrep
         }
 
     }
+
 
     private void dohvatSerija(String url){
         new DohvatSerijaPreporucenoAsyncTask(this,this.getContext(),url).execute();
@@ -102,4 +113,6 @@ public class PreporucenoFragment extends Fragment implements SerijeDohvacenePrep
         this.popisSerijaAdapter = new PopisSerijaAdapter(dohvaceneSerije,this.getContext());
         preporucenoListaSerija.setAdapter(this.popisSerijaAdapter);
     }
+
+
 }

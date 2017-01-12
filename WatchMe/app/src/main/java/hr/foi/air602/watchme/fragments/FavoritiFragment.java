@@ -68,8 +68,6 @@ public class FavoritiFragment extends Fragment implements AdapterView.OnItemClic
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //init();
-
-
     }
    private  void initialize(){
 
@@ -155,7 +153,6 @@ public class FavoritiFragment extends Fragment implements AdapterView.OnItemClic
     }
 
     public void init() {
-
         if(Utilities.povezanost(getActivity().getApplicationContext())) {
             this.userFavoriteAdapter = new UserFavoriteAdapter(getContext());
             this.userAdapter = new UserAdapter(getContext());

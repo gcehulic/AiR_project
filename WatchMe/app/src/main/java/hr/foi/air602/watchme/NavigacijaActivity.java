@@ -22,6 +22,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
+import android.widget.Toast;
 
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
@@ -59,9 +60,10 @@ public class NavigacijaActivity extends AppCompatActivity {
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-    private FavoritiFragment mPregledFragment;
+    private FavoritiFragment mFavoritiFragment;
     private PreporucenoFragment mPreporucenoFragment;
     private Fragment fragment;
+    private Intent mIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +78,10 @@ public class NavigacijaActivity extends AppCompatActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-        mPregledFragment = new FavoritiFragment();
+        mFavoritiFragment = new FavoritiFragment();
         mPreporucenoFragment = new PreporucenoFragment();
+
+        mIntent = getIntent();
 
     }
 
@@ -143,6 +147,14 @@ public class NavigacijaActivity extends AppCompatActivity {
 
         mNavigationViewPager.setOffscreenPageLimit(4);
         mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        if (getIntent().getBooleanExtra("reload", false)) {
+            //mBottomNavigation.setCurrentItem(2);
+            mNavigationViewPager.setCurrentItem(2);
+
+
+
+        }
+
         mNavigationViewPager.setAdapter(mViewPagerAdapter);
         //mBottomNavigation.setNotification("16", 1);
 
@@ -299,17 +311,17 @@ public class NavigacijaActivity extends AppCompatActivity {
                     break;
 
                 case 1:
-                    fragment = mPregledFragment;
+                    fragment = mFavoritiFragment;
                     break;
 
                 case 2:
                     fragment = mPreporucenoFragment;
+
                     break;
             }
 
+
             return fragment;
-
-
         }
 
         @Override
@@ -327,14 +339,30 @@ public class NavigacijaActivity extends AppCompatActivity {
 
             if (position == 1) {
 
-                mPregledFragment.init();
-
+                mFavoritiFragment.init();
 
                 //showFloatingActionButton(true);
                 //sakrivanje float buttona true ili false
             } else if(position == 2){
-                mPreporucenoFragment.initialize();
-            } else {
+
+              //Toast.makeText(mContext, "Kliknuto", Toast.LENGTH_LONG).show();
+
+                if (getIntent().getBooleanExtra("reload", false)) {
+                   // mBottomNavigation.setCurrentItem(2);
+                    mNavigationViewPager.setCurrentItem(2);
+                    mPreporucenoFragment.initialize();
+
+                } else {
+                    finish();
+                    Intent intent = new Intent(mActivity, NavigacijaActivity.class);
+                    intent.putExtra("reload", true);
+                    startActivity(intent);
+
+                }
+
+
+            }
+            else {
                 showFloatingActionButton(false);
             }
 
