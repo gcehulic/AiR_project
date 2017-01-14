@@ -122,7 +122,7 @@ public class FavoriteAdapter extends DataAdapter {
             int maxCount = 0;
             for(Iterator<String> iter = tempGenresJson.keys(); iter.hasNext();){
                 String genre = iter.next();
-                if(maxCount < tempGenresJson.getInt(genre)){
+                if(maxCount <= tempGenresJson.getInt(genre)){
                     result = genre;
                     maxCount = tempGenresJson.getInt(genre);
                 }

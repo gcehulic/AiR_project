@@ -341,26 +341,15 @@ public class NavigacijaActivity extends AppCompatActivity {
 
                 mFavoritiFragment.init();
 
-                //showFloatingActionButton(true);
-                //sakrivanje float buttona true ili false
             } else if(position == 2){
 
-              //Toast.makeText(mContext, "Kliknuto", Toast.LENGTH_LONG).show();
+                mPreporucenoFragment.initialize();
 
-                if (getIntent().getBooleanExtra("reload", false)) {
-                   // mBottomNavigation.setCurrentItem(2);
-                    mNavigationViewPager.setCurrentItem(2);
-                    mPreporucenoFragment.initialize();
-
-                } else {
-                    finish();
-                    Intent intent = new Intent(mActivity, NavigacijaActivity.class);
-                    intent.putExtra("reload", true);
-                    startActivity(intent);
-
-                }
-
-
+            } else if(position == 0){
+                finish();
+                Intent intent = new Intent(mActivity, NavigacijaActivity.class);
+                intent.putExtra("reload", true);
+                startActivity(intent);
             }
             else {
                 showFloatingActionButton(false);

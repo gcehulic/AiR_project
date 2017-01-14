@@ -56,6 +56,7 @@ public class FavoritiFragment extends Fragment implements AdapterView.OnItemClic
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_spinner);
         mProgressBar.getIndeterminateDrawable().setColorFilter(0xFF3F51B5, android.graphics.PorterDuff.Mode.MULTIPLY);
         nemaFavorita = (TextView) rootView.findViewById(R.id.nema_favorita);
+        mProgressBar.setVisibility(View.VISIBLE);
 
         return rootView;
     }
@@ -168,10 +169,9 @@ public class FavoritiFragment extends Fragment implements AdapterView.OnItemClic
             }
             initialize();
             popisSerijaAdapter.notifyDataSetChanged();
-            mProgressBar.setVisibility(View.GONE);
         }
         else{
-            //
+            mProgressBar.setVisibility(View.GONE);
         }
     }
 

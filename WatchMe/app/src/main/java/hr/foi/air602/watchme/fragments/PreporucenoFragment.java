@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -38,9 +39,8 @@ public class PreporucenoFragment extends Fragment implements SerijeDohvacenePrep
     private ArrayList<Serija> dohvaceneSerije;
     private ProgressBar mProgressBar;
     private ImageView internetGreska;
-  //  private ListView preporucenoListaSerija;
     private ListView preporucenoListaSerija=null;
-
+    private TextView nemaPreporuka;
     private PopisSerijaAdapter popisSerijaAdapter;
     private FavoriteAdapter favoriteAdapter;
     @Override
@@ -56,10 +56,17 @@ public class PreporucenoFragment extends Fragment implements SerijeDohvacenePrep
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_spinner);
         mProgressBar.getIndeterminateDrawable().setColorFilter(0xFF3F51B5, android.graphics.PorterDuff.Mode.MULTIPLY);
         internetGreska = (ImageView) rootView.findViewById(R.id.slikaInternet);
+        nemaPreporuka = (TextView) rootView.findViewById(R.id.nemaPreporuka);
+        mProgressBar.setVisibility(View.VISIBLE);
         favoriteAdapter = new FavoriteAdapter(this.getContext());
 
-        initialize();
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initialize();
     }
 
 
@@ -69,26 +76,30 @@ public class PreporucenoFragment extends Fragment implements SerijeDohvacenePrep
 
         preporucenoListaSerija = (ListView) this.getActivity().findViewById(R.id.preporuceno_lista_serija);
         String genres = favoriteAdapter.getRecommendedGenres();
-        if(!genres.equals("")) {
-            if (Utilities.povezanost(getActivity().getApplicationContext())) {
+        if (Utilities.povezanost(getActivity().getApplicationContext())) {
+            if(!genres.equals("")) {
+                preporucenoListaSerija.setVisibility(View.VISIBLE);
                 String url = Utilities.izradaUrlSerijePreporuceno("trending", genres);
                 this.dohvatSerija(url);
                 setListViewAdapter();
-                //listaSerija.setOnItemClickListener(this);
-                //listaSerija.setOnScrollListener(this.onScrollListener());
                 internetGreska.setVisibility(View.GONE);
+                nemaPreporuka.setVisibility(View.GONE);
+                mProgressBar.setVisibility(View.GONE);
 
             } else {
-                Toast.makeText(this.getContext(), "Niste spojeni na internet", Toast.LENGTH_LONG).show();
+                internetGreska.setVisibility(View.GONE);
+                Log.d("WATCHME", "initialize: nema serija ili zanrova u tablici favoriti.");
+                nemaPreporuka.setVisibility(View.VISIBLE);
                 mProgressBar.setVisibility(View.GONE);
-                internetGreska.setVisibility(View.VISIBLE);
-                preporucenoListaSerija.setBackgroundColor(Color.WHITE);
+                preporucenoListaSerija.setVisibility(View.GONE);
             }
 
         } else {
+            //Toast.makeText(this.getContext(), "Niste spojeni na internet", Toast.LENGTH_LONG).show();
+            mProgressBar.setVisibility(View.GONE);
             internetGreska.setVisibility(View.GONE);
-            Log.d("WATCHME", "initialize: nema serija ili zanrova u tablici favoriti.");
-            //TODO prikazati da nema preporuka i maknuti progress bar
+            nemaPreporuka.setVisibility(View.GONE);
+            //preporucenoListaSerija.setBackgroundColor(Color.WHITE);
         }
 
     }
@@ -106,7 +117,6 @@ public class PreporucenoFragment extends Fragment implements SerijeDohvacenePrep
             Log.d("HOMEFRAGMENT", "serijeDohvacene: "+s.getNaslov()+" "+s.getGodina()+" "+ s.getGenres());
         }
         popisSerijaAdapter.notifyDataSetChanged();
-        mProgressBar.setVisibility(View.GONE);
     }
 
     private void setListViewAdapter(){
