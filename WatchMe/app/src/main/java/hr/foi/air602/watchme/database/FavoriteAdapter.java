@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,8 +13,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import hr.foi.air602.watchme.Utilities;
 import hr.foi.air602.watchme.database.entities.Favorite;
 import hr.foi.air602.watchme.database.entities.User;
+import hr.foi.air602.watchme.database.entities.UserFavorite;
 
 /**
  * Created by Goran on 20.12.2016..
@@ -21,10 +24,13 @@ import hr.foi.air602.watchme.database.entities.User;
 
 public class FavoriteAdapter extends DataAdapter {
 
+    private UserFavoriteAdapter userFavoriteAdapter = null;
+    private UserAdapter userAdapter = null;
     private static final String TABLE = "Favorite";
-
     public FavoriteAdapter(Context context) {
         super(context);
+        userFavoriteAdapter = new UserFavoriteAdapter(context);
+        userAdapter = new UserAdapter(context);
     }
 
 
@@ -86,6 +92,7 @@ public class FavoriteAdapter extends DataAdapter {
     }
 
     public String getRecommendedGenres(){
+
         String result = "";
 
         String[] columns = new String[]{"id", "genres"};
@@ -93,14 +100,22 @@ public class FavoriteAdapter extends DataAdapter {
 
         Cursor cursor = db.query(TABLE, columns, null, null, null, null, null);
 
+
+        //ako id serije za korisnika X postoji u tablici UserFavorite i u Favorite, tek onda se
+            // radi popis žanrova koji se sviđaju korisniku X
+
         String tempGenres = "";
         for(cursor.moveToFirst(); !(cursor.isAfterLast()); cursor.moveToNext()){
+            boolean postojiZanr = false;
             String genres = cursor.getString(cursor.getColumnIndex("genres"));
-            tempGenres += genres;
-            if(!cursor.isLast()){
-                tempGenres += ",";
+            String idSerije = cursor.getString(cursor.getColumnIndex("id"));
+            postojiZanr = userFavoriteAdapter.doesFavoriteExists(userAdapter.getUserFromSharedPrefs(),idSerije);
+            if(postojiZanr==true) {
+                tempGenres += genres;
+                if (!cursor.isLast()) {
+                    tempGenres += ",";
+                }
             }
-
         }
         if(tempGenres == "") return "";
 
@@ -130,8 +145,6 @@ public class FavoriteAdapter extends DataAdapter {
         }catch (JSONException e) {
             e.printStackTrace();
         }
-
-
 
         return result;
 

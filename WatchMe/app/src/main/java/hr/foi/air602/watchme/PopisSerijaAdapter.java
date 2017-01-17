@@ -183,7 +183,7 @@ public class PopisSerijaAdapter extends BaseAdapter {
                 } else {
                     if(userFavoriteAdapter.doesFavoriteExists(korisnik,serijaID)){
                         userFavoriteAdapter.deleteUserFavorite(new UserFavorite(korisnik,serijaID));
-                        favoriteAdapter.deleteFavorite(new Favorite(serijaID,"","","",""));
+                        //favoriteAdapter.deleteFavorite(new Favorite(serijaID,"","","",""));
                         Log.d("WATCHME", "onClick: odznaceno i obrisano");
                     }
 
