@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "769819348835",
+    "firebase_url": "https://watchme-8d892.firebaseio.com",
+    "project_id": "watchme-8d892",
+    "storage_bucket": "watchme-8d892.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:769819348835:android:523a0e4c227415d5",
+        "android_client_info": {
+          "package_name": "hr.foi.air602.notification"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "769819348835-gfsmjjvq44a6bg737ibj2bm5rl8cu60b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6HkofPm-pvlN_OrQupC-K-kgX8VcSEUs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
