@@ -69,14 +69,18 @@ public class PocetnaFragment extends Fragment implements SerijeDohvaceneListener
         return rootView;
     }
 
+
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initialize();
+        //initialize();
         this.userFavoriteAdapter = new UserFavoriteAdapter(getContext());
         this.userAdapter = new UserAdapter(getContext());
         this.favoriti = this.userFavoriteAdapter.getAllUserFavorites(this.userAdapter.getUserFromSharedPrefs());
 
+
+        initialize();
        /* if(this.favoriti.size() > 0) {
             for (Favorite f : this.favoriti) {
                 Log.d("WATCHME", "onViewCreated: id:" + f.id + " slug:" + f.slug);
@@ -88,7 +92,7 @@ public class PocetnaFragment extends Fragment implements SerijeDohvaceneListener
         }*/
     }
 
-    private  void initialize(){
+    public  void initialize(){
 
         dohvaceneSerije = new ArrayList<>();
 
@@ -133,7 +137,6 @@ public class PocetnaFragment extends Fragment implements SerijeDohvaceneListener
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-
         Serija serije = dohvaceneSerije.get(position);
 
         Intent i = new Intent(getActivity(), SerijaDetalji.class);
@@ -142,7 +145,6 @@ public class PocetnaFragment extends Fragment implements SerijeDohvaceneListener
           i.putExtra("zanrovi",serije.getGenres());
           i.putExtra("trailer", serije.getTrailer());
           i.putExtra("opis", serije.getOpis());
-
 
         startActivity(i);
 

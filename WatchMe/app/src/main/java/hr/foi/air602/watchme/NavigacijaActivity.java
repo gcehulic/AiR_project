@@ -62,6 +62,7 @@ public class NavigacijaActivity extends AppCompatActivity {
     private GoogleApiClient client;
     private FavoritiFragment mFavoritiFragment;
     private PreporucenoFragment mPreporucenoFragment;
+    private PocetnaFragment mPocetnaFragment;
     private Fragment fragment;
     private Intent mIntent;
 
@@ -80,6 +81,7 @@ public class NavigacijaActivity extends AppCompatActivity {
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
         mFavoritiFragment = new FavoritiFragment();
         mPreporucenoFragment = new PreporucenoFragment();
+        mPocetnaFragment = new PocetnaFragment();
 
         mIntent = getIntent();
 
@@ -150,9 +152,6 @@ public class NavigacijaActivity extends AppCompatActivity {
         if (getIntent().getBooleanExtra("reload", false)) {
             //mBottomNavigation.setCurrentItem(2);
             mNavigationViewPager.setCurrentItem(2);
-
-
-
         }
 
         mNavigationViewPager.setAdapter(mViewPagerAdapter);
@@ -307,7 +306,8 @@ public class NavigacijaActivity extends AppCompatActivity {
             fragment = new Fragment();
             switch (position) {
                 case 0:
-                    fragment = new PocetnaFragment();
+                   // fragment = new PocetnaFragment();
+                    fragment = mPocetnaFragment;
                     break;
 
                 case 1:
@@ -346,10 +346,12 @@ public class NavigacijaActivity extends AppCompatActivity {
                 mPreporucenoFragment.initialize();
 
             } else if(position == 0){
-                finish();
-                Intent intent = new Intent(mActivity, NavigacijaActivity.class);
-                intent.putExtra("reload", true);
-                startActivity(intent);
+
+                mPocetnaFragment.initialize();
+              //  finish();
+              //  Intent intent = new Intent(mActivity, NavigacijaActivity.class);
+              //  intent.putExtra("reload", true);
+              //  startActivity(intent);
             }
             else {
                 showFloatingActionButton(false);

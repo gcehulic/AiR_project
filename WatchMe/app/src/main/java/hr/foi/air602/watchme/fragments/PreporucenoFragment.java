@@ -1,5 +1,6 @@
 package hr.foi.air602.watchme.fragments;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -20,6 +22,7 @@ import java.util.List;
 import hr.foi.air602.watchme.PopisSerijaAdapter;
 import hr.foi.air602.watchme.R;
 import hr.foi.air602.watchme.Serija;
+import hr.foi.air602.watchme.SerijaDetalji;
 import hr.foi.air602.watchme.Utilities;
 import hr.foi.air602.watchme.async_tasks.DohvatSerijaAsyncTask;
 import hr.foi.air602.watchme.async_tasks.DohvatSerijaPreporucenoAsyncTask;
@@ -33,7 +36,7 @@ import hr.foi.air602.watchme.listeners.SerijeDohvacenePreporucenoListener;
  * Created by markopc on 11/2/2016.
  */
 
-public class PreporucenoFragment extends Fragment implements SerijeDohvacenePreporucenoListener {
+public class PreporucenoFragment extends Fragment implements  SerijeDohvacenePreporucenoListener, AdapterView.OnItemClickListener{
 
 
     private ArrayList<Serija> dohvaceneSerije;
@@ -52,7 +55,6 @@ public class PreporucenoFragment extends Fragment implements SerijeDohvacenePrep
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.preporuceno_layout, container, false);
-      //  preporucenoListaSerija = (ListView) rootView.findViewById(R.id.preporuceno_lista_serija);
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_spinner);
         mProgressBar.getIndeterminateDrawable().setColorFilter(0xFF3F51B5, android.graphics.PorterDuff.Mode.MULTIPLY);
         internetGreska = (ImageView) rootView.findViewById(R.id.slikaInternet);
@@ -82,6 +84,7 @@ public class PreporucenoFragment extends Fragment implements SerijeDohvacenePrep
                 String url = Utilities.izradaUrlSerijePreporuceno("trending", genres);
                 this.dohvatSerija(url);
                 setListViewAdapter();
+                preporucenoListaSerija.setOnItemClickListener(this);
                 internetGreska.setVisibility(View.GONE);
                 nemaPreporuka.setVisibility(View.GONE);
                 mProgressBar.setVisibility(View.GONE);
@@ -109,6 +112,22 @@ public class PreporucenoFragment extends Fragment implements SerijeDohvacenePrep
         new DohvatSerijaPreporucenoAsyncTask(this,this.getContext(),url).execute();
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        Serija serije = dohvaceneSerije.get(position);
+
+        Intent i = new Intent(getActivity(), SerijaDetalji.class);
+        i.putExtra("naslov",serije.getNaslov());
+        i.putExtra("godina",serije.getGodina());
+        i.putExtra("zanrovi",serije.getGenres());
+        i.putExtra("trailer", serije.getTrailer());
+        i.putExtra("opis", serije.getOpis());
+
+        startActivity(i);
+
+    }
+
 
     @Override
     public void serijeDohvacenePreporuceno(ArrayList<Serija> serije) {
@@ -119,10 +138,12 @@ public class PreporucenoFragment extends Fragment implements SerijeDohvacenePrep
         popisSerijaAdapter.notifyDataSetChanged();
     }
 
+
     private void setListViewAdapter(){
         this.popisSerijaAdapter = new PopisSerijaAdapter(dohvaceneSerije,this.getContext());
         preporucenoListaSerija.setAdapter(this.popisSerijaAdapter);
     }
+
 
 
 }

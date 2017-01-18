@@ -61,9 +61,7 @@ public class FavoritiFragment extends Fragment implements AdapterView.OnItemClic
         return rootView;
     }
 
-    public FavoritiFragment() {
 
-    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
