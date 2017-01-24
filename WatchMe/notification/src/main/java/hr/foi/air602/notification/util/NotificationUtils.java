@@ -33,12 +33,13 @@ public class NotificationUtils {
         this.mContext = mContext;
     }
 
-    public void showNotificationMessage(String title, String message, String timestamp, int icon, Intent intent){
-        showNotificationMessage(title, message, timestamp, icon, intent, null);
+    public void showNotificationMessage(String title, String message, Intent intent) {
+
+        showNotificationMessage(title, message, intent, null);
     }
 
 
-    public void showNotificationMessage(final String title, final String message, final String timestamp, int icon, Intent intent, String imageUrl){
+    public void showNotificationMessage(final String title, final String message, Intent intent, String imageUrl){
         if(TextUtils.isEmpty(message)) return;
 
 
@@ -52,12 +53,12 @@ public class NotificationUtils {
 
 
         final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext);
-        showSmallNotification(mBuilder, icon,title, message,timestamp,resultPendingIntent);
+        showSmallNotification(mBuilder,title, message,resultPendingIntent);
 
     }
 
 
-    private void showSmallNotification(NotificationCompat.Builder mBuilder, int icon, String title, String message, String timestamp, PendingIntent resultPendingIntent){
+    private void showSmallNotification(NotificationCompat.Builder mBuilder, String title, String message, PendingIntent resultPendingIntent){
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
         inboxStyle.addLine(message);
         Notification notification;
@@ -66,9 +67,9 @@ public class NotificationUtils {
                 .setContentTitle(title)
                 .setContentIntent(resultPendingIntent)
                 .setStyle(inboxStyle)
-                .setWhen(getTimeMilliSec(timestamp))
-                .setSmallIcon(icon)
+                //          .setWhen(DateTime.now().getMillis())
                 .setContentText(message)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .build();
         NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(Config.NOTIFICATION_ID, notification);
@@ -110,7 +111,7 @@ public class NotificationUtils {
                 isInBackground = false;
             }
         }
-        return  isInBackground;
+        return true;
     }
 
     public static void clearNotifications(Context context){

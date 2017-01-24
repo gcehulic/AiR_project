@@ -17,6 +17,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -35,6 +36,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
 
+import hr.foi.air602.notification.service.MyFirebaseMessagingService;
 import hr.foi.air602.watchme.fragments.PocetnaFragment;
 import hr.foi.air602.watchme.fragments.FavoritiFragment;
 import hr.foi.air602.watchme.fragments.PreporucenoFragment;
@@ -84,6 +86,9 @@ public class NavigacijaActivity extends AppCompatActivity {
         mPocetnaFragment = new PocetnaFragment();
 
         mIntent = getIntent();
+        MyFirebaseMessagingService.getInstance().setContext(getApplicationContext());
+        MyFirebaseMessagingService.getInstance().setup(getApplicationContext());
+        MyFirebaseMessagingService.getInstance().schedulingNotifs(null);
 
     }
 
@@ -249,6 +254,19 @@ public class NavigacijaActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyFirebaseMessagingService.getInstance().registerBroadcast();
+        Log.e(TAG, "onResume: Setting up bsckground service..");
+
+    }
+
+    @Override
+    protected void onPause() {
+        MyFirebaseMessagingService.getInstance().unregisterBroadcast();
+        super.onPause();
+    }
 
     public void showBottomNavigation(boolean show) {
         if (show) {
