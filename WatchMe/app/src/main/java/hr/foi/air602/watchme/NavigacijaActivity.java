@@ -40,6 +40,7 @@ import hr.foi.air602.notification.service.MyFirebaseMessagingService;
 import hr.foi.air602.watchme.fragments.PocetnaFragment;
 import hr.foi.air602.watchme.fragments.FavoritiFragment;
 import hr.foi.air602.watchme.fragments.PreporucenoFragment;
+import hr.foi.air602.watchme.strategies.ScheduledNotificationStrategy;
 
 /**
  * Created by markopc on 11/2/2016.
@@ -88,7 +89,7 @@ public class NavigacijaActivity extends AppCompatActivity {
         mIntent = getIntent();
         MyFirebaseMessagingService.getInstance().setContext(getApplicationContext());
         MyFirebaseMessagingService.getInstance().setup(getApplicationContext());
-        MyFirebaseMessagingService.getInstance().schedulingNotifs(null);
+        MyFirebaseMessagingService.getInstance().schedulingNotifs(ScheduledNotificationStrategy.getInstance(getApplicationContext()));
 
     }
 

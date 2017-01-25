@@ -75,6 +75,18 @@ public class UserAdapter extends DataAdapter{
         return id;
     }
 
+    public String getUserEmail(String username, String password){
+        String[] columns = new String[]{KEY_ID, "name", "surname", "mail", "username", "password"};
+        SQLiteDatabase db = openToRead();
+
+        String[] args = {username, password};
+        Cursor cursor = db.query(TABLE, columns, "username=? AND password=?", args, null, null, null);
+        cursor.moveToFirst();
+        String email = cursor.getString(cursor.getColumnIndex("mail"));
+        cursor.close();
+        return email;
+    }
+
     public int getUserFromSharedPrefs(){
         SharedPreferences sp = context.getSharedPreferences("loggeduser",Context.MODE_PRIVATE);
         return sp.getInt("user",0);

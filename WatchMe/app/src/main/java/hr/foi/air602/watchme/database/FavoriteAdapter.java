@@ -9,6 +9,7 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -22,7 +23,7 @@ import hr.foi.air602.watchme.database.entities.UserFavorite;
  * Created by Goran on 20.12.2016..
  */
 
-public class FavoriteAdapter extends DataAdapter {
+public class FavoriteAdapter extends DataAdapter{
 
     private UserFavoriteAdapter userFavoriteAdapter = null;
     private UserAdapter userAdapter = null;

@@ -211,7 +211,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
                     @Override
                     public void onResponse(String response) {
                         // progressDialog.dismiss();
-
+                        Log.e(TAG, "onResponse: "+response);
                         Toast.makeText(ctx, response, Toast.LENGTH_LONG).show();
                     }
                 },

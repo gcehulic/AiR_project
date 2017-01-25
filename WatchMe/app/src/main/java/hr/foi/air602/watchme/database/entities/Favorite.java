@@ -1,10 +1,12 @@
 package hr.foi.air602.watchme.database.entities;
 
+import java.io.Serializable;
+
 /**
  * Created by Goran on 20.12.2016..
  */
 
-public class Favorite {
+public class Favorite implements Serializable {
     public String id;
     public String slug;
     public String genres; // odvojeno ;

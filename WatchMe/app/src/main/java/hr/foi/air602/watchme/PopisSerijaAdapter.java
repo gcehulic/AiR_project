@@ -20,6 +20,7 @@ import hr.foi.air602.watchme.database.UserAdapter;
 import hr.foi.air602.watchme.database.UserFavoriteAdapter;
 import hr.foi.air602.watchme.database.entities.Favorite;
 import hr.foi.air602.watchme.database.entities.UserFavorite;
+import hr.foi.air602.watchme.strategies.ScheduledNotificationStrategy;
 
 /**
  * Created by Goran on 23.11.2016..
@@ -188,6 +189,7 @@ public class PopisSerijaAdapter extends BaseAdapter {
                     }
 
                 }
+                ScheduledNotificationStrategy.getInstance(context.getApplicationContext()).updateList(favoriteAdapter.getAllFavorites());
             }
         });
 

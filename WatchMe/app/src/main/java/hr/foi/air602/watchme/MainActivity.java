@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity{
             SharedPreferences sharedPreferences = getSharedPreferences("loggeduser",MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putInt("user",userAdapter.getUserId(userName,password));
+            editor.putString("email",userAdapter.getUserEmail(userName,password));
             editor.commit();
             //Toast.makeText(MainActivity.this, "Prijava je uspješno izvršena!", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(MainActivity.this, NavigacijaActivity.class);
