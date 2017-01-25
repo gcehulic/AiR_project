@@ -18,30 +18,30 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import hr.foi.air602.watchme.PopisSerijaAdapter;
+import hr.foi.air602.watchme.Series;
+import hr.foi.air602.watchme.SeriesListAdapter;
 import hr.foi.air602.watchme.R;
-import hr.foi.air602.watchme.Serija;
-import hr.foi.air602.watchme.SerijaDetalji;
+import hr.foi.air602.watchme.SeriesDetails;
 import hr.foi.air602.watchme.Utilities;
-import hr.foi.air602.watchme.async_tasks.DohvatSerijaPoIdAsyncTask;
+import hr.foi.air602.watchme.async_tasks.LoadSeriesFromIdAsyncTask;
 import hr.foi.air602.watchme.database.UserAdapter;
 import hr.foi.air602.watchme.database.UserFavoriteAdapter;
 import hr.foi.air602.watchme.database.entities.Favorite;
-import hr.foi.air602.watchme.listeners.SerijeDohvacenePoIdListener;
+import hr.foi.air602.watchme.listeners.SeriesLoadedFromIdListener;
 
 /**
  * Created by markopc on 11/2/2016.
  */
 
-public class FavoritiFragment extends Fragment implements AdapterView.OnItemClickListener, SerijeDohvacenePoIdListener {
+public class FavoritesFragment extends Fragment implements AdapterView.OnItemClickListener, SeriesLoadedFromIdListener {
 
     private UserFavoriteAdapter userFavoriteAdapter = null;
     private UserAdapter userAdapter = null;
     private List<Favorite> favoriti = new ArrayList<>();
     private ListView listaSerija = null;
     private ProgressBar mProgressBar;
-    public static ArrayList<Serija> dohvaceneSerije;
-    public static PopisSerijaAdapter popisSerijaAdapter;
+    public static ArrayList<Series> dohvaceneSerije;
+    public static SeriesListAdapter seriesListAdapter;
     private TextView nemaFavorita;
 
     @Override
@@ -53,9 +53,9 @@ public class FavoritiFragment extends Fragment implements AdapterView.OnItemClic
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.pregled_layout, container, false);
-        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_spinner);
+        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progressSpinner);
         mProgressBar.getIndeterminateDrawable().setColorFilter(0xFF3F51B5, android.graphics.PorterDuff.Mode.MULTIPLY);
-        nemaFavorita = (TextView) rootView.findViewById(R.id.nema_favorita);
+        nemaFavorita = (TextView) rootView.findViewById(R.id.nemaFavorita);
         mProgressBar.setVisibility(View.VISIBLE);
 
         return rootView;
@@ -72,9 +72,9 @@ public class FavoritiFragment extends Fragment implements AdapterView.OnItemClic
 
         dohvaceneSerije = new ArrayList<>();
 
-        listaSerija = (ListView) this.getActivity().findViewById(R.id.pregled_lista_serija);
+        listaSerija = (ListView) this.getActivity().findViewById(R.id.pregledListaSerija);
 
-        if(Utilities.povezanost(getActivity().getApplicationContext())){
+        if(Utilities.connection(getActivity().getApplicationContext())){
 
             this.favoriti = this.userFavoriteAdapter.getAllUserFavorites(this.userAdapter.getUserFromSharedPrefs());
 
@@ -82,8 +82,8 @@ public class FavoritiFragment extends Fragment implements AdapterView.OnItemClic
                 nemaFavorita.setVisibility(View.GONE);
                 for (Favorite f : this.favoriti) {
                     Log.d("WATCHME", "onViewCreated: id:" + f.id + " slug:" + f.slug);
-                    String url = Utilities.izradaUrlSerijePoId(f.id);
-                    this.dohvatSerijaPoId(url);
+                    String url = Utilities.makeUrlSeriesFromId(f.id);
+                    this.loadSeriesFromId(url);
                 }
             } else {
                 Log.d("WATCHME", "onViewCreated: favoriti prazni");
@@ -116,16 +116,16 @@ public class FavoritiFragment extends Fragment implements AdapterView.OnItemClic
         };
     }
 
-    private void dohvatSerijaPoId(String url){
-        new DohvatSerijaPoIdAsyncTask(this,this.getContext(),url).execute();
+    private void loadSeriesFromId(String url){
+        new LoadSeriesFromIdAsyncTask(this,this.getContext(),url).execute();
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        Serija serije = dohvaceneSerije.get(position);
+        Series serije = dohvaceneSerije.get(position);
 
-        Intent i = new Intent(getActivity(), SerijaDetalji.class);
+        Intent i = new Intent(getActivity(), SeriesDetails.class);
         i.putExtra("naslov",serije.getNaslov());
         i.putExtra("godina",serije.getGodina());
         i.putExtra("zanrovi",serije.getGenres());
@@ -136,23 +136,23 @@ public class FavoritiFragment extends Fragment implements AdapterView.OnItemClic
     }
 
     @Override
-    public void serijeDohvacenePoId(Serija serija) {
-        FavoritiFragment.dohvaceneSerije.add(serija);
-        for (Serija s: PocetnaFragment.dohvaceneSerije) {
-            Log.d("HOMEFRAGMENT", "serijeDohvacene: "+s.getNaslov()+" "+s.getGodina()+" "+ s.getGenres());
+    public void seriesLoadedFromId(Series series) {
+        FavoritesFragment.dohvaceneSerije.add(series);
+        for (Series s: HomeFragment.dohvaceneSerije) {
+            Log.d("HOMEFRAGMENT", "seriesLoaded: "+s.getNaslov()+" "+s.getGodina()+" "+ s.getGenres());
         }
-        popisSerijaAdapter.notifyDataSetChanged();
+        seriesListAdapter.notifyDataSetChanged();
         mProgressBar.setVisibility(View.GONE);
     }
 
     private void setListViewAdapter(){
-        this.popisSerijaAdapter = new PopisSerijaAdapter(dohvaceneSerije,this.getContext());
-        listaSerija.setAdapter(this.popisSerijaAdapter);
+        this.seriesListAdapter = new SeriesListAdapter(dohvaceneSerije,this.getContext());
+        listaSerija.setAdapter(this.seriesListAdapter);
 
     }
 
     public void init() {
-        if(Utilities.povezanost(getActivity().getApplicationContext())) {
+        if(Utilities.connection(getActivity().getApplicationContext())) {
             this.userFavoriteAdapter = new UserFavoriteAdapter(getContext());
             this.userAdapter = new UserAdapter(getContext());
             this.favoriti = this.userFavoriteAdapter.getAllUserFavorites(this.userAdapter.getUserFromSharedPrefs());
@@ -166,7 +166,7 @@ public class FavoritiFragment extends Fragment implements AdapterView.OnItemClic
                 Log.d("WATCHME", "onViewCreated: favoriti prazni");
             }
             initialize();
-            popisSerijaAdapter.notifyDataSetChanged();
+            seriesListAdapter.notifyDataSetChanged();
         }
         else{
             mProgressBar.setVisibility(View.GONE);

@@ -23,7 +23,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
-import android.widget.Toast;
 
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
@@ -37,17 +36,17 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import java.util.ArrayList;
 
 import hr.foi.air602.notification.service.MyFirebaseMessagingService;
-import hr.foi.air602.watchme.fragments.PocetnaFragment;
-import hr.foi.air602.watchme.fragments.FavoritiFragment;
-import hr.foi.air602.watchme.fragments.PreporucenoFragment;
+import hr.foi.air602.watchme.fragments.HomeFragment;
+import hr.foi.air602.watchme.fragments.FavoritesFragment;
+import hr.foi.air602.watchme.fragments.RecommendedFragment;
 import hr.foi.air602.watchme.strategies.ScheduledNotificationStrategy;
 
 /**
  * Created by markopc on 11/2/2016.
  */
 
-public class NavigacijaActivity extends AppCompatActivity {
-    private static final String TAG = NavigacijaActivity.class.getSimpleName();
+public class BottomNavigationActivity extends AppCompatActivity {
+    private static final String TAG = BottomNavigationActivity.class.getSimpleName();
 
     private ViewPagerAdapter mViewPagerAdapter;
     private ArrayList<AHBottomNavigationItem> mBottomNavigationItems = new ArrayList<>();
@@ -63,9 +62,9 @@ public class NavigacijaActivity extends AppCompatActivity {
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-    private FavoritiFragment mFavoritiFragment;
-    private PreporucenoFragment mPreporucenoFragment;
-    private PocetnaFragment mPocetnaFragment;
+    private FavoritesFragment mFavoritesFragment;
+    private RecommendedFragment mRecommendedFragment;
+    private HomeFragment mHomeFragment;
     private Fragment fragment;
     private Intent mIntent;
 
@@ -73,8 +72,8 @@ public class NavigacijaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_navigation);
-        mContext = NavigacijaActivity.this;
-        mActivity = NavigacijaActivity.this;
+        mContext = BottomNavigationActivity.this;
+        mActivity = BottomNavigationActivity.this;
 
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -82,9 +81,9 @@ public class NavigacijaActivity extends AppCompatActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-        mFavoritiFragment = new FavoritiFragment();
-        mPreporucenoFragment = new PreporucenoFragment();
-        mPocetnaFragment = new PocetnaFragment();
+        mFavoritesFragment = new FavoritesFragment();
+        mRecommendedFragment = new RecommendedFragment();
+        mHomeFragment = new HomeFragment();
 
         mIntent = getIntent();
         MyFirebaseMessagingService.getInstance().setContext(getApplicationContext());
@@ -111,12 +110,12 @@ public class NavigacijaActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
        if(item.getItemId() == R.id.action_settings){
-           Intent i = new Intent(getApplicationContext(), Postavke.class);
+           Intent i = new Intent(getApplicationContext(), UserSettings.class);
            startActivity(i);
 
        }
         if(item.getItemId() == R.id.action_about){
-            Intent i = new Intent(getApplicationContext(), Informacije.class);
+            Intent i = new Intent(getApplicationContext(), AboutProgram.class);
             startActivity(i);
        }
         if(item.getItemId() == R.id.action_odjava){
@@ -325,16 +324,16 @@ public class NavigacijaActivity extends AppCompatActivity {
             fragment = new Fragment();
             switch (position) {
                 case 0:
-                   // fragment = new PocetnaFragment();
-                    fragment = mPocetnaFragment;
+                   // fragment = new HomeFragment();
+                    fragment = mHomeFragment;
                     break;
 
                 case 1:
-                    fragment = mFavoritiFragment;
+                    fragment = mFavoritesFragment;
                     break;
 
                 case 2:
-                    fragment = mPreporucenoFragment;
+                    fragment = mRecommendedFragment;
 
                     break;
             }
@@ -358,17 +357,17 @@ public class NavigacijaActivity extends AppCompatActivity {
 
             if (position == 1) {
 
-                mFavoritiFragment.init();
+                mFavoritesFragment.init();
 
             } else if(position == 2){
 
-                mPreporucenoFragment.initialize();
+                mRecommendedFragment.initialize();
 
             } else if(position == 0){
 
-                mPocetnaFragment.initialize();
+                mHomeFragment.initialize();
               //  finish();
-              //  Intent intent = new Intent(mActivity, NavigacijaActivity.class);
+              //  Intent intent = new Intent(mActivity, BottomNavigationActivity.class);
               //  intent.putExtra("reload", true);
               //  startActivity(intent);
             }

@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -21,27 +20,25 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import hr.foi.air602.watchme.PopisSerijaAdapter;
+import hr.foi.air602.watchme.Series;
+import hr.foi.air602.watchme.SeriesListAdapter;
 import hr.foi.air602.watchme.R;
-import hr.foi.air602.watchme.Serija;
-import hr.foi.air602.watchme.SerijaDetalji;
+import hr.foi.air602.watchme.SeriesDetails;
 import hr.foi.air602.watchme.Utilities;
-import hr.foi.air602.watchme.async_tasks.DohvatSerijaAsyncTask;
-import hr.foi.air602.watchme.async_tasks.DohvatSerijaPoIdAsyncTask;
+import hr.foi.air602.watchme.async_tasks.LoadSeriesAsyncTask;
 import hr.foi.air602.watchme.database.UserAdapter;
 import hr.foi.air602.watchme.database.UserFavoriteAdapter;
 import hr.foi.air602.watchme.database.entities.Favorite;
-import hr.foi.air602.watchme.listeners.SerijeDohvaceneListener;
-import hr.foi.air602.watchme.listeners.SerijeDohvacenePoIdListener;
+import hr.foi.air602.watchme.listeners.SeriesLoadedListener;
 
 /**
  * Created by markopc on 11/2/2016.
  */
 
-public class PocetnaFragment extends Fragment implements SerijeDohvaceneListener,AdapterView.OnItemClickListener {
+public class HomeFragment extends Fragment implements SeriesLoadedListener,AdapterView.OnItemClickListener {
     private TextView mTextView;
-    public static ArrayList<Serija> dohvaceneSerije;
-    private PopisSerijaAdapter popisSerijaAdapter;
+    public static ArrayList<Series> dohvaceneSerije;
+    private SeriesListAdapter seriesListAdapter;
     private ListView listaSerija;
     private int brojStranica = 1;
     private ProgressBar mProgressBar;
@@ -60,11 +57,11 @@ public class PocetnaFragment extends Fragment implements SerijeDohvaceneListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.home_layout, container, false);
-        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_spinner);
+        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progressSpinner);
         mProgressBar.getIndeterminateDrawable().setColorFilter(0xFF3F51B5, android.graphics.PorterDuff.Mode.MULTIPLY);
         mProgressBar.setVisibility(View.VISIBLE);
         internetGreska = (ImageView) rootView.findViewById(R.id.slikaInternet);
-        homeListaSerija = (ListView) rootView.findViewById(R.id.home_lista_serija);
+        homeListaSerija = (ListView) rootView.findViewById(R.id.homeListaSerija);
 
         return rootView;
     }
@@ -84,7 +81,7 @@ public class PocetnaFragment extends Fragment implements SerijeDohvaceneListener
        /* if(this.favoriti.size() > 0) {
             for (Favorite f : this.favoriti) {
                 Log.d("WATCHME", "onViewCreated: id:" + f.id + " slug:" + f.slug);
-                String url = Utilities.izradaUrlSerijePoId(f.id);
+                String url = Utilities.makeUrlSeriesFromId(f.id);
                 this.dohvatSerijaPoId(url);
             }
         } else {
@@ -96,11 +93,11 @@ public class PocetnaFragment extends Fragment implements SerijeDohvaceneListener
 
         dohvaceneSerije = new ArrayList<>();
 
-        listaSerija = (ListView) this.getActivity().findViewById(R.id.home_lista_serija);
+        listaSerija = (ListView) this.getActivity().findViewById(R.id.homeListaSerija);
 
-            if(Utilities.povezanost(getActivity().getApplicationContext())){
-                String url = Utilities.izradaUrlSerije("trending",brojStranica);
-                this.dohvatSerija(url);
+            if(Utilities.connection(getActivity().getApplicationContext())){
+                String url = Utilities.makeUrlSeries("trending",brojStranica);
+                this.loadSeries(url);
                 setListViewAdapter();
                 listaSerija.setOnItemClickListener(this);
                 listaSerija.setOnScrollListener(this.onScrollListener());
@@ -115,31 +112,31 @@ public class PocetnaFragment extends Fragment implements SerijeDohvaceneListener
 
     }
 
-    private void dohvatSerija(String url){
-        new DohvatSerijaAsyncTask(this,this.getContext(),url).execute();
+    private void loadSeries(String url){
+        new LoadSeriesAsyncTask(this,this.getContext(),url).execute();
     }
 
     private void setListViewAdapter(){
-        this.popisSerijaAdapter = new PopisSerijaAdapter(dohvaceneSerije,this.getContext());
-        listaSerija.setAdapter(this.popisSerijaAdapter);
+        this.seriesListAdapter = new SeriesListAdapter(dohvaceneSerije,this.getContext());
+        listaSerija.setAdapter(this.seriesListAdapter);
     }
 
     @Override
-    public void serijeDohvacene(ArrayList<Serija> serije, int scroll) {
-        PocetnaFragment.dohvaceneSerije.addAll(serije);
-        for (Serija s: PocetnaFragment.dohvaceneSerije) {
-            Log.d("HOMEFRAGMENT", "serijeDohvacene: "+s.getNaslov()+" "+s.getGodina()+" "+ s.getGenres());
+    public void seriesLoaded(ArrayList<Series> serije, int scroll) {
+        HomeFragment.dohvaceneSerije.addAll(serije);
+        for (Series s: HomeFragment.dohvaceneSerije) {
+            Log.d("HOMEFRAGMENT", "seriesLoaded: "+s.getNaslov()+" "+s.getGodina()+" "+ s.getGenres());
         }
-        popisSerijaAdapter.notifyDataSetChanged();
+        seriesListAdapter.notifyDataSetChanged();
         mProgressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        Serija serije = dohvaceneSerije.get(position);
+        Series serije = dohvaceneSerije.get(position);
 
-        Intent i = new Intent(getActivity(), SerijaDetalji.class);
+        Intent i = new Intent(getActivity(), SeriesDetails.class);
           i.putExtra("naslov",serije.getNaslov());
           i.putExtra("godina",serije.getGodina());
           i.putExtra("zanrovi",serije.getGenres());
@@ -161,7 +158,7 @@ public class PocetnaFragment extends Fragment implements SerijeDohvaceneListener
                     if(listaSerija.getLastVisiblePosition() >= broj - prag){
                         Log.d("HOMEFRAGMENT", "onScrollStateChanged: loading more data");
                         brojStranica++;
-                        dohvatSerija(Utilities.izradaUrlSerije("trending",brojStranica));
+                        loadSeries(Utilities.makeUrlSeries("trending",brojStranica));
                     }
                 }
             }

@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity{
 
         btnRegistracija.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), Registracija.class);
+                Intent i = new Intent(getApplicationContext(), UserRegistration.class);
                 startActivity(i);
             }
         });
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity{
             editor.putString("email",userAdapter.getUserEmail(userName,password));
             editor.commit();
             //Toast.makeText(MainActivity.this, "Prijava je uspješno izvršena!", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(MainActivity.this, NavigacijaActivity.class);
+            Intent i = new Intent(MainActivity.this, BottomNavigationActivity.class);
             startActivity(i);
         } else {
             Toast.makeText(MainActivity.this, "Pogrešno korisničko ime ili lozinka!", Toast.LENGTH_SHORT).show();

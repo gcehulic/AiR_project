@@ -1,12 +1,8 @@
 package hr.foi.air602.watchme;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,20 +11,17 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
 /**
  * Created by markopc on 12/1/2016.
  */
 
-public class SerijaDetalji extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, View.OnClickListener  {
+public class SeriesDetails extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, View.OnClickListener  {
 
     private static final int RECOVERY_DIALOG_REQUEST = 1;
     private YouTubePlayerView youTubePrikaz;
     private ImageView youTubeGreska;
 
-    Serija serija;
+    Series series;
     private  TextView godina, naslov, opisFilma;
 
     @Override
@@ -41,24 +34,24 @@ public class SerijaDetalji extends YouTubeBaseActivity implements YouTubePlayer.
 
         godina = (TextView) findViewById(R.id.godina); godina.setOnClickListener(this);
         naslov = (TextView) findViewById(R.id.naslovSerije); naslov.setOnClickListener(this);
-        opisFilma = (TextView) findViewById(R.id.tv_opis); opisFilma.setOnClickListener(this);
+        opisFilma = (TextView) findViewById(R.id.tvOpis); opisFilma.setOnClickListener(this);
 
 
 
-        youTubeGreska = (ImageView) findViewById(R.id.youtube_slika);
+        youTubeGreska = (ImageView) findViewById(R.id.youtubeSlika);
 
-        getIntentPodaci();
+        getIntentData();
 
-        setPodaci();
+        setData();
 
     }
 
 
 
-    private void setPodaci() {
-        naslov.setText(serija.getNaslov()+" ");
-        godina.setText(serija.getGodina()+" ");
-        opisFilma.setText(serija.getOpis());
+    private void setData() {
+        naslov.setText(series.getNaslov()+" ");
+        godina.setText(series.getGodina()+" ");
+        opisFilma.setText(series.getOpis());
 
 
         TextView t_akcija,t_komedija, t_drama,t_avatura ,t_s_f,t_krim, t_dokumentarac,
@@ -76,7 +69,7 @@ public class SerijaDetalji extends YouTubeBaseActivity implements YouTubePlayer.
         t_reality = (TextView) findViewById(R.id.reality);
         t_animirani = (TextView) findViewById(R.id.animirani);
 
-        String zanrovi = serija.getGenres();
+        String zanrovi = series.getGenres();
         if(zanrovi!=null && !zanrovi.equals("")){
             if (zanrovi.contains("action"))
                 t_akcija.setVisibility(View.VISIBLE);
@@ -108,15 +101,15 @@ public class SerijaDetalji extends YouTubeBaseActivity implements YouTubePlayer.
 
 
     }
-    private void getIntentPodaci() {
+    private void getIntentData() {
 
-     serija = new Serija();
+     series = new Series();
 
-        serija.setNaslov(getIntent().getStringExtra("naslov"));
-        serija.setGodina(getIntent().getIntExtra("godina",2013));
-        serija.setGenres(getIntent().getStringExtra("zanrovi"));
-        serija.setTrailer(getIntent().getStringExtra("trailer"));
-        serija.setOpis(getIntent().getStringExtra("opis"));
+        series.setNaslov(getIntent().getStringExtra("naslov"));
+        series.setGodina(getIntent().getIntExtra("godina",2013));
+        series.setGenres(getIntent().getStringExtra("zanrovi"));
+        series.setTrailer(getIntent().getStringExtra("trailer"));
+        series.setOpis(getIntent().getStringExtra("opis"));
 
     }
 
@@ -132,7 +125,7 @@ public class SerijaDetalji extends YouTubeBaseActivity implements YouTubePlayer.
         if (!wasRestored) {
 
             try {
-                player.cueVideo(serija.getTrailer().split("=")[1]);
+                player.cueVideo(series.getTrailer().split("=")[1]);
             }catch (Exception e){
                 youTubePrikaz.setVisibility(View.GONE);
                 youTubeGreska.setVisibility(View.VISIBLE);

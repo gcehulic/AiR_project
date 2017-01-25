@@ -15,7 +15,7 @@ public class Utilities {
 
     public static final String YOUTUBE_API_KEY = "AIzaSyA0Fqtk9oTJzXTL9nyozp0RLtlvTSCUg6A";
 
-    public static boolean povezanost(Context context){
+    public static boolean connection(Context context){
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
@@ -23,24 +23,24 @@ public class Utilities {
         else return false;
     }
 
-    public static String izradaUrlSerije(String kategorija, int stranica){
+    public static String makeUrlSeries(String kategorija, int stranica){
         StringBuilder url = new StringBuilder();
         url.append(BASE_URL).append("shows").append("/").append(kategorija).append("?page=").append(stranica).append("&extended=full");
-        Log.d("UTIL", "izradaUrlSerije: "+url.toString());
+        Log.d("UTIL", "makeUrlSeries: "+url.toString());
         return url.toString();
     }
 
-    public static String izradaUrlSerijePoId(String id){
+    public static String makeUrlSeriesFromId(String id){
         StringBuilder url = new StringBuilder();
         url.append(BASE_URL).append("search").append("/").append("trakt").append("/").append(id).append("?type=show").append("&extended=full");
         Log.d("UTIL", "izradaUrlSerijeID: "+url.toString());
         return url.toString();
     }
 
-    public static String izradaUrlSerijePreporuceno(String kategorija, String zanrovi){
+    public static String makeUrlSeriesRecommended(String kategorija, String zanrovi){
         StringBuilder url = new StringBuilder();
         url.append(BASE_URL).append("shows").append("/").append(kategorija).append("?limit=").append(20).append("&extended=full").append("&genres=").append(zanrovi);
-        Log.d("UTIL", "izradaUrlSerije: "+url.toString());
+        Log.d("UTIL", "makeUrlSeries: "+url.toString());
         return url.toString();
     }
 

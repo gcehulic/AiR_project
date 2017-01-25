@@ -58,13 +58,13 @@
                         android:layout_width="match_parent"
                         android:textSize="17sp"
                         android:layout_height="46dp"
-                        android:id="@+id/serija_naslov" />
+                        android:id="@+id/serijaNaslov" />
 
                     <TextView
                         android:text="Godina serije"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/serija_godina" />
+                        android:id="@+id/serijaGodina" />
                 </LinearLayout>
 
 

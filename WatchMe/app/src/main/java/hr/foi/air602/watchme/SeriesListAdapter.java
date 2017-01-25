@@ -26,14 +26,14 @@ import hr.foi.air602.watchme.strategies.ScheduledNotificationStrategy;
  * Created by Goran on 23.11.2016..
  */
 
-public class PopisSerijaAdapter extends BaseAdapter {
+public class SeriesListAdapter extends BaseAdapter {
 
-    private ArrayList<Serija> serije;
+    private ArrayList<Series> serije;
     private Context context;
     private boolean mChecked;
 
 
-    public PopisSerijaAdapter(ArrayList<Serija> serije, Context context) {
+    public SeriesListAdapter(ArrayList<Series> serije, Context context) {
         this.serije = serije;
         this.context = context;
     }
@@ -68,95 +68,95 @@ public class PopisSerijaAdapter extends BaseAdapter {
         }
 
 
-        final Serija serija = (Serija) getItem(position);
-        holder.naslov.setText(serija.getNaslov());
-        holder.godina.setText("" + serija.getGodina() + ".");
+        final Series series = (Series) getItem(position);
+        holder.naslov.setText(series.getNaslov());
+        holder.godina.setText("" + series.getGodina() + ".");
 
-        holder.idserije.setText(""+serija.getId_trakt());
-        holder.slug.setText(serija.getSlug());
-        holder.zanrovi.setText(serija.getZanrovi());
-        holder.emitiranje.setText(serija.getEmitiranje());
-        holder.mreza.setText(serija.getMreza());
+        holder.idSerije.setText(""+ series.getIdTrakt());
+        holder.slug.setText(series.getSlug());
+        holder.zanrovi.setText(series.getZanrovi());
+        holder.emitiranje.setText(series.getEmitiranje());
+        holder.mreza.setText(series.getMreza());
 
-        final String naslov_serije = serija.getNaslov().toString();
-        String prvo_slovo_naslova = naslov_serije.substring(0, 1);
+        final String naslovSerije = series.getNaslov().toString();
+        String prvoSlovoNaslova = naslovSerije.substring(0, 1);
 
         ColorGenerator generator = ColorGenerator.MATERIAL;
 
-        int boja = generator.getColor(naslov_serije);
+        int boja = generator.getColor(naslovSerije);
 
-        String zanr = serija.getGenres();
+        String zanr = series.getGenres();
         if (zanr != null && !zanr.equals("")) {
             if (zanr.contains("action")) {
-                holder.zanr_akcija.setVisibility(View.VISIBLE);
-                holder.zanr_akcija.setBackgroundColor(boja);
+                holder.zanrAkcija.setVisibility(View.VISIBLE);
+                holder.zanrAkcija.setBackgroundColor(boja);
             } else
-                holder.zanr_akcija.setVisibility(View.GONE);
+                holder.zanrAkcija.setVisibility(View.GONE);
             if (zanr.contains("adventure")) {
-                holder.zanr_avantura.setVisibility(View.VISIBLE);
-                holder.zanr_avantura.setBackgroundColor(boja);
+                holder.zanrAvantura.setVisibility(View.VISIBLE);
+                holder.zanrAvantura.setBackgroundColor(boja);
             } else
-                holder.zanr_avantura.setVisibility(View.GONE);
+                holder.zanrAvantura.setVisibility(View.GONE);
             if (zanr.contains("comedy")) {
-                holder.zanr_komedija.setVisibility(View.VISIBLE);
-                holder.zanr_komedija.setBackgroundColor(boja);
+                holder.zanrKomedija.setVisibility(View.VISIBLE);
+                holder.zanrKomedija.setBackgroundColor(boja);
             } else
-                holder.zanr_komedija.setVisibility(View.GONE);
+                holder.zanrKomedija.setVisibility(View.GONE);
             if (zanr.contains("crime")) {
-                holder.zanr_krim.setVisibility(View.VISIBLE);
-                holder.zanr_krim.setBackgroundColor(boja);
+                holder.zanrKrim.setVisibility(View.VISIBLE);
+                holder.zanrKrim.setBackgroundColor(boja);
             } else
-                holder.zanr_krim.setVisibility(View.GONE);
+                holder.zanrKrim.setVisibility(View.GONE);
             if (zanr.contains("documentary")) {
-                holder.zanr_dokumentarni.setVisibility(View.VISIBLE);
-                holder.zanr_dokumentarni.setBackgroundColor(boja);
+                holder.zanrDokumentarni.setVisibility(View.VISIBLE);
+                holder.zanrDokumentarni.setBackgroundColor(boja);
             } else
-                holder.zanr_dokumentarni.setVisibility(View.GONE);
+                holder.zanrDokumentarni.setVisibility(View.GONE);
             if (zanr.contains("drama")) {
-                holder.zanr_drama.setVisibility(View.VISIBLE);
-                holder.zanr_drama.setBackgroundColor(boja);
+                holder.zanrDrama.setVisibility(View.VISIBLE);
+                holder.zanrDrama.setBackgroundColor(boja);
             } else
-                holder.zanr_drama.setVisibility(View.GONE);
+                holder.zanrDrama.setVisibility(View.GONE);
             if (zanr.contains("family")) {
-                holder.zanr_obiteljska.setVisibility(View.VISIBLE);
-                holder.zanr_obiteljska.setBackgroundColor(boja);
+                holder.zanrObiteljska.setVisibility(View.VISIBLE);
+                holder.zanrObiteljska.setBackgroundColor(boja);
             } else
-                holder.zanr_obiteljska.setVisibility(View.GONE);
+                holder.zanrObiteljska.setVisibility(View.GONE);
             if (zanr.contains("fantasy")) {
-                holder.zanr_fantazija.setVisibility(View.VISIBLE);
-                holder.zanr_fantazija.setBackgroundColor(boja);
+                holder.zanrFantazija.setVisibility(View.VISIBLE);
+                holder.zanrFantazija.setBackgroundColor(boja);
             } else
-                holder.zanr_fantazija.setVisibility(View.GONE);
+                holder.zanrFantazija.setVisibility(View.GONE);
             if (zanr.contains("science-fiction")) {
-                holder.zanr_sf.setVisibility(View.VISIBLE);
-                holder.zanr_sf.setBackgroundColor(boja);
+                holder.zanrSf.setVisibility(View.VISIBLE);
+                holder.zanrSf.setBackgroundColor(boja);
             } else
-                holder.zanr_sf.setVisibility(View.GONE);
+                holder.zanrSf.setVisibility(View.GONE);
             if (zanr.contains("thriller")) {
-                holder.zanr_triler.setVisibility(View.VISIBLE);
-                holder.zanr_triler.setBackgroundColor(boja);
+                holder.zanrTriler.setVisibility(View.VISIBLE);
+                holder.zanrTriler.setBackgroundColor(boja);
             } else
-                holder.zanr_triler.setVisibility(View.GONE);
+                holder.zanrTriler.setVisibility(View.GONE);
             if (zanr.contains("reality")) {
-                holder.zanr_reality.setVisibility(View.VISIBLE);
-                holder.zanr_reality.setBackgroundColor(boja);
+                holder.zanrReality.setVisibility(View.VISIBLE);
+                holder.zanrReality.setBackgroundColor(boja);
             } else
-                holder.zanr_reality.setVisibility(View.GONE);
+                holder.zanrReality.setVisibility(View.GONE);
             if (zanr.contains("animation")) {
-                holder.zanr_animirani.setVisibility(View.VISIBLE);
-                holder.zanr_animirani.setBackgroundColor(boja);
+                holder.zanrAnimirani.setVisibility(View.VISIBLE);
+                holder.zanrAnimirani.setBackgroundColor(boja);
             } else
-                holder.zanr_animirani.setVisibility(View.GONE);
+                holder.zanrAnimirani.setVisibility(View.GONE);
         }
 
         TextDrawable drawable = TextDrawable.builder()
-                .buildRoundRect(prvo_slovo_naslova, boja, 100); // radius u px
+                .buildRoundRect(prvoSlovoNaslova, boja, 100); // radius u px
 
-        holder.prvo_slovo_naslova.setImageDrawable(drawable);
+        holder.prvoSlovoNaslova.setImageDrawable(drawable);
 
         UserAdapter userAdapter = new UserAdapter(context);
         UserFavoriteAdapter userFavoriteAdapter = new UserFavoriteAdapter(context);
-        mChecked = userFavoriteAdapter.doesFavoriteExists(userAdapter.getUserFromSharedPrefs(),holder.idserije.getText().toString());
+        mChecked = userFavoriteAdapter.doesFavoriteExists(userAdapter.getUserFromSharedPrefs(),holder.idSerije.getText().toString());
 
         holder.odabirSerije.setChecked(mChecked);
         holder.odabirSerije.setOnClickListener(new View.OnClickListener() {
@@ -165,8 +165,8 @@ public class PopisSerijaAdapter extends BaseAdapter {
                 mChecked = !mChecked;
                 holder.odabirSerije.setChecked(mChecked);
 
-                Log.d("WATCHME", "onClick: serijaID : "+holder.idserije.getText());
-                String serijaID = holder.idserije.getText().toString();
+                Log.d("WATCHME", "onClick: serijaID : "+holder.idSerije.getText());
+                String serijaID = holder.idSerije.getText().toString();
                 UserFavoriteAdapter userFavoriteAdapter = new UserFavoriteAdapter(context);
                 UserAdapter userAdapter = new UserAdapter(context);
                 FavoriteAdapter favoriteAdapter = new FavoriteAdapter(context);
@@ -201,34 +201,34 @@ public class PopisSerijaAdapter extends BaseAdapter {
 
 
     private class ViewHolder{
-        private TextView naslov, godina, idserije;
-        private TextView zanr_akcija, zanr_avantura, zanr_komedija, zanr_krim, zanr_dokumentarni, zanr_drama,
-                zanr_obiteljska, zanr_fantazija, zanr_sf, zanr_triler, zanr_reality, zanr_animirani;
-        private ImageView prvo_slovo_naslova;
+        private TextView naslov, godina, idSerije;
+        private TextView zanrAkcija, zanrAvantura, zanrKomedija, zanrKrim, zanrDokumentarni, zanrDrama,
+                zanrObiteljska, zanrFantazija, zanrSf, zanrTriler, zanrReality, zanrAnimirani;
+        private ImageView prvoSlovoNaslova;
         private CheckBox odabirSerije;
         private TextView slug, emitiranje, mreza, zanrovi;
 
         public ViewHolder(View v){
-            this.naslov = (TextView) v.findViewById(R.id.serija_naslov);
-            this.godina = (TextView) v.findViewById(R.id.serija_godina);
+            this.naslov = (TextView) v.findViewById(R.id.serijaNaslov);
+            this.godina = (TextView) v.findViewById(R.id.serijaGodina);
             this.odabirSerije = (CheckBox) v.findViewById(R.id.odabir);
 
-            this.idserije = (TextView) v.findViewById(R.id.idserije);
+            this.idSerije = (TextView) v.findViewById(R.id.idserije);
 
-            this.zanr_akcija = (TextView) v.findViewById(R.id.akcija);
-            this.zanr_avantura = (TextView) v.findViewById(R.id.avantura);
-            this.zanr_komedija = (TextView) v.findViewById(R.id.komedija);
-            this.zanr_krim = (TextView) v.findViewById(R.id.krim);
-            this.zanr_dokumentarni = (TextView) v.findViewById(R.id.dokumentarni);
-            this.zanr_drama = (TextView) v.findViewById(R.id.drama);
-            this.zanr_obiteljska = (TextView) v.findViewById(R.id.obiteljska);
-            this.zanr_fantazija = (TextView) v.findViewById(R.id.fantazija);
-            this.zanr_sf = (TextView) v.findViewById(R.id.sf);
-            this.zanr_triler = (TextView) v.findViewById(R.id.triler);
-            this.zanr_reality = (TextView) v.findViewById(R.id.reality);
-            this.zanr_animirani = (TextView) v.findViewById(R.id.animirani);
+            this.zanrAkcija = (TextView) v.findViewById(R.id.akcija);
+            this.zanrAvantura = (TextView) v.findViewById(R.id.avantura);
+            this.zanrKomedija = (TextView) v.findViewById(R.id.komedija);
+            this.zanrKrim = (TextView) v.findViewById(R.id.krim);
+            this.zanrDokumentarni = (TextView) v.findViewById(R.id.dokumentarni);
+            this.zanrDrama = (TextView) v.findViewById(R.id.drama);
+            this.zanrObiteljska = (TextView) v.findViewById(R.id.obiteljska);
+            this.zanrFantazija = (TextView) v.findViewById(R.id.fantazija);
+            this.zanrSf = (TextView) v.findViewById(R.id.sf);
+            this.zanrTriler = (TextView) v.findViewById(R.id.triler);
+            this.zanrReality = (TextView) v.findViewById(R.id.reality);
+            this.zanrAnimirani = (TextView) v.findViewById(R.id.animirani);
 
-            this.prvo_slovo_naslova = (ImageView) v.findViewById(R.id.image_view);
+            this.prvoSlovoNaslova = (ImageView) v.findViewById(R.id.image_view);
             this.slug = (TextView) v.findViewById(R.id.slug);
             this.zanrovi = (TextView) v.findViewById(R.id.zanrovi);
             this.emitiranje = (TextView) v.findViewById(R.id.emitiranje);

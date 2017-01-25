@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar;
  * Created by markopc on 11/22/2016.
  */
 
-public class Postavke extends AppCompatActivity {
+public class UserSettings extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

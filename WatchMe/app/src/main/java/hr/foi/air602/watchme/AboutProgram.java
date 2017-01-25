@@ -6,13 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 
-public class Informacije extends AppCompatActivity {
+public class AboutProgram extends AppCompatActivity {
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MultiDex.install(Informacije.this);
+        MultiDex.install(AboutProgram.this);
         setContentView(R.layout.activity_o_programu);
 
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);

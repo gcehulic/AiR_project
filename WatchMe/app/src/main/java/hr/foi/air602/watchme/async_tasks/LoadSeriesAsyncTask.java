@@ -2,7 +2,6 @@ package hr.foi.air602.watchme.async_tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,30 +15,29 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-import hr.foi.air602.watchme.Serija;
-import hr.foi.air602.watchme.listeners.SerijeDohvacenePoIdListener;
-import hr.foi.air602.watchme.listeners.SerijeDohvacenePreporucenoListener;
+import hr.foi.air602.watchme.Series;
+import hr.foi.air602.watchme.listeners.SeriesLoadedListener;
 
 /**
  * Created by Goran on 23.11.2016..
  */
 
-public class DohvatSerijaPreporucenoAsyncTask extends AsyncTask<String, String, String> {
+public class LoadSeriesAsyncTask extends AsyncTask<String, String, String> {
 
-    private SerijeDohvacenePreporucenoListener serijeDohvaceneListener;
+    private SeriesLoadedListener seriesLoadedListener;
     Context context;
     String url;
     int scroll;
 
-    public DohvatSerijaPreporucenoAsyncTask(SerijeDohvacenePreporucenoListener serijeDohvaceneListener, Context context, String url) {
-        this.serijeDohvaceneListener = serijeDohvaceneListener;
+    public LoadSeriesAsyncTask(SeriesLoadedListener seriesLoadedListener, Context context, String url) {
+        this.seriesLoadedListener = seriesLoadedListener;
         this.context = context;
         this.url = url;
         this.scroll = 0;
     }
 
-    public DohvatSerijaPreporucenoAsyncTask(SerijeDohvacenePreporucenoListener serijeDohvaceneListener, Context context, String url, int scroll) {
-        this.serijeDohvaceneListener = serijeDohvaceneListener;
+    public LoadSeriesAsyncTask(SeriesLoadedListener seriesLoadedListener, Context context, String url, int scroll) {
+        this.seriesLoadedListener = seriesLoadedListener;
         this.context = context;
         this.url = url;
         this.scroll = scroll;
@@ -87,14 +85,13 @@ public class DohvatSerijaPreporucenoAsyncTask extends AsyncTask<String, String, 
         if(s.equals("otkazano") || this.isCancelled()){
             return;
         }
-        Log.d("WATCHME", "onPostExecute: "+s);
-        ArrayList<Serija> listaSerija = new ArrayList<>();
+        ArrayList<Series> seriesList = new ArrayList<>();
         try {
 
             JSONArray jsonArray = new JSONArray(s);
             for (int i = 0; i < jsonArray.length(); i++){
                 JSONObject serija = jsonArray.getJSONObject(i).getJSONObject("show");
-                listaSerija.add(new Serija(serija));
+                seriesList.add(new Series(serija));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -103,7 +100,7 @@ public class DohvatSerijaPreporucenoAsyncTask extends AsyncTask<String, String, 
         if(s.equals("otkazano") || this.isCancelled()){
             return;
         }
-        serijeDohvaceneListener.serijeDohvacenePreporuceno(listaSerija);
+        seriesLoadedListener.seriesLoaded(seriesList, this.scroll);
     }
 
 }

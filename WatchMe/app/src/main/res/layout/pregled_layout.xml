@@ -11,11 +11,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="60dp"
-            android:id="@+id/pregled_lista_serija"/>
+            android:id="@+id/pregledListaSerija"/>
 
 
         <ProgressBar
-            android:id="@+id/progress_spinner"
+            android:id="@+id/progressSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -23,7 +23,7 @@
             android:visibility="gone" />
 
         <TextView
-            android:id="@+id/nema_favorita"
+            android:id="@+id/nemaFavorita"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

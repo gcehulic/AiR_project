@@ -25,23 +25,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Informacije"
+            android:name=".AboutProgram"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Postavke"
+            android:name=".UserSettings"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SerijaDetalji"
+            android:name=".SeriesDetails"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".NavigacijaActivity"
+            android:name=".BottomNavigationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".Registracija" />
+        <activity android:name=".UserRegistration" />
        <!-- <activity android:name=".fragments.Specifikacije"></activity>--><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
        <!-- <meta-data

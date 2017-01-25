@@ -10,22 +10,22 @@ import org.json.JSONObject;
  * Created by Goran on 23.11.2016..
  */
 
-public class Serija {
+public class Series {
 
     private String naslov;
     private int godina;
 
 
-    private String id_trakt, id_tvdb, id_imdb, id_tvrage;
+    private String idTrakt, idTvdb, idImdb, idTvrage;
     private String slug, imdb, genres, trailer, opis, overview;
     private String zanrovi;
     private String emitiranje, mreza;
 
-    public Serija(){
+    public Series(){
         naslov = "";
         godina = 0;
     }
-    public Serija(JSONObject jsonObject) {
+    public Series(JSONObject jsonObject) {
 
         try {
             this.naslov = jsonObject.getString("title");
@@ -45,12 +45,12 @@ public class Serija {
             this.mreza = jsonObject.getString("network");
 
 
-            this.id_trakt = jsonObject.getJSONObject("ids").getString("trakt");
-            this.id_tvdb = jsonObject.getJSONObject("ids").getString("tvdb");
-            this.id_tvrage = jsonObject.getJSONObject("ids").getString("tvrage");
+            this.idTrakt = jsonObject.getJSONObject("ids").getString("trakt");
+            this.idTvdb = jsonObject.getJSONObject("ids").getString("tvdb");
+            this.idTvrage = jsonObject.getJSONObject("ids").getString("tvrage");
             this.slug = jsonObject.getJSONObject("ids").getString("slug");
             this.imdb = jsonObject.getJSONObject("ids").getString("imdb");
-            Log.d("WATCHME", "Serija: slug:"+this.slug);
+            Log.d("WATCHME", "Series: slug:"+this.slug);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -81,28 +81,28 @@ public class Serija {
         this.godina = godina;
     }
 
-    public String getId_trakt() {
-        return id_trakt;
+    public String getIdTrakt() {
+        return idTrakt;
     }
 
-    public void setId_trakt(String id_trakt) {
-        this.id_trakt = id_trakt;
+    public void setIdTrakt(String idTrakt) {
+        this.idTrakt = idTrakt;
     }
 
-    public String getId_tvdb() {
-        return id_tvdb;
+    public String getIdTvdb() {
+        return idTvdb;
     }
 
-    public void setId_tvdb(String id_tvdb) {
-        this.id_tvdb = id_tvdb;
+    public void setIdTvdb(String idTvdb) {
+        this.idTvdb = idTvdb;
     }
 
 /*    public String getId_imdb() {
-        return id_imdb;
+        return idImdb;
     }
 
-    public void setId_imdb(int id_imdb) {
-        this.id_imdb = id_imdb;
+    public void setId_imdb(int idImdb) {
+        this.idImdb = idImdb;
     }
 */
     public String getTrailer() {
@@ -114,12 +114,12 @@ public class Serija {
     }
 
 
-    public String getId_tvrage() {
-        return id_tvrage;
+    public String getIdTvrage() {
+        return idTvrage;
     }
 
-    public void setId_tvrage(String id_tvrage) {
-        this.id_tvrage = id_tvrage;
+    public void setIdTvrage(String idTvrage) {
+        this.idTvrage = idTvrage;
     }
 
     public String getSlug() {

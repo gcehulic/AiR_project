@@ -14,32 +14,30 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 
-import hr.foi.air602.watchme.Serija;
-import hr.foi.air602.watchme.listeners.SerijeDohvaceneListener;
-import hr.foi.air602.watchme.listeners.SerijeDohvacenePoIdListener;
+import hr.foi.air602.watchme.Series;
+import hr.foi.air602.watchme.listeners.SeriesLoadedFromIdListener;
 
 /**
  * Created by Goran on 23.11.2016..
  */
 
-public class DohvatSerijaPoIdAsyncTask extends AsyncTask<String, String, String> {
+public class LoadSeriesFromIdAsyncTask extends AsyncTask<String, String, String> {
 
-    private SerijeDohvacenePoIdListener serijeDohvaceneListener;
+    private SeriesLoadedFromIdListener seriesLoadedListener;
     Context context;
     String url;
     int scroll;
 
-    public DohvatSerijaPoIdAsyncTask(SerijeDohvacenePoIdListener serijeDohvaceneListener, Context context, String url) {
-        this.serijeDohvaceneListener = serijeDohvaceneListener;
+    public LoadSeriesFromIdAsyncTask(SeriesLoadedFromIdListener seriesLoadedListener, Context context, String url) {
+        this.seriesLoadedListener = seriesLoadedListener;
         this.context = context;
         this.url = url;
         this.scroll = 0;
     }
 
-    public DohvatSerijaPoIdAsyncTask(SerijeDohvacenePoIdListener serijeDohvaceneListener, Context context, String url, int scroll) {
-        this.serijeDohvaceneListener = serijeDohvaceneListener;
+    public LoadSeriesFromIdAsyncTask(SeriesLoadedFromIdListener seriesLoadedListener, Context context, String url, int scroll) {
+        this.seriesLoadedListener = seriesLoadedListener;
         this.context = context;
         this.url = url;
         this.scroll = scroll;
@@ -88,12 +86,12 @@ public class DohvatSerijaPoIdAsyncTask extends AsyncTask<String, String, String>
             return;
         }
         Log.d("WATCHME", "onPostExecute: "+s);
-        Serija serija = null;
+        Series series = null;
         try {
 
             JSONArray jsonArray = new JSONArray(s);
             JSONObject serijaJson = jsonArray.getJSONObject(0).getJSONObject("show");
-            serija = new Serija(serijaJson);
+            series = new Series(serijaJson);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -101,7 +99,7 @@ public class DohvatSerijaPoIdAsyncTask extends AsyncTask<String, String, String>
         if(s.equals("otkazano") || this.isCancelled()){
             return;
         }
-        serijeDohvaceneListener.serijeDohvacenePoId(serija);
+        seriesLoadedListener.seriesLoadedFromId(series);
     }
 
 }

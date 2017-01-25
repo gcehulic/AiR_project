@@ -1,7 +1,6 @@
 package hr.foi.air602.watchme.fragments;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,37 +13,31 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import hr.foi.air602.watchme.PopisSerijaAdapter;
+import hr.foi.air602.watchme.Series;
+import hr.foi.air602.watchme.SeriesListAdapter;
 import hr.foi.air602.watchme.R;
-import hr.foi.air602.watchme.Serija;
-import hr.foi.air602.watchme.SerijaDetalji;
+import hr.foi.air602.watchme.SeriesDetails;
 import hr.foi.air602.watchme.Utilities;
-import hr.foi.air602.watchme.async_tasks.DohvatSerijaAsyncTask;
-import hr.foi.air602.watchme.async_tasks.DohvatSerijaPreporucenoAsyncTask;
+import hr.foi.air602.watchme.async_tasks.LoadSeriesRecommendedAsyncTask;
 import hr.foi.air602.watchme.database.FavoriteAdapter;
-import hr.foi.air602.watchme.database.UserAdapter;
-import hr.foi.air602.watchme.database.UserFavoriteAdapter;
-import hr.foi.air602.watchme.database.entities.Favorite;
-import hr.foi.air602.watchme.listeners.SerijeDohvacenePreporucenoListener;
+import hr.foi.air602.watchme.listeners.SeriesLoadedRecommendedListener;
 
 /**
  * Created by markopc on 11/2/2016.
  */
 
-public class PreporucenoFragment extends Fragment implements  SerijeDohvacenePreporucenoListener, AdapterView.OnItemClickListener{
+public class RecommendedFragment extends Fragment implements SeriesLoadedRecommendedListener, AdapterView.OnItemClickListener{
 
 
-    private ArrayList<Serija> dohvaceneSerije;
+    private ArrayList<Series> dohvaceneSerije;
     private ProgressBar mProgressBar;
     private ImageView internetGreska;
     private ListView preporucenoListaSerija=null;
     private TextView nemaPreporuka;
-    private PopisSerijaAdapter popisSerijaAdapter;
+    private SeriesListAdapter seriesListAdapter;
     private FavoriteAdapter favoriteAdapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,7 +48,7 @@ public class PreporucenoFragment extends Fragment implements  SerijeDohvacenePre
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.preporuceno_layout, container, false);
-        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_spinner);
+        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progressSpinner);
         mProgressBar.getIndeterminateDrawable().setColorFilter(0xFF3F51B5, android.graphics.PorterDuff.Mode.MULTIPLY);
         internetGreska = (ImageView) rootView.findViewById(R.id.slikaInternet);
         nemaPreporuka = (TextView) rootView.findViewById(R.id.nemaPreporuka);
@@ -76,13 +69,13 @@ public class PreporucenoFragment extends Fragment implements  SerijeDohvacenePre
 
         dohvaceneSerije = new ArrayList<>();
 
-        preporucenoListaSerija = (ListView) this.getActivity().findViewById(R.id.preporuceno_lista_serija);
+        preporucenoListaSerija = (ListView) this.getActivity().findViewById(R.id.preporucenoListaSerija);
         String genres = favoriteAdapter.getRecommendedGenres();
-        if (Utilities.povezanost(getActivity().getApplicationContext())) {
+        if (Utilities.connection(getActivity().getApplicationContext())) {
             if(!genres.equals("")) {
                 preporucenoListaSerija.setVisibility(View.VISIBLE);
-                String url = Utilities.izradaUrlSerijePreporuceno("trending", genres);
-                this.dohvatSerija(url);
+                String url = Utilities.makeUrlSeriesRecommended("trending", genres);
+                this.loadSeries(url);
                 setListViewAdapter();
                 preporucenoListaSerija.setOnItemClickListener(this);
                 internetGreska.setVisibility(View.GONE);
@@ -108,16 +101,16 @@ public class PreporucenoFragment extends Fragment implements  SerijeDohvacenePre
     }
 
 
-    private void dohvatSerija(String url){
-        new DohvatSerijaPreporucenoAsyncTask(this,this.getContext(),url).execute();
+    private void loadSeries(String url){
+        new LoadSeriesRecommendedAsyncTask(this,this.getContext(),url).execute();
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        Serija serije = dohvaceneSerije.get(position);
+        Series serije = dohvaceneSerije.get(position);
 
-        Intent i = new Intent(getActivity(), SerijaDetalji.class);
+        Intent i = new Intent(getActivity(), SeriesDetails.class);
         i.putExtra("naslov",serije.getNaslov());
         i.putExtra("godina",serije.getGodina());
         i.putExtra("zanrovi",serije.getGenres());
@@ -130,18 +123,18 @@ public class PreporucenoFragment extends Fragment implements  SerijeDohvacenePre
 
 
     @Override
-    public void serijeDohvacenePreporuceno(ArrayList<Serija> serije) {
+    public void seriesLoadedRecommended(ArrayList<Series> serije) {
         this.dohvaceneSerije.addAll(serije);
-        for (Serija s: this.dohvaceneSerije) {
-            Log.d("HOMEFRAGMENT", "serijeDohvacene: "+s.getNaslov()+" "+s.getGodina()+" "+ s.getGenres());
+        for (Series s: this.dohvaceneSerije) {
+            Log.d("HOMEFRAGMENT", "seriesLoaded: "+s.getNaslov()+" "+s.getGodina()+" "+ s.getGenres());
         }
-        popisSerijaAdapter.notifyDataSetChanged();
+        seriesListAdapter.notifyDataSetChanged();
     }
 
 
     private void setListViewAdapter(){
-        this.popisSerijaAdapter = new PopisSerijaAdapter(dohvaceneSerije,this.getContext());
-        preporucenoListaSerija.setAdapter(this.popisSerijaAdapter);
+        this.seriesListAdapter = new SeriesListAdapter(dohvaceneSerije,this.getContext());
+        preporucenoListaSerija.setAdapter(this.seriesListAdapter);
     }
 
 
