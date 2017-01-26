@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,10 +36,16 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
 
+import hr.foi.air602.notification.configuration.Config;
+import hr.foi.air602.notification.essentials.NotificationOptions;
 import hr.foi.air602.notification.service.MyFirebaseMessagingService;
+import hr.foi.air602.notification.util.NotificationUtils;
 import hr.foi.air602.watchme.fragments.HomeFragment;
 import hr.foi.air602.watchme.fragments.FavoritesFragment;
 import hr.foi.air602.watchme.fragments.RecommendedFragment;
+import hr.foi.air602.watchme.notification_options.SoundNotification;
+import hr.foi.air602.watchme.notification_options.SoundVibrationNotification;
+import hr.foi.air602.watchme.notification_options.VibrationNotification;
 import hr.foi.air602.watchme.strategies.ScheduledNotificationStrategy;
 
 /**
@@ -86,6 +93,17 @@ public class BottomNavigationActivity extends AppCompatActivity {
         mHomeFragment = new HomeFragment();
 
         mIntent = getIntent();
+
+        SharedPreferences sp2 = getSharedPreferences(Config.SHARED_PREF_OPTIONS, Context.MODE_PRIVATE);
+        boolean sound = sp2.getBoolean("sound",true);
+        boolean vibrate = sp2.getBoolean("vibration", false);
+
+        NotificationOptions notificationOptions = null;
+        if(sound &&  vibrate) notificationOptions = new SoundVibrationNotification();
+        else if(sound) notificationOptions = new SoundNotification();
+        else if(vibrate) notificationOptions = new VibrationNotification();
+        NotificationUtils.applyNotificationSettings(notificationOptions);
+
         MyFirebaseMessagingService.getInstance().setContext(getApplicationContext());
         MyFirebaseMessagingService.getInstance().setup(getApplicationContext());
         MyFirebaseMessagingService.getInstance().schedulingNotifs(ScheduledNotificationStrategy.getInstance(getApplicationContext()));

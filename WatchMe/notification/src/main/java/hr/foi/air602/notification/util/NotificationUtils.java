@@ -20,6 +20,7 @@ import java.util.List;
 
 import hr.foi.air602.notification.R;
 import hr.foi.air602.notification.configuration.Config;
+import hr.foi.air602.notification.essentials.NotificationOptions;
 
 /**
  * Created by Goran on 18.1.2017..
@@ -28,6 +29,8 @@ import hr.foi.air602.notification.configuration.Config;
 public class NotificationUtils {
     private static String TAG = NotificationUtils.class.getSimpleName();
     private Context mContext;
+    private static boolean sound = true;
+    private static boolean vibration = false;
 
     public NotificationUtils(Context mContext){
         this.mContext = mContext;
@@ -62,15 +65,22 @@ public class NotificationUtils {
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
         inboxStyle.addLine(message);
         Notification notification;
-        notification = mBuilder.setTicker(title).setWhen(0)
+        mBuilder.setTicker(title).setWhen(0)
                 .setAutoCancel(true)
                 .setContentTitle(title)
                 .setContentIntent(resultPendingIntent)
                 .setStyle(inboxStyle)
-                //          .setWhen(DateTime.now().getMillis())
                 .setContentText(message)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .build();
+                .setSmallIcon(R.mipmap.ic_launcher);
+        if(sound && vibration){
+            mBuilder.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND);
+        } else if(sound){
+            mBuilder.setDefaults(Notification.DEFAULT_SOUND);
+        } else if(vibration){
+            mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
+        }
+
+        notification = mBuilder.build();
         NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(Config.NOTIFICATION_ID, notification);
 
@@ -117,5 +127,10 @@ public class NotificationUtils {
     public static void clearNotifications(Context context){
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
+    }
+
+    public static void applyNotificationSettings(NotificationOptions notificationOptions){
+        sound = notificationOptions.getSound();
+        vibration = notificationOptions.getVibration();
     }
 }

@@ -35,26 +35,27 @@
         android:textStyle="bold" />
 
         <CheckBox
-            android:text="Notifikacija za mobitel"
+            android:text="Omogući zvuk za notifikacije"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:id="@+id/checkBoxMob"
+            android:id="@+id/checkBoxSound"
             android:checked="true"/>
 
 
         <CheckBox
-        android:text="Notifikacija za pametni sat"
+        android:text="Omogući vibraciju za notifikacije"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:id="@+id/checkBoxSat" />
+        android:id="@+id/checkBoxVibration" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Spremi"/>
+        android:text="Spremi"
+        android:id="@+id/btnSaveSettings" />
 
     </LinearLayout>
 
