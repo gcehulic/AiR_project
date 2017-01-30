@@ -27,23 +27,28 @@ public class ScheduledNotificationStrategy implements Strategy {
     private List<Favorite> favorites = new ArrayList<>();
     private int minutesToShow = 20;
     private DateTimeZone myTimeZone = DateTimeZone.forID("Europe/Zagreb");
+    private FavoriteAdapter favoriteAdapter = null;
+    private boolean work = true;
 
     public static ScheduledNotificationStrategy getInstance(Context ctx){
         if(INSTANCE == null){
             INSTANCE = new ScheduledNotificationStrategy();
+            INSTANCE.favoriteAdapter = new FavoriteAdapter(ctx);
         }
-        FavoriteAdapter fav = new FavoriteAdapter(ctx);
-        INSTANCE.setup(fav);
+
         return INSTANCE;
     }
 
     public void updateList(List<Favorite> favorites){
         this.favorites = favorites;
+        this.work = false;
     }
 
     @Override
     public void run() {
         Log.e(TAG, "run: strategy run");
+        this.work = true;
+        this.setup();
         for(Favorite fav : this.favorites){
             Log.e(TAG, "run: " + fav.slug + " --> " + fav.airs);
         }
@@ -57,11 +62,12 @@ public class ScheduledNotificationStrategy implements Strategy {
             }
             Log.e(TAG, "run: sleeping");
             SystemClock.sleep(55000);
-        }while(true);
+        }while(work);
+        Log.e(TAG, "run: ended");
     }
 
-    private void setup(FavoriteAdapter favAdapter){
-        this.favorites = favAdapter.getAllFavorites();
+    private void setup(){
+        this.favorites = this.favoriteAdapter.getAllFavorites();
     }
 
     private void operateFavorites(){
@@ -133,5 +139,7 @@ public class ScheduledNotificationStrategy implements Strategy {
         }
         return false;
     }
+
+
 }
 

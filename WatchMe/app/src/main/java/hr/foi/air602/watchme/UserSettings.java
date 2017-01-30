@@ -13,6 +13,7 @@ import hr.foi.air602.notification.configuration.Config;
 import hr.foi.air602.notification.essentials.NotificationOptions;
 import hr.foi.air602.notification.service.MyFirebaseMessagingService;
 import hr.foi.air602.notification.util.NotificationUtils;
+import hr.foi.air602.watchme.notification_options.SilentNotification;
 import hr.foi.air602.watchme.notification_options.SoundNotification;
 import hr.foi.air602.watchme.notification_options.SoundVibrationNotification;
 import hr.foi.air602.watchme.notification_options.VibrationNotification;
@@ -67,10 +68,11 @@ public class UserSettings extends AppCompatActivity {
                 if(checkBoxSound.isChecked() && checkBoxVibration.isChecked()) notificationOptions = new SoundVibrationNotification();
                 else if(checkBoxSound.isChecked()) notificationOptions = new SoundNotification();
                 else if(checkBoxVibration.isChecked()) notificationOptions = new VibrationNotification();
+                else notificationOptions = new SilentNotification();
 
                 NotificationUtils.applyNotificationSettings(notificationOptions);
 
-                MyFirebaseMessagingService.getInstance().schedulingNotifs(ScheduledNotificationStrategy.getInstance(getApplicationContext()));
+                MyFirebaseMessagingService.getInstance().schedulingNotifs();
                 uSettings.finish();
 
             }

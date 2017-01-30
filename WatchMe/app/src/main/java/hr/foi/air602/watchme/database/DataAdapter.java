@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by Mateo on 7.12.2016..
  */
 
-public class DataAdapter implements Serializable {
+public class DataAdapter {
 
     public static final String DATABASE_NAME = "database.db";
     public static final int DATABASE_VERSION = 1;

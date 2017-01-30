@@ -43,6 +43,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
 
     private NotificationUtils notificationUtils;
     private Context ctx;
+    private String email = null;
 
     private static MyFirebaseMessagingService INSTANCE = new MyFirebaseMessagingService();
 
@@ -149,7 +150,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
         notificationUtils.showNotificationMessage(title, message, intent, imageUrl);
     }
 
-    public void setup(Context context){
+    public void setup(Context context, String email){
+        this.email = email;
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -174,6 +176,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
         };
 
         displayFirebaseRegId();
+        MyFirebaseInstanceIDService.getInstance(context).setEmail(email);
         MyFirebaseInstanceIDService.getInstance(context).registerDeviceToService();
     }
 
@@ -226,9 +229,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
                 Map<String, String> params = new HashMap<>();
                 params.put("title", title);
                 params.put("message", message);
-
-                SharedPreferences sp = ctx.getSharedPreferences("loggeduser",Context.MODE_PRIVATE);
-                params.put("email", sp.getString("email","unknown"));
+                params.put("email", email);
                 return params;
             }
         };
@@ -236,11 +237,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
         MyVolley.getInstance(ctx).addToRequestQueue(stringRequest);
     }
 
-    public void schedulingNotifs(Strategy strategy){
+    public void schedulingNotifs(){
         Intent serviceIntent = new Intent(ctx, SchedulingMessagesBackgroundService.class);
-        serviceIntent.putExtra("strategy",strategy);
-        serviceIntent.putExtra("continue",false);
-
         ctx.startService(serviceIntent);
     }
 }

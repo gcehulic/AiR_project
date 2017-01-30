@@ -13,13 +13,15 @@ import hr.foi.air602.notification.essentials.Strategy;
 public class SchedulingMessagesBackgroundService extends IntentService {
 
     private static final String TAG = SchedulingMessagesBackgroundService.class.getSimpleName();
-    private boolean working = false;
-    private Strategy serviceStrategy = null;
+    private static Strategy serviceStrategy = null;
 
     public SchedulingMessagesBackgroundService() {
         super("schedulingNotifications");
     }
 
+    public static void setStrategy(Strategy strategy){
+        serviceStrategy = strategy;
+    }
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -34,8 +36,6 @@ public class SchedulingMessagesBackgroundService extends IntentService {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e(TAG, "onStartCommand: The Service has started");
 
-        this.working = intent.getBooleanExtra("continue", false);
-        this.serviceStrategy = (Strategy) intent.getSerializableExtra("strategy");
         return super.onStartCommand(intent, flags, startId);
     }
 

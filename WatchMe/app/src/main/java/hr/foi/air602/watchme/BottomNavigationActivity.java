@@ -24,6 +24,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
+import android.widget.Toast;
 
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
@@ -39,10 +40,12 @@ import java.util.ArrayList;
 import hr.foi.air602.notification.configuration.Config;
 import hr.foi.air602.notification.essentials.NotificationOptions;
 import hr.foi.air602.notification.service.MyFirebaseMessagingService;
+import hr.foi.air602.notification.service.SchedulingMessagesBackgroundService;
 import hr.foi.air602.notification.util.NotificationUtils;
 import hr.foi.air602.watchme.fragments.HomeFragment;
 import hr.foi.air602.watchme.fragments.FavoritesFragment;
 import hr.foi.air602.watchme.fragments.RecommendedFragment;
+import hr.foi.air602.watchme.notification_options.SilentNotification;
 import hr.foi.air602.watchme.notification_options.SoundNotification;
 import hr.foi.air602.watchme.notification_options.SoundVibrationNotification;
 import hr.foi.air602.watchme.notification_options.VibrationNotification;
@@ -94,19 +97,24 @@ public class BottomNavigationActivity extends AppCompatActivity {
 
         mIntent = getIntent();
 
-        SharedPreferences sp2 = getSharedPreferences(Config.SHARED_PREF_OPTIONS, Context.MODE_PRIVATE);
-        boolean sound = sp2.getBoolean("sound",true);
-        boolean vibrate = sp2.getBoolean("vibration", false);
+        SharedPreferences sp = getSharedPreferences(Config.SHARED_PREF_OPTIONS, Context.MODE_PRIVATE);
+        SharedPreferences sp2 = getSharedPreferences("loggeduser", Context.MODE_PRIVATE);
+        boolean sound = sp.getBoolean("sound",true);
+        boolean vibrate = sp.getBoolean("vibration", false);
+        String email = sp2.getString("email",null);
+        Toast.makeText(this, email, Toast.LENGTH_LONG).show();
 
         NotificationOptions notificationOptions = null;
         if(sound &&  vibrate) notificationOptions = new SoundVibrationNotification();
         else if(sound) notificationOptions = new SoundNotification();
         else if(vibrate) notificationOptions = new VibrationNotification();
+        else notificationOptions = new SilentNotification();
         NotificationUtils.applyNotificationSettings(notificationOptions);
 
+        SchedulingMessagesBackgroundService.setStrategy(ScheduledNotificationStrategy.getInstance(getApplicationContext()));
         MyFirebaseMessagingService.getInstance().setContext(getApplicationContext());
-        MyFirebaseMessagingService.getInstance().setup(getApplicationContext());
-        MyFirebaseMessagingService.getInstance().schedulingNotifs(ScheduledNotificationStrategy.getInstance(getApplicationContext()));
+        MyFirebaseMessagingService.getInstance().setup(getApplicationContext(), email );
+        MyFirebaseMessagingService.getInstance().schedulingNotifs();
 
     }
 

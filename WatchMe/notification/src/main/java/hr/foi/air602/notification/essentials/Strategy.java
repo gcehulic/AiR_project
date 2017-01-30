@@ -6,6 +6,6 @@ import java.io.Serializable;
  * Created by markopc on 24.1.2017..
  */
 
-public interface Strategy extends Serializable {
+public interface Strategy {
     void run();
 }

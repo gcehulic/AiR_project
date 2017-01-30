@@ -34,6 +34,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     private static final String TAG = MyFirebaseInstanceIDService.class.getSimpleName();
     private static MyFirebaseInstanceIDService INSTANCE = new MyFirebaseInstanceIDService();
     private Context context = null;
+    private String email = null;
 
     public static MyFirebaseInstanceIDService getInstance(Context context){
         INSTANCE.context = context;
@@ -42,7 +43,9 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
     @Override
     public void onTokenRefresh() {
+        if(this.context == null) return;
         super.onTokenRefresh();
+
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
         // Saving reg id to shared preferences
@@ -55,6 +58,10 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         Intent registrationComplete = new Intent(Config.REGISTRATION_COMPLETE);
         registrationComplete.putExtra("token", refreshedToken);
         LocalBroadcastManager.getInstance(this).sendBroadcast(registrationComplete);
+    }
+
+    public void setEmail(String email){
+        this.email = email;
     }
 
     private void sendRegistrationToServer(final String token) {
@@ -77,10 +84,8 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
     public void registerDeviceToService(){
         Log.e(TAG, "registerDeviceToService: registering device");
-        SharedPreferences sp = context.getSharedPreferences("loggeduser", Context.MODE_PRIVATE);
         SharedPreferences sp2 = context.getSharedPreferences(Config.SHARED_PREF, Context.MODE_PRIVATE);
-        final String email = sp.getString("email","unknown");
-        final String token = sp2.getString("regId","unknown");
+        final String token = sp2.getString("regId", FirebaseInstanceId.getInstance().getToken());
 
         if (token == null) {
             //progressDialog.dismiss();

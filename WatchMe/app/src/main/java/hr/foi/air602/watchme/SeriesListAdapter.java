@@ -15,6 +15,7 @@ import com.amulyakhare.textdrawable.util.ColorGenerator;
 
 import java.util.ArrayList;
 
+import hr.foi.air602.notification.service.MyFirebaseMessagingService;
 import hr.foi.air602.watchme.database.FavoriteAdapter;
 import hr.foi.air602.watchme.database.UserAdapter;
 import hr.foi.air602.watchme.database.UserFavoriteAdapter;
@@ -184,12 +185,13 @@ public class SeriesListAdapter extends BaseAdapter {
                 } else {
                     if(userFavoriteAdapter.doesFavoriteExists(korisnik,serijaID)){
                         userFavoriteAdapter.deleteUserFavorite(new UserFavorite(korisnik,serijaID));
-                        //favoriteAdapter.deleteFavorite(new Favorite(serijaID,"","","",""));
+                        favoriteAdapter.deleteFavorite(new Favorite(serijaID,"","","",""));
                         Log.d("WATCHME", "onClick: odznaceno i obrisano");
                     }
 
                 }
                 ScheduledNotificationStrategy.getInstance(context.getApplicationContext()).updateList(favoriteAdapter.getAllFavorites());
+                MyFirebaseMessagingService.getInstance().schedulingNotifs();
             }
         });
 

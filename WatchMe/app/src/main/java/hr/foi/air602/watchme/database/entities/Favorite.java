@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by Goran on 20.12.2016..
  */
 
-public class Favorite implements Serializable {
+public class Favorite {
     public String id;
     public String slug;
     public String genres; // odvojeno ;
