@@ -383,7 +383,7 @@ public class BottomNavigationActivity extends AppCompatActivity {
 
             if (position == 1) {
 
-                mFavoritesFragment.init();
+                mFavoritesFragment.refresh();
 
             } else if(position == 2){
 

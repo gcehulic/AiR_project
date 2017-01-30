@@ -39,7 +39,7 @@ public class DataAdapter {
 
     // zatvaranje veze prema bazi podataka
     public void close() {
-        sqLiteDatabase.close();
+//        sqLiteDatabase.close();
         sqLiteHelper.close();
     }
 

@@ -26,6 +26,7 @@ import hr.foi.air602.notification.essentials.NotificationOptions;
  * Created by Goran on 18.1.2017..
  */
 
+//Klasa kreira i pokazuje notifikacije
 public class NotificationUtils {
     private static String TAG = NotificationUtils.class.getSimpleName();
     private Context mContext;
@@ -37,14 +38,12 @@ public class NotificationUtils {
     }
 
     public void showNotificationMessage(String title, String message, Intent intent) {
-
         showNotificationMessage(title, message, intent, null);
     }
 
-
+    //Kreira se akcija koja se pokreće nakon pritiska na notifikaciju
     public void showNotificationMessage(final String title, final String message, Intent intent, String imageUrl){
         if(TextUtils.isEmpty(message)) return;
-
 
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         final PendingIntent resultPendingIntent = PendingIntent.getActivity(
@@ -54,13 +53,11 @@ public class NotificationUtils {
                 PendingIntent.FLAG_CANCEL_CURRENT
         );
 
-
         final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext);
         showSmallNotification(mBuilder,title, message,resultPendingIntent);
-
     }
 
-
+    //gradi se cijeli notifikacija i prikazuje se
     private void showSmallNotification(NotificationCompat.Builder mBuilder, String title, String message, PendingIntent resultPendingIntent){
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
         inboxStyle.addLine(message);
@@ -83,52 +80,15 @@ public class NotificationUtils {
         notification = mBuilder.build();
         NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(Config.NOTIFICATION_ID, notification);
-
-
     }
 
-
-    public static long getTimeMilliSec(String timestamp){
-        SimpleDateFormat format = new SimpleDateFormat("yyy-MM-dd HH:mm:ss");
-
-        try {
-            Date date = format.parse(timestamp);
-            return date.getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    public static boolean isAppIsInBackground(Context context){
-        boolean isInBackground = true;
-        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH){
-            List<ActivityManager.RunningAppProcessInfo> runningAppProcesses = am.getRunningAppProcesses();
-            for(ActivityManager.RunningAppProcessInfo processInfo : runningAppProcesses){
-                if(processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND){
-                    for(String activeProcess : processInfo.pkgList){
-                        if(activeProcess.equals(context.getPackageName())){
-                            isInBackground = false;
-                        }
-                    }
-                }
-            }
-        }  else {
-            List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
-            ComponentName componentInfo = taskInfo.get(0).topActivity;
-            if(componentInfo.getPackageName().equals(context.getPackageName())){
-                isInBackground = false;
-            }
-        }
-        return true;
-    }
-
+    //briše sve notifikacije kada se orvori aplikacija
     public static void clearNotifications(Context context){
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
     }
 
+    //primjenjuje korisnički definirane postavke koje korisnik šalje modulu preko sučelja NotificationOptions
     public static void applyNotificationSettings(NotificationOptions notificationOptions){
         sound = notificationOptions.getSound();
         vibration = notificationOptions.getVibration();

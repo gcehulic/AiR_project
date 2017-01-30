@@ -36,7 +36,10 @@ import hr.foi.air602.notification.util.NotificationUtils;
  * Created by Goran on 18.1.2017..
  */
 
-public class MyFirebaseMessagingService extends FirebaseMessagingService implements Serializable {
+/**
+ * Klasa služi za prikaz notifikacija i obrada primljenih podataka
+ */
+public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static BroadcastReceiver mRegistrationBroadcastReceiver;
     private static final String TAG = MyFirebaseMessagingService.class.getSimpleName();
@@ -64,13 +67,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
         if (remoteMessage == null)
             return;
 
-        // Check if message contains a notification payload.
-        if (remoteMessage.getNotification() != null) {
-            Log.e(TAG, "Notification Body: " + remoteMessage.getNotification().getBody());
-            handleNotification(remoteMessage.getNotification().getBody());
-        }
-
-        // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.e(TAG, "Data Payload: " + remoteMessage.getData().toString());
 
@@ -83,19 +79,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
         }
     }
 
-    private void handleNotification(String message) {
-        if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
-            // app is in foreground, broadcast the push message
-            Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
-            pushNotification.putExtra("message", message);
-            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(pushNotification);
-
-            // play notification sound
-        }else{
-            // If the app is in background, firebase itself handles the notification
-        }
-    }
-
     private void handleDataMessage(JSONObject json) {
         Log.e(TAG, "push json: " + json.toString());
 
@@ -105,26 +88,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
             String title = data.getString("title");
             String message = data.getString("message");
             boolean isBackground = data.getBoolean("is_background");
-//            JSONObject payload = data.getJSONObject("payload");
 
             Log.e(TAG, "title: " + title);
             Log.e(TAG, "message: " + message);
             Log.e(TAG, "isBackground: " + isBackground);
 
+            Intent resultIntent = new Intent(getApplicationContext(),SchedulingMessagesBackgroundService.class);
+            resultIntent.putExtra("message", message);
+            showNotificationMessage(getApplicationContext(), title, message, resultIntent);
 
-            if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
-                // app is in foreground, broadcast the push message
-                Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
-                pushNotification.putExtra("message", message);
-                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(pushNotification);
-
-                // play notification sound
-            } else {
-                // app is in background, show the notification in notification tray
-                Intent resultIntent = new Intent(getApplicationContext(),SchedulingMessagesBackgroundService.class);
-                resultIntent.putExtra("message", message);
-                showNotificationMessage(getApplicationContext(), title, message, resultIntent);
-            }
         } catch (JSONException e) {
             Log.e(TAG, "Json Exception: " + e.getMessage());
         } catch (Exception e) {
@@ -133,21 +105,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
     }
 
     /**
-     * Showing notification with text only
+     * Prikazivanje notifikacije samo sa tekstom
      */
     public void showNotificationMessage(Context context, String title, String message, Intent intent) {
         notificationUtils = new NotificationUtils(context);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         notificationUtils.showNotificationMessage(title, message, intent);
-    }
-
-    /**
-     * Showing notification with text and image
-     */
-    private void showNotificationMessageWithBigImage(Context context, String title, String message, Intent intent, String imageUrl) {
-        notificationUtils = new NotificationUtils(context);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        notificationUtils.showNotificationMessage(title, message, intent, imageUrl);
     }
 
     public void setup(Context context, String email){
@@ -156,21 +119,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
             @Override
             public void onReceive(Context context, Intent intent) {
 
-                // checking for type intent filter
                 if (intent.getAction().equals(Config.REGISTRATION_COMPLETE)) {
-                    // gcm successfully registered
-                    // now subscribe to `global` topic to receive app wide notifications
                     FirebaseMessaging.getInstance().subscribeToTopic(Config.TOPIC_GLOBAL);
-
                     displayFirebaseRegId();
 
                 } else if (intent.getAction().equals(Config.PUSH_NOTIFICATION)) {
-                    // new push notification is received
-
                     String message = intent.getStringExtra("message");
-
                     Toast.makeText(ctx.getApplicationContext(), "Push notification: " + message, Toast.LENGTH_LONG).show();
-
                 }
             }
         };
@@ -183,39 +138,32 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
     public void displayFirebaseRegId() {
         SharedPreferences pref = ctx.getSharedPreferences(Config.SHARED_PREF, 0);
         String regId = pref.getString("regId", null);
-
         Log.e(TAG, "Firebase reg id: " + regId);
-
-
     }
 
+    //Registrira Broadcast Receiver-e tako da activity bude obaviješten svaki puta kada dođe poruka.
+    //Jedan sluša dok dođe notifikacija za uspješnu registraciju, a drugi sluša push notifikacije.
+    //Na kraju se obrišu svi notifi kada se otvori activity aplikacije.
     public void registerBroadcast(){
         LocalBroadcastManager.getInstance(ctx).registerReceiver(mRegistrationBroadcastReceiver,
                 new IntentFilter(Config.REGISTRATION_COMPLETE));
-
-        // register new push message receiver
-        // by doing this, the activity will be notified each time a new message arrives
         LocalBroadcastManager.getInstance(ctx).registerReceiver(mRegistrationBroadcastReceiver,
                 new IntentFilter(Config.PUSH_NOTIFICATION));
-
-        // clear the notification area when the app is opened
         NotificationUtils.clearNotifications(ctx);
     }
 
     public void unregisterBroadcast(){
         LocalBroadcastManager.getInstance(ctx).unregisterReceiver(mRegistrationBroadcastReceiver);
-
     }
 
+    //Metoda šalje zahtjev web servisu da web servis vrati notifikaciju natrag vlasniku email-a
     public void sendPush(final String title, final String message) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, EndPoints.URL_SEND_SINGLE_PUSH,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        // progressDialog.dismiss();
                         Log.e(TAG, "onResponse: "+response);
-                        Toast.makeText(ctx, response, Toast.LENGTH_LONG).show();
                     }
                 },
                 new Response.ErrorListener() {
@@ -237,6 +185,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
         MyVolley.getInstance(ctx).addToRequestQueue(stringRequest);
     }
 
+    //Pokreće IntentService koji je u pozadini.
     public void schedulingNotifs(){
         Intent serviceIntent = new Intent(ctx, SchedulingMessagesBackgroundService.class);
         ctx.startService(serviceIntent);

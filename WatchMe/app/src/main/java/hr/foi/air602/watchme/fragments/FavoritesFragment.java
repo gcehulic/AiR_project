@@ -151,7 +151,7 @@ public class FavoritesFragment extends Fragment implements AdapterView.OnItemCli
 
     }
 
-    public void init() {
+    public void refresh() {
         if(Utilities.connection(getActivity().getApplicationContext())) {
             this.userFavoriteAdapter = new UserFavoriteAdapter(getContext());
             this.userAdapter = new UserAdapter(getContext());

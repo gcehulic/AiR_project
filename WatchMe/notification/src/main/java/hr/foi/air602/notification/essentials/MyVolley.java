@@ -9,7 +9,9 @@ import com.android.volley.toolbox.Volley;
 /**
  * Created by markopc on 24.1.2017..
  */
-
+/*
+    Klasa koja koristi biblioteku Volley koja služi za kreiranje HTTP zahtjeva i slanje istih
+ */
 public class MyVolley {
     private static MyVolley mInstance;
     private RequestQueue mRequestQueue;
@@ -29,8 +31,6 @@ public class MyVolley {
 
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
-            // getApplicationContext() is key, it keeps you from leaking the
-            // Activity or BroadcastReceiver if someone passes one in.
             mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
         }
         return mRequestQueue;

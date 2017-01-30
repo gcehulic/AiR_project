@@ -29,7 +29,9 @@ import hr.foi.air602.notification.configuration.EndPoints;
 /**
  * Created by Goran on 18.1.2017..
  */
-
+/*
+    Klasa služi za kreiranje tokena i slanje tokena na web servis.
+ */
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     private static final String TAG = MyFirebaseInstanceIDService.class.getSimpleName();
     private static MyFirebaseInstanceIDService INSTANCE = new MyFirebaseInstanceIDService();
@@ -41,20 +43,18 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         return INSTANCE;
     }
 
+    /**
+     * Metoda se poziva kada se izgenerira novi token na Firebase-u
+     */
     @Override
     public void onTokenRefresh() {
         if(this.context == null) return;
         super.onTokenRefresh();
 
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-
-        // Saving reg id to shared preferences
         storeRegIdInPref(refreshedToken);
-
-        // sending reg id to your server
         sendRegistrationToServer(refreshedToken);
 
-        // Notify UI that registration has completed, so the progress indicator can be hidden.
         Intent registrationComplete = new Intent(Config.REGISTRATION_COMPLETE);
         registrationComplete.putExtra("token", refreshedToken);
         LocalBroadcastManager.getInstance(this).sendBroadcast(registrationComplete);
@@ -64,14 +64,9 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         this.email = email;
     }
 
-    private void sendRegistrationToServer(final String token) {
-        // sending gcm token to server
-        Log.e(TAG, "sendRegistrationToServer: " + token);
-/*        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Registering Device...");
-        progressDialog.show();*/
 
-        //  final String token = SharedPrefManager.getInstance(this).getDeviceToken();
+    private void sendRegistrationToServer(final String token) {
+        Log.e(TAG, "sendRegistrationToServer: " + token);
         registerDeviceToService();
     }
 
@@ -88,7 +83,6 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         final String token = sp2.getString("regId", FirebaseInstanceId.getInstance().getToken());
 
         if (token == null) {
-            //progressDialog.dismiss();
             Toast.makeText(context, "Token not generated", Toast.LENGTH_LONG).show();
             return;
         }
@@ -97,7 +91,6 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        //progressDialog.dismiss();
                         Log.e(TAG, "PHP SERVER : onResponse: " + response );
                         try {
                             JSONObject obj = new JSONObject(response);
@@ -110,7 +103,6 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        //progressDialog.dismiss();
                         Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }) {
