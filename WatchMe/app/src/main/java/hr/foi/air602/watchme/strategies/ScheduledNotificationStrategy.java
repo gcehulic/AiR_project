@@ -1,6 +1,7 @@
 package hr.foi.air602.watchme.strategies;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.util.Log;
 
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import hr.foi.air602.notification.configuration.Config;
 import hr.foi.air602.notification.essentials.Strategy;
 import hr.foi.air602.notification.service.MyFirebaseMessagingService;
 import hr.foi.air602.watchme.database.FavoriteAdapter;
@@ -29,11 +31,13 @@ public class ScheduledNotificationStrategy implements Strategy {
     private DateTimeZone myTimeZone = DateTimeZone.forID("Europe/Zagreb");
     private FavoriteAdapter favoriteAdapter = null;
     private boolean work = true;
+    public Context ctx = null;
 
     public static ScheduledNotificationStrategy getInstance(Context ctx){
         if(INSTANCE == null){
             INSTANCE = new ScheduledNotificationStrategy();
             INSTANCE.favoriteAdapter = new FavoriteAdapter(ctx);
+            INSTANCE.ctx = ctx;
         }
 
         return INSTANCE;
@@ -47,6 +51,8 @@ public class ScheduledNotificationStrategy implements Strategy {
     @Override
     public void run() {
         Log.e(TAG, "run: strategy run");
+        SharedPreferences sp = ctx.getSharedPreferences(Config.SHARED_PREF_OPTIONS,Context.MODE_PRIVATE);
+        this.minutesToShow = sp.getInt("minutes",20);
         this.work = true;
         this.setup();
         for(Favorite fav : this.favorites){
@@ -96,6 +102,7 @@ public class ScheduledNotificationStrategy implements Strategy {
 
         DateTime apiTime = new DateTime(0, 1, 1, Integer.parseInt(timeStringArray[0]), Integer.parseInt(timeStringArray[1]), timeInAPI);
         DateTime myTime = apiTime.withZone(myTimeZone);
+        myTime = myTime.minusMinutes(18);
 
         if(apiTime.hourOfDay().get() > 12 && myTime.getHourOfDay() < 12) dayIndex = (dayIndex+1)%7;
 
@@ -103,12 +110,16 @@ public class ScheduledNotificationStrategy implements Strategy {
 
     }
 
+    public void setMinutes(int minutes){
+        this.minutesToShow = minutes;
+    }
+
     private void notifyShow(Favorite favorite){
         if(isNotificationNeeded(favorite)){
             Log.e(TAG, "notifyShow: notif needed");
             String[] airsStringArray = favorite.airs.split(" ");
-            String title = "Show Alert!";
-            String message = favorite.slug+": " + airsStringArray[0] + ", " + airsStringArray[1]+"! Get Ready! :) ";
+            String title = favorite.title;
+            String message = airsStringArray[0] + ", " + airsStringArray[1]+"! Get Ready! :) ";
             MyFirebaseMessagingService.getInstance().sendPush(title, message);
 
         }
@@ -126,6 +137,7 @@ public class ScheduledNotificationStrategy implements Strategy {
         int airsMinutes = Integer.parseInt(airsTimeArray[1]);
 
         DateTime timeWhenNotify = now.plusMinutes(this.minutesToShow);
+        Log.e(TAG, "isNotificationNeeded: " + this.minutesToShow );
         Log.e(TAG, "isNotificationNeeded: " + favorite.slug + " " + favorite.airs );
         Log.e(TAG, "isNotificationNeeded: " + timeWhenNotify.toString());
         Log.e(TAG, "isNotificationNeeded: day "+timeWhenNotify.dayOfWeek().getAsText(Locale.ENGLISH).toLowerCase()+" <> " + airsDayName.toLowerCase());

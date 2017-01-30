@@ -5,6 +5,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
 /**
  * Created by Goran on 23.11.2016..
  */
@@ -44,4 +47,35 @@ public class Utilities {
         return url.toString();
     }
 
+    public static String convertTime(String time){
+        DateTimeZone myTimeZone = DateTimeZone.forID("Europe/Zagreb");
+        String[] timeArray = time.split(";");
+        String dayString = timeArray[0];
+        String timeString = timeArray[1];
+        String[] timeStringArray = timeString.split(":");
+        String timezoneString = timeArray[2];
+
+        String[] daysOfWeek = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+        int dayIndex = -1;
+        for(int i = 0; i<daysOfWeek.length; i++){
+            if(daysOfWeek[i].toLowerCase().equals(dayString.toLowerCase())){
+                dayIndex = i;
+                break;
+            }
+        }
+
+        DateTimeZone timeInAPI = DateTimeZone.forID(timezoneString);
+
+        DateTime apiTime = new DateTime(0, 1, 1, Integer.parseInt(timeStringArray[0]), Integer.parseInt(timeStringArray[1]), timeInAPI);
+        DateTime myTime = apiTime.withZone(myTimeZone);
+        myTime = myTime.minusMinutes(18);
+
+        if(apiTime.hourOfDay().get() > 12 && myTime.getHourOfDay() < 12) dayIndex = (dayIndex+1)%7;
+
+        String myMinutes = null;
+        if(myTime.minuteOfHour().get() < 10) myMinutes = "0" + myTime.minuteOfHour().getAsString();
+        else myMinutes = myTime.minuteOfHour().getAsString();
+        return myTime.hourOfDay().getAsString()+":"+myMinutes + " " + daysOfWeek[dayIndex] + " " + dayIndex;
+
+    }
 }

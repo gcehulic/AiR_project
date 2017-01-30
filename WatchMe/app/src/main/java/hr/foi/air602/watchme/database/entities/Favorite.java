@@ -12,9 +12,11 @@ public class Favorite {
     public String genres; // odvojeno ;
     public String airs; //json
     public String network;
+    public String title;
 
-    public Favorite(String id, String slug, String genres, String airs, String network){
+    public Favorite(String id, String title, String slug, String genres, String airs, String network){
         this.id = id;
+        this.title = title;
         this.slug = slug;
         this.genres = genres;
         this.airs = airs;

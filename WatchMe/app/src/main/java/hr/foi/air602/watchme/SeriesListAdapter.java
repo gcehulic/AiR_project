@@ -77,6 +77,9 @@ public class SeriesListAdapter extends BaseAdapter {
         holder.slug.setText(series.getSlug());
         holder.zanrovi.setText(series.getZanrovi());
         holder.emitiranje.setText(series.getEmitiranje());
+        String airStrign = Utilities.convertTime(series.getEmitiranje());
+        String[] airsArray = airStrign.split(" ");
+        holder.txtAirs.setText("(" + airsArray[1] +" , " + airsArray[0]+ ")");
         holder.mreza.setText(series.getMreza());
 
         final String naslovSerije = series.getNaslov().toString();
@@ -174,7 +177,7 @@ public class SeriesListAdapter extends BaseAdapter {
                 int korisnik = userAdapter.getUserFromSharedPrefs();
                 if(holder.odabirSerije.isChecked()){
                     if(!userFavoriteAdapter.doesFavoriteExists(korisnik, serijaID)){
-                        favoriteAdapter.insertFavorite(new Favorite(serijaID,holder.slug.getText().toString(),holder.zanrovi.getText().toString(),holder.emitiranje.getText().toString(),holder.mreza.getText().toString())); //PROMENITI
+                        favoriteAdapter.insertFavorite(new Favorite(serijaID, naslovSerije, holder.slug.getText().toString(),holder.zanrovi.getText().toString(),holder.emitiranje.getText().toString(),holder.mreza.getText().toString())); //PROMENITI
                         userFavoriteAdapter.insertUserFavorite(new UserFavorite(korisnik,serijaID));
 
                         Log.d("WATCHME", "onClick: oznaceno " + serijaID + " dodano u bazu" );
@@ -185,7 +188,7 @@ public class SeriesListAdapter extends BaseAdapter {
                 } else {
                     if(userFavoriteAdapter.doesFavoriteExists(korisnik,serijaID)){
                         userFavoriteAdapter.deleteUserFavorite(new UserFavorite(korisnik,serijaID));
-                        favoriteAdapter.deleteFavorite(new Favorite(serijaID,"","","",""));
+                        favoriteAdapter.deleteFavorite(new Favorite(serijaID, "","","","",""));
                         Log.d("WATCHME", "onClick: odznaceno i obrisano");
                     }
 
@@ -208,12 +211,13 @@ public class SeriesListAdapter extends BaseAdapter {
                 zanrObiteljska, zanrFantazija, zanrSf, zanrTriler, zanrReality, zanrAnimirani;
         private ImageView prvoSlovoNaslova;
         private CheckBox odabirSerije;
-        private TextView slug, emitiranje, mreza, zanrovi;
+        private TextView slug, emitiranje, mreza, zanrovi, txtAirs;
 
         public ViewHolder(View v){
             this.naslov = (TextView) v.findViewById(R.id.serijaNaslov);
             this.godina = (TextView) v.findViewById(R.id.serijaGodina);
             this.odabirSerije = (CheckBox) v.findViewById(R.id.odabir);
+            this.txtAirs = (TextView) v.findViewById(R.id.txtAirs);
 
             this.idSerije = (TextView) v.findViewById(R.id.idserije);
 

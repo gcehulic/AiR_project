@@ -38,6 +38,7 @@ public class FavoriteAdapter extends DataAdapter{
     public long insertFavorite(Favorite favorite){
         ContentValues contentValues = new ContentValues();
         contentValues.put("id",favorite.id);
+        contentValues.put("title", favorite.title);
         contentValues.put("slug",favorite.slug);
         contentValues.put("genres",favorite.genres);
         contentValues.put("airs",favorite.airs);
@@ -51,18 +52,19 @@ public class FavoriteAdapter extends DataAdapter{
     public List<Favorite> getAllFavorites(){
         List<Favorite> result = new ArrayList<>();
 
-        String[] columns = new String[]{"id", "slug", "genres", "airs", "network"};
+        String[] columns = new String[]{"id", "title", "slug", "genres", "airs", "network"};
         SQLiteDatabase db = openToRead();
 
         Cursor cursor = db.query(TABLE, columns, null, null, null, null, null);
 
         for(cursor.moveToFirst(); !(cursor.isAfterLast()); cursor.moveToNext()){
             String id = cursor.getString(cursor.getColumnIndex("id"));
+            String title = cursor.getString(cursor.getColumnIndex("title"));
             String slug = cursor.getString(cursor.getColumnIndex("slug"));
             String genres = cursor.getString(cursor.getColumnIndex("genres"));
             String airs = cursor.getString(cursor.getColumnIndex("airs"));
             String network = cursor.getString(cursor.getColumnIndex("network"));
-            Favorite favorite = new Favorite(id,slug,genres,airs,network);
+            Favorite favorite = new Favorite(id, title,slug,genres,airs,network);
             result.add(favorite);
         }
 
@@ -71,18 +73,19 @@ public class FavoriteAdapter extends DataAdapter{
     }
 
     public Favorite getFavoriteById(String favoriteid){
-        String[] columns = new String[]{"id", "slug", "genres", "airs", "network"};
+        String[] columns = new String[]{"id", "title", "slug", "genres", "airs", "network"};
         SQLiteDatabase db = openToRead();
 
         String[] args = {favoriteid};
         Cursor cursor = db.query(TABLE, columns, "id=?",args, null, null, null);
         cursor.moveToFirst();
         String id = cursor.getString(cursor.getColumnIndex("id"));
+        String title = cursor.getString(cursor.getColumnIndex("title"));
         String slug = cursor.getString(cursor.getColumnIndex("slug"));
         String genres = cursor.getString(cursor.getColumnIndex("genres"));
         String airs = cursor.getString(cursor.getColumnIndex("airs"));
         String network = cursor.getString(cursor.getColumnIndex("network"));
-        Favorite favorite = new Favorite(id,slug,genres,airs,network);
+        Favorite favorite = new Favorite(id, title,slug,genres,airs,network);
         return favorite;
     }
 
