@@ -15,6 +15,8 @@ import com.google.android.youtube.player.YouTubePlayerView;
  * Created by markopc on 12/1/2016.
  */
 
+
+// Prikaz detalja o seriji
 public class SeriesDetails extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, View.OnClickListener  {
 
     private static final int RECOVERY_DIALOG_REQUEST = 1;
@@ -47,7 +49,7 @@ public class SeriesDetails extends YouTubeBaseActivity implements YouTubePlayer.
     }
 
 
-
+// Postavljanje podataka o seriji
     private void setData() {
         naslov.setText(series.getNaslov()+" ");
         godina.setText(series.getGodina()+" ");
@@ -101,6 +103,8 @@ public class SeriesDetails extends YouTubeBaseActivity implements YouTubePlayer.
 
 
     }
+
+    // Kreira objekt klase series
     private void getIntentData() {
 
      series = new Series();

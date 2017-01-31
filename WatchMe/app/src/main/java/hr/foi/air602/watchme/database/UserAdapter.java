@@ -14,7 +14,7 @@ import hr.foi.air602.watchme.database.entities.User;
 /**
  * Created by Mateo on 7.12.2016..
  */
-
+//Klasa za rad s tablicom korisnika
 public class UserAdapter extends DataAdapter{
 
     private static final String TABLE = "User";
@@ -39,7 +39,7 @@ public class UserAdapter extends DataAdapter{
         SQLiteDatabase db = openToWrite();
 
         return db.insert(TABLE, null, contentValues);
-        }
+    }
 
     // pregled svih korisnika return null;
     public List<User> getAllUsers(){
@@ -62,7 +62,7 @@ public class UserAdapter extends DataAdapter{
 
         return result;
 
-        }
+    }
 
     public int getUserId(String username, String password){
         String[] columns = new String[]{KEY_ID, "name", "surname", "mail", "username", "password"};

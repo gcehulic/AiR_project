@@ -64,11 +64,9 @@ public class RecommendedFragment extends Fragment implements SeriesLoadedRecomme
         initialize();
     }
 
-
+    //dohvat serija sa interneta po žanrovima
     public void initialize(){
-
         dohvaceneSerije = new ArrayList<>();
-
         preporucenoListaSerija = (ListView) this.getActivity().findViewById(R.id.preporucenoListaSerija);
         String genres = favoriteAdapter.getRecommendedGenres();
         if (Utilities.connection(getActivity().getApplicationContext())) {
@@ -89,15 +87,11 @@ public class RecommendedFragment extends Fragment implements SeriesLoadedRecomme
                 mProgressBar.setVisibility(View.GONE);
                 preporucenoListaSerija.setVisibility(View.GONE);
             }
-
         } else {
-            //Toast.makeText(this.getContext(), "Niste spojeni na internet", Toast.LENGTH_LONG).show();
             mProgressBar.setVisibility(View.GONE);
             internetGreska.setVisibility(View.GONE);
             nemaPreporuka.setVisibility(View.GONE);
-            //preporucenoListaSerija.setBackgroundColor(Color.WHITE);
         }
-
     }
 
 

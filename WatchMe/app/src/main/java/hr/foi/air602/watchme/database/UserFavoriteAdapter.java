@@ -15,7 +15,7 @@ import hr.foi.air602.watchme.database.entities.UserFavorite;
 /**
  * Created by Goran on 20.12.2016..
  */
-
+//Klasa za rad s tablicom UserFavorites
 public class UserFavoriteAdapter extends DataAdapter {
     private static final String TABLE = "UserFavorites";
     private Context ctx = null;
@@ -34,15 +34,11 @@ public class UserFavoriteAdapter extends DataAdapter {
         SQLiteDatabase db = openToWrite();
         return db.insert(TABLE,null,contentValues);
     }
-//napraviti update
-    public void updateUserFavorite(UserFavorite userFavorite){
-
-    }
 
     public long deleteUserFavorite(UserFavorite userFavorite){
-            SQLiteDatabase db = openToWrite();
-            String[] args = {userFavorite.userid+"",userFavorite.favoriteid};
-            return db.delete(TABLE,"userid = ? and favoriteid = ?",args);
+        SQLiteDatabase db = openToWrite();
+        String[] args = {userFavorite.userid+"",userFavorite.favoriteid};
+        return db.delete(TABLE,"userid = ? and favoriteid = ?",args);
     }
 
     public boolean doesFavoriteExists(int userID, String favoriteID){

@@ -32,7 +32,7 @@ import hr.foi.air602.watchme.listeners.SeriesLoadedFromIdListener;
 /**
  * Created by markopc on 11/2/2016.
  */
-
+//Fragment gdje se prikazuju favoriti.
 public class FavoritesFragment extends Fragment implements AdapterView.OnItemClickListener, SeriesLoadedFromIdListener {
 
     private UserFavoriteAdapter userFavoriteAdapter = null;
@@ -57,25 +57,20 @@ public class FavoritesFragment extends Fragment implements AdapterView.OnItemCli
         mProgressBar.getIndeterminateDrawable().setColorFilter(0xFF3F51B5, android.graphics.PorterDuff.Mode.MULTIPLY);
         nemaFavorita = (TextView) rootView.findViewById(R.id.nemaFavorita);
         mProgressBar.setVisibility(View.VISIBLE);
-
         return rootView;
     }
-
-
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //init();
     }
-   private  void initialize(){
 
+    //Ako je korisnik povezan na internet, dohvaća serije po ID-u
+    private  void initialize(){
         dohvaceneSerije = new ArrayList<>();
-
         listaSerija = (ListView) this.getActivity().findViewById(R.id.pregledListaSerija);
 
         if(Utilities.connection(getActivity().getApplicationContext())){
-
             this.favoriti = this.userFavoriteAdapter.getAllUserFavorites(this.userAdapter.getUserFromSharedPrefs());
 
             if(this.favoriti.size() > 0) {
@@ -98,7 +93,6 @@ public class FavoritesFragment extends Fragment implements AdapterView.OnItemCli
         } else {
             Toast.makeText(this.getContext(),"Niste spojeni na internet",Toast.LENGTH_LONG).show();
             mProgressBar.setVisibility(View.GONE);
-          //  homeListaSerija.setBackgroundColor(Color.WHITE);
         }
 
     }
@@ -116,6 +110,7 @@ public class FavoritesFragment extends Fragment implements AdapterView.OnItemCli
         };
     }
 
+    //metoda pokreće dohvat serija po ID-u
     private void loadSeriesFromId(String url){
         new LoadSeriesFromIdAsyncTask(this,this.getContext(),url).execute();
     }
@@ -135,6 +130,7 @@ public class FavoritesFragment extends Fragment implements AdapterView.OnItemCli
         startActivity(i);
     }
 
+    //dodavanje serije u listu serija kada stigne
     @Override
     public void seriesLoadedFromId(Series series) {
         FavoritesFragment.dohvaceneSerije.add(series);
@@ -160,7 +156,6 @@ public class FavoritesFragment extends Fragment implements AdapterView.OnItemCli
             if (this.favoriti.size() > 0) {
                 for (Favorite f : this.favoriti) {
                     Log.d("WATCHME", "onViewCreated: id:" + f.id + " slug:" + f.slug +" zanrovi:" + f.genres + " airs:" + f.airs + " network:"+f.network);
-
                 }
             } else {
                 Log.d("WATCHME", "onViewCreated: favoriti prazni");

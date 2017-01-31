@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * Created by Mateo on 7.12.2016..
  */
-
+//Klasa služi za rad s bazom podataka - čitanje i pisanje
 public class DataAdapter {
 
     public static final String DATABASE_NAME = "database.db";
@@ -39,8 +39,8 @@ public class DataAdapter {
 
     // zatvaranje veze prema bazi podataka
     public void close() {
-//        sqLiteDatabase.close();
-        sqLiteHelper.close();
+        //sqLiteDatabase.close();
+        //sqLiteHelper.close();
     }
 
 }

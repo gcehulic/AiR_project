@@ -135,19 +135,19 @@ public class BottomNavigationActivity extends AppCompatActivity {
     /*Akcija na selektirani item*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-       if(item.getItemId() == R.id.action_settings){
-           Intent i = new Intent(getApplicationContext(), UserSettings.class);
-           startActivity(i);
+        if(item.getItemId() == R.id.action_settings){
+            Intent i = new Intent(getApplicationContext(), UserSettings.class);
+            startActivity(i);
 
-       }
+        }
         if(item.getItemId() == R.id.action_about){
             Intent i = new Intent(getApplicationContext(), AboutProgram.class);
             startActivity(i);
-       }
+        }
         if(item.getItemId() == R.id.action_odjava){
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
-       }
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -350,7 +350,7 @@ public class BottomNavigationActivity extends AppCompatActivity {
             fragment = new Fragment();
             switch (position) {
                 case 0:
-                   // fragment = new HomeFragment();
+                    // fragment = new HomeFragment();
                     fragment = mHomeFragment;
                     break;
 
@@ -392,10 +392,10 @@ public class BottomNavigationActivity extends AppCompatActivity {
             } else if(position == 0){
 
                 mHomeFragment.initialize();
-              //  finish();
-              //  Intent intent = new Intent(mActivity, BottomNavigationActivity.class);
-              //  intent.putExtra("reload", true);
-              //  startActivity(intent);
+                //  finish();
+                //  Intent intent = new Intent(mActivity, BottomNavigationActivity.class);
+                //  intent.putExtra("reload", true);
+                //  startActivity(intent);
             }
             else {
                 showFloatingActionButton(false);

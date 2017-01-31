@@ -21,7 +21,7 @@ import hr.foi.air602.watchme.listeners.SeriesLoadedFromIdListener;
 /**
  * Created by Goran on 23.11.2016..
  */
-
+//Klasa za asinkrono dohvaćanje inforamciji o seriji po ID-u
 public class LoadSeriesFromIdAsyncTask extends AsyncTask<String, String, String> {
 
     private SeriesLoadedFromIdListener seriesLoadedListener;

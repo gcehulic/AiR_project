@@ -62,52 +62,36 @@ public class HomeFragment extends Fragment implements SeriesLoadedListener,Adapt
         mProgressBar.setVisibility(View.VISIBLE);
         internetGreska = (ImageView) rootView.findViewById(R.id.slikaInternet);
         homeListaSerija = (ListView) rootView.findViewById(R.id.homeListaSerija);
-
         return rootView;
     }
-
-
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //initialize();
         this.userFavoriteAdapter = new UserFavoriteAdapter(getContext());
         this.userAdapter = new UserAdapter(getContext());
         this.favoriti = this.userFavoriteAdapter.getAllUserFavorites(this.userAdapter.getUserFromSharedPrefs());
-
-
         initialize();
-       /* if(this.favoriti.size() > 0) {
-            for (Favorite f : this.favoriti) {
-                Log.d("WATCHME", "onViewCreated: id:" + f.id + " slug:" + f.slug);
-                String url = Utilities.makeUrlSeriesFromId(f.id);
-                this.dohvatSerijaPoId(url);
-            }
-        } else {
-            Log.d("WATCHME", "onViewCreated: favoriti prazni");
-        }*/
     }
 
+    //metoda dohvaća serije sa interneta
     public  void initialize(){
-
         dohvaceneSerije = new ArrayList<>();
-
         listaSerija = (ListView) this.getActivity().findViewById(R.id.homeListaSerija);
 
-            if(Utilities.connection(getActivity().getApplicationContext())){
-                String url = Utilities.makeUrlSeries("trending",brojStranica);
-                this.loadSeries(url);
-                setListViewAdapter();
-                listaSerija.setOnItemClickListener(this);
-                listaSerija.setOnScrollListener(this.onScrollListener());
-                internetGreska.setVisibility(View.GONE);
+        if(Utilities.connection(getActivity().getApplicationContext())){
+            String url = Utilities.makeUrlSeries("trending",brojStranica);
+            this.loadSeries(url);
+            setListViewAdapter();
+            listaSerija.setOnItemClickListener(this);
+            listaSerija.setOnScrollListener(this.onScrollListener());
+            internetGreska.setVisibility(View.GONE);
 
         } else {
-                Toast.makeText(this.getContext(),"Niste spojeni na internet",Toast.LENGTH_LONG).show();
-                mProgressBar.setVisibility(View.GONE);
-                internetGreska.setVisibility(View.VISIBLE);
-                homeListaSerija.setBackgroundColor(Color.WHITE);
+            Toast.makeText(this.getContext(),"Niste spojeni na internet",Toast.LENGTH_LONG).show();
+            mProgressBar.setVisibility(View.GONE);
+            internetGreska.setVisibility(View.VISIBLE);
+            homeListaSerija.setBackgroundColor(Color.WHITE);
         }
 
     }
@@ -137,11 +121,11 @@ public class HomeFragment extends Fragment implements SeriesLoadedListener,Adapt
         Series serije = dohvaceneSerije.get(position);
 
         Intent i = new Intent(getActivity(), SeriesDetails.class);
-          i.putExtra("naslov",serije.getNaslov());
-          i.putExtra("godina",serije.getGodina());
-          i.putExtra("zanrovi",serije.getGenres());
-          i.putExtra("trailer", serije.getTrailer());
-          i.putExtra("opis", serije.getOpis());
+        i.putExtra("naslov",serije.getNaslov());
+        i.putExtra("godina",serije.getGodina());
+        i.putExtra("zanrovi",serije.getGenres());
+        i.putExtra("trailer", serije.getTrailer());
+        i.putExtra("opis", serije.getOpis());
 
         startActivity(i);
 
@@ -162,8 +146,6 @@ public class HomeFragment extends Fragment implements SeriesLoadedListener,Adapt
                     }
                 }
             }
-
-
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {

@@ -24,6 +24,7 @@ import hr.foi.air602.watchme.strategies.ScheduledNotificationStrategy;
  * Created by markopc on 11/22/2016.
  */
 
+// Korisnikove postavke o zvuku, vibraciji i koliko prije dolazi obavijest
 public class UserSettings extends AppCompatActivity {
 
     private Button btnSaveSettings = null;
@@ -42,45 +43,31 @@ public class UserSettings extends AppCompatActivity {
         this.checkBoxSound = (CheckBox) findViewById(R.id.checkBoxSound);
         this.checkBoxVibration = (CheckBox) findViewById(R.id.checkBoxVibration);
         this.editTextMinutes = (EditText) findViewById(R.id.editTextMinutes);
-
         SharedPreferences sp = getSharedPreferences(Config.SHARED_PREF_OPTIONS, Context.MODE_PRIVATE);
-
-        //this.scheduledNotificationStrategy = ScheduledNotificationStrategy.getInstance(getApplicationContext());
-        MyFirebaseMessagingService myFirebaseMessagingService = MyFirebaseMessagingService.getInstance();
-
         this.checkBoxVibration.setChecked(sp.getBoolean("vibration", false));
         this.checkBoxSound.setChecked(sp.getBoolean("sound", true));
         this.editTextMinutes.setText(sp.getInt("minutes", 20)+"");
-
         final UserSettings uSettings = this;
 
         this.btnSaveSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                /*NotificationSettings notificationSettings = new NotificationSettings();
-                notificationSettings.setSound(checkBoxZvuk.isChecked());
-                notificationSettings.setVibration(checkBoxVibration.isChecked());*/
                 SharedPreferences sp = getSharedPreferences(Config.SHARED_PREF_OPTIONS, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sp.edit();
                 editor.putBoolean("sound",checkBoxSound.isChecked());
                 editor.putBoolean("vibration",checkBoxVibration.isChecked());
                 editor.putInt("minutes",Integer.parseInt(editTextMinutes.getText().toString()));
                 editor.apply();
-
                 ScheduledNotificationStrategy.getInstance(getApplicationContext()).setMinutes(Integer.parseInt(editTextMinutes.getText().toString()));
-
                 NotificationOptions notificationOptions = null;
                 if(checkBoxSound.isChecked() && checkBoxVibration.isChecked()) notificationOptions = new SoundVibrationNotification();
                 else if(checkBoxSound.isChecked()) notificationOptions = new SoundNotification();
                 else if(checkBoxVibration.isChecked()) notificationOptions = new VibrationNotification();
                 else notificationOptions = new SilentNotification();
-
                 NotificationUtils.applyNotificationSettings(notificationOptions);
-
                 MyFirebaseMessagingService.getInstance().schedulingNotifs();
                 uSettings.finish();
-
             }
         });
     }
@@ -88,7 +75,6 @@ public class UserSettings extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
     }
 
 }

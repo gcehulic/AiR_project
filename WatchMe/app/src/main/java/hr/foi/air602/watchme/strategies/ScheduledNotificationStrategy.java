@@ -22,6 +22,7 @@ import hr.foi.air602.watchme.database.entities.Favorite;
  * Created by Mateo on 24.1.2017..
  */
 
+//Klasa za funkcionalnost izvršavanja obavijesti o seriji
 public class ScheduledNotificationStrategy implements Strategy {
 
     private static ScheduledNotificationStrategy INSTANCE = null;
@@ -43,11 +44,17 @@ public class ScheduledNotificationStrategy implements Strategy {
         return INSTANCE;
     }
 
+
     public void updateList(List<Favorite> favorites){
         this.favorites = favorites;
         this.work = false;
     }
 
+    /**
+     * Pokreće se svaki puta kada ga pokrene pozadinski web servis
+     *  Dohvaća sve favorite i onda konvertira vrijeme emitiranja u našu vremensku zonu
+     *  do...while petlja svakih 55 sekundi provjerava ima li šta za obavijestiti
+     */
     @Override
     public void run() {
         Log.e(TAG, "run: strategy run");
@@ -76,6 +83,7 @@ public class ScheduledNotificationStrategy implements Strategy {
         this.favorites = this.favoriteAdapter.getAllFavorites();
     }
 
+    //pretvara vrijeme u našu vremensku zonu
     private void operateFavorites(){
         for(Favorite fav : this.favorites){
             fav.airs = this.convertTime(fav.airs);
@@ -114,6 +122,7 @@ public class ScheduledNotificationStrategy implements Strategy {
         this.minutesToShow = minutes;
     }
 
+    //ako treba obavjestiti šalje zahtjev na web servis koji vraća notifikaciju
     private void notifyShow(Favorite favorite){
         if(isNotificationNeeded(favorite)){
             Log.e(TAG, "notifyShow: notif needed");
@@ -125,6 +134,7 @@ public class ScheduledNotificationStrategy implements Strategy {
         }
     }
 
+    //provjerava treba li obavjestiti
     private boolean isNotificationNeeded(Favorite favorite){
         DateTime now = DateTime.now(myTimeZone);
         String[] airsArray = favorite.airs.split(" ");

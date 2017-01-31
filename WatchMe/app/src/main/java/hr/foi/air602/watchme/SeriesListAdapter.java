@@ -27,6 +27,8 @@ import hr.foi.air602.watchme.strategies.ScheduledNotificationStrategy;
  * Created by Goran on 23.11.2016..
  */
 
+
+// Definira prikaz podataka o serijama
 public class SeriesListAdapter extends BaseAdapter {
 
     private ArrayList<Series> serije;
@@ -56,7 +58,6 @@ public class SeriesListAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-
         final ViewHolder holder;
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -68,11 +69,9 @@ public class SeriesListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-
         final Series series = (Series) getItem(position);
         holder.naslov.setText(series.getNaslov());
         holder.godina.setText("" + series.getGodina() + ".");
-
         holder.idSerije.setText(""+ series.getIdTrakt());
         holder.slug.setText(series.getSlug());
         holder.zanrovi.setText(series.getZanrovi());
@@ -81,14 +80,11 @@ public class SeriesListAdapter extends BaseAdapter {
         String[] airsArray = airStrign.split(" ");
         holder.txtAirs.setText("(" + airsArray[1] +" , " + airsArray[0]+ ")");
         holder.mreza.setText(series.getMreza());
-
         final String naslovSerije = series.getNaslov().toString();
         String prvoSlovoNaslova = naslovSerije.substring(0, 1);
-
         ColorGenerator generator = ColorGenerator.MATERIAL;
 
         int boja = generator.getColor(naslovSerije);
-
         String zanr = series.getGenres();
         if (zanr != null && !zanr.equals("")) {
             if (zanr.contains("action")) {
@@ -155,13 +151,10 @@ public class SeriesListAdapter extends BaseAdapter {
 
         TextDrawable drawable = TextDrawable.builder()
                 .buildRoundRect(prvoSlovoNaslova, boja, 100); // radius u px
-
         holder.prvoSlovoNaslova.setImageDrawable(drawable);
-
         UserAdapter userAdapter = new UserAdapter(context);
         UserFavoriteAdapter userFavoriteAdapter = new UserFavoriteAdapter(context);
         mChecked = userFavoriteAdapter.doesFavoriteExists(userAdapter.getUserFromSharedPrefs(),holder.idSerije.getText().toString());
-
         holder.odabirSerije.setChecked(mChecked);
         holder.odabirSerije.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,8 +174,6 @@ public class SeriesListAdapter extends BaseAdapter {
                         userFavoriteAdapter.insertUserFavorite(new UserFavorite(korisnik,serijaID));
 
                         Log.d("WATCHME", "onClick: oznaceno " + serijaID + " dodano u bazu" );
-
-
                     }
 
                 } else {
@@ -201,9 +192,6 @@ public class SeriesListAdapter extends BaseAdapter {
       return convertView;
 
     }
-
-
-
 
     private class ViewHolder{
         private TextView naslov, godina, idSerije;

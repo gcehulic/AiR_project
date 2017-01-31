@@ -22,7 +22,7 @@ import hr.foi.air602.watchme.listeners.SeriesLoadedRecommendedListener;
 /**
  * Created by Goran on 23.11.2016..
  */
-
+//Klasa za asinkrono dohvaćanja preporučene serije za korisnika
 public class LoadSeriesRecommendedAsyncTask extends AsyncTask<String, String, String> {
 
     private SeriesLoadedRecommendedListener seriesLoadedListener;

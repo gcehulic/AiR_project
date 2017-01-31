@@ -10,14 +10,15 @@ import org.json.JSONObject;
  * Created by Goran on 23.11.2016..
  */
 
+// Dohvaćanje podataka o seriji s API-ja
 public class Series {
 
     private String naslov;
     private int godina;
 
 
-    private String idTrakt, idTvdb, idImdb, idTvrage;
-    private String slug, imdb, genres, trailer, opis, overview;
+    private String idTrakt, idTvdb, idTvrage;
+    private String slug, imdb, genres, trailer, opis;
     private String zanrovi;
     private String emitiranje, mreza;
 
@@ -97,14 +98,6 @@ public class Series {
         this.idTvdb = idTvdb;
     }
 
-/*    public String getId_imdb() {
-        return idImdb;
-    }
-
-    public void setId_imdb(int idImdb) {
-        this.idImdb = idImdb;
-    }
-*/
     public String getTrailer() {
         return trailer;
     }
