@@ -10,6 +10,7 @@ import android.content.Intent;
 
 import java.text.ParseException;
 
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.v7.app.NotificationCompat;
 import android.text.TextUtils;
@@ -21,6 +22,10 @@ import java.util.List;
 import hr.foi.air602.notification.R;
 import hr.foi.air602.notification.configuration.Config;
 import hr.foi.air602.notification.essentials.NotificationOptions;
+import hr.foi.air602.notification.notification_options.SilentNotification;
+import hr.foi.air602.notification.notification_options.SoundNotification;
+import hr.foi.air602.notification.notification_options.SoundVibrationNotification;
+import hr.foi.air602.notification.notification_options.VibrationNotification;
 
 /**
  * Created by Goran on 18.1.2017..
@@ -54,32 +59,17 @@ public class NotificationUtils {
         );
 
         final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext);
-        showSmallNotification(mBuilder,title, message,resultPendingIntent);
-    }
 
-    //gradi se cijeli notifikacija i prikazuje se
-    private void showSmallNotification(NotificationCompat.Builder mBuilder, String title, String message, PendingIntent resultPendingIntent){
-        NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
-        inboxStyle.addLine(message);
-        Notification notification;
-        mBuilder.setTicker(title).setWhen(0)
-                .setAutoCancel(true)
-                .setContentTitle(title)
-                .setContentIntent(resultPendingIntent)
-                .setStyle(inboxStyle)
-                .setContentText(message)
-                .setSmallIcon(R.mipmap.ic_launcher);
-        if(sound && vibration){
-            mBuilder.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND);
-        } else if(sound){
-            mBuilder.setDefaults(Notification.DEFAULT_SOUND);
-        } else if(vibration){
-            mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
-        }
+        SharedPreferences sharedPreferences = this.mContext.getSharedPreferences(Config.SHARED_PREF_OPTIONS, Context.MODE_PRIVATE);
+        sound = sharedPreferences.getBoolean("sound", true);
+        vibration = sharedPreferences.getBoolean("vibration", false);
 
-        notification = mBuilder.build();
-        NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(Config.NOTIFICATION_ID, notification);
+        NotificationOptions notification = null;
+        if(sound && vibration) notification = new SoundVibrationNotification();
+        else if(sound) notification = new SoundNotification();
+        else if(vibration) notification = new VibrationNotification();
+        else notification = new SilentNotification();
+        notification.showNotification(mBuilder,title, message, resultPendingIntent, mContext);
     }
 
     //briše sve notifikacije kada se orvori aplikacija
@@ -88,9 +78,4 @@ public class NotificationUtils {
         notificationManager.cancelAll();
     }
 
-    //primjenjuje korisnički definirane postavke koje korisnik šalje modulu preko sučelja NotificationOptions
-    public static void applyNotificationSettings(NotificationOptions notificationOptions){
-        sound = notificationOptions.getSound();
-        vibration = notificationOptions.getVibration();
-    }
 }

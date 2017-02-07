@@ -1,10 +1,10 @@
-package hr.foi.air602.notification.service;
+package hr.foi.air602.watchme.background_service;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
-import hr.foi.air602.notification.essentials.Strategy;
+import hr.foi.air602.watchme.strategies.Strategy;
 
 /**
  * Created by markopc on 24.1.2017..

@@ -69,15 +69,20 @@
                             android:text="Godina serije"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/serijaGodina"
-                            android:layout_weight="0.12" />
+                            android:id="@+id/serijaGodina" />
 
                         <TextView
                             android:text="TextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/txtAirs"
-                            android:layout_weight="1" />
+                            android:id="@+id/txtAirs" />
+
+                        <TextView
+                            android:text="TextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/mreza"
+                            android:layout_weight="0.12" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -249,13 +254,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_gravity="right">
-
-        <TextView
-            android:text="TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/mreza"
-            android:visibility="gone"/>
 
         <TextView
             android:text="TextView"

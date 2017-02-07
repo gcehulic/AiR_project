@@ -1,6 +1,7 @@
 package hr.foi.air602.watchme;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.amulyakhare.textdrawable.util.ColorGenerator;
 import java.util.ArrayList;
 
 import hr.foi.air602.notification.service.MyFirebaseMessagingService;
+import hr.foi.air602.watchme.background_service.SchedulingMessagesBackgroundService;
 import hr.foi.air602.watchme.database.FavoriteAdapter;
 import hr.foi.air602.watchme.database.UserAdapter;
 import hr.foi.air602.watchme.database.UserFavoriteAdapter;
@@ -78,8 +80,8 @@ public class SeriesListAdapter extends BaseAdapter {
         holder.emitiranje.setText(series.getEmitiranje());
         String airStrign = Utilities.convertTime(series.getEmitiranje());
         String[] airsArray = airStrign.split(" ");
-        holder.txtAirs.setText("(" + airsArray[1] +" , " + airsArray[0]+ ")");
-        holder.mreza.setText(series.getMreza());
+        holder.txtAirs.setText("( " + airsArray[1] +" , " + airsArray[0]+ ")");
+        holder.mreza.setText(" (" + series.getMreza() + " )");
         final String naslovSerije = series.getNaslov().toString();
         String prvoSlovoNaslova = naslovSerije.substring(0, 1);
         ColorGenerator generator = ColorGenerator.MATERIAL;
@@ -185,7 +187,8 @@ public class SeriesListAdapter extends BaseAdapter {
 
                 }
                 ScheduledNotificationStrategy.getInstance(context.getApplicationContext()).updateList(favoriteAdapter.getAllFavorites());
-                MyFirebaseMessagingService.getInstance().schedulingNotifs();
+                Intent intent = new Intent(context, SchedulingMessagesBackgroundService.class);
+                context.startService(intent);
             }
         });
 

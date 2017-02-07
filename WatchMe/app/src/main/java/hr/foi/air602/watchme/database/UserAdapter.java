@@ -60,6 +60,8 @@ public class UserAdapter extends DataAdapter{
             result.add(user);
         }
 
+        cursor.close();
+
         return result;
 
     }
@@ -72,6 +74,7 @@ public class UserAdapter extends DataAdapter{
         Cursor cursor = db.query(TABLE, columns, "username=? AND password=?", args, null, null, null);
         cursor.moveToFirst();
         int id = cursor.getInt(cursor.getColumnIndex("id"));
+        cursor.close();
         return id;
     }
 

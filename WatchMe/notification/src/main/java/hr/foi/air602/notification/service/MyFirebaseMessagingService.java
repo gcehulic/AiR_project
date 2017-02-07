@@ -1,6 +1,5 @@
 package hr.foi.air602.notification.service;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -22,14 +21,13 @@ import com.google.firebase.messaging.RemoteMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 import hr.foi.air602.notification.configuration.Config;
 import hr.foi.air602.notification.configuration.EndPoints;
 import hr.foi.air602.notification.essentials.MyVolley;
-import hr.foi.air602.notification.essentials.Strategy;
+import hr.foi.air602.notification.essentials.SetupListener;
 import hr.foi.air602.notification.util.NotificationUtils;
 
 /**
@@ -39,14 +37,14 @@ import hr.foi.air602.notification.util.NotificationUtils;
 /**
  * Klasa služi za prikaz notifikacija i obrada primljenih podataka
  */
-public class MyFirebaseMessagingService extends FirebaseMessagingService {
+public class MyFirebaseMessagingService extends FirebaseMessagingService implements SetupListener{
 
     private static BroadcastReceiver mRegistrationBroadcastReceiver;
     private static final String TAG = MyFirebaseMessagingService.class.getSimpleName();
 
     private NotificationUtils notificationUtils;
     private Context ctx;
-    private String email = null;
+    private String email;
 
     private static MyFirebaseMessagingService INSTANCE = new MyFirebaseMessagingService();
 
@@ -79,6 +77,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
+    public SetupListener initialize(){
+        return this;
+    }
+
     private void handleDataMessage(JSONObject json) {
         Log.e(TAG, "push json: " + json.toString());
 
@@ -93,7 +95,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.e(TAG, "message: " + message);
             Log.e(TAG, "isBackground: " + isBackground);
 
-            Intent resultIntent = new Intent(getApplicationContext(),SchedulingMessagesBackgroundService.class);
+            Intent resultIntent = new Intent(getApplicationContext(),MyFirebaseMessagingService.class);
             resultIntent.putExtra("message", message);
             showNotificationMessage(getApplicationContext(), title, message, resultIntent);
 
@@ -113,8 +115,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationUtils.showNotificationMessage(title, message, intent);
     }
 
-    public void setup(Context context, String email){
-        this.email = email;
+    public void setup(){
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -131,8 +132,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         };
 
         displayFirebaseRegId();
-        MyFirebaseInstanceIDService.getInstance(context).setEmail(email);
-        MyFirebaseInstanceIDService.getInstance(context).registerDeviceToService();
+        MyFirebaseInstanceIDService.getInstance(this.ctx).setEmail(email);
+        MyFirebaseInstanceIDService.getInstance(this.ctx).registerDeviceToService();
     }
 
     public void displayFirebaseRegId() {
@@ -187,7 +188,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     //Pokreće IntentService koji je u pozadini.
     public void schedulingNotifs(){
-        Intent serviceIntent = new Intent(ctx, SchedulingMessagesBackgroundService.class);
-        ctx.startService(serviceIntent);
+       // Intent serviceIntent = new Intent(ctx, SchedulingMessagesBackgroundService.class);
+       // ctx.startService(serviceIntent);
+    }
+
+    @Override
+    public void onFirebaseSetup(Context ctx, String email) {
+        this.ctx = ctx;
+        this.email = email;
+        this.setup();
     }
 }

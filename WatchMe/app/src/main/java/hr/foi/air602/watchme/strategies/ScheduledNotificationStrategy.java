@@ -13,10 +13,13 @@ import java.util.List;
 import java.util.Locale;
 
 import hr.foi.air602.notification.configuration.Config;
-import hr.foi.air602.notification.essentials.Strategy;
 import hr.foi.air602.notification.service.MyFirebaseMessagingService;
 import hr.foi.air602.watchme.database.FavoriteAdapter;
+import hr.foi.air602.watchme.database.UserFavoriteAdapter;
 import hr.foi.air602.watchme.database.entities.Favorite;
+import hr.foi.air602.watchme.database.entities.UserFavorite;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by Mateo on 24.1.2017..
@@ -58,7 +61,7 @@ public class ScheduledNotificationStrategy implements Strategy {
     @Override
     public void run() {
         Log.e(TAG, "run: strategy run");
-        SharedPreferences sp = ctx.getSharedPreferences(Config.SHARED_PREF_OPTIONS,Context.MODE_PRIVATE);
+        SharedPreferences sp = ctx.getSharedPreferences(Config.SHARED_PREF_OPTIONS, MODE_PRIVATE);
         this.minutesToShow = sp.getInt("minutes",20);
         this.work = true;
         this.setup();

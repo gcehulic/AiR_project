@@ -68,6 +68,8 @@ public class FavoriteAdapter extends DataAdapter{
             result.add(favorite);
         }
 
+        cursor.close();
+
         return result;
 
     }
@@ -86,6 +88,9 @@ public class FavoriteAdapter extends DataAdapter{
         String airs = cursor.getString(cursor.getColumnIndex("airs"));
         String network = cursor.getString(cursor.getColumnIndex("network"));
         Favorite favorite = new Favorite(id, title,slug,genres,airs,network);
+
+        cursor.close();
+
         return favorite;
     }
 
@@ -151,7 +156,7 @@ public class FavoriteAdapter extends DataAdapter{
         }catch (JSONException e) {
             e.printStackTrace();
         }
-
+        cursor.close();
         return result;
 
     }

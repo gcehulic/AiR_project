@@ -19,9 +19,6 @@
             </intent-filter>
         </service>
 
-        <service android:name=".service.SchedulingMessagesBackgroundService">
-        </service>
-
     </application>
 
 

@@ -12,12 +12,11 @@ import android.widget.EditText;
 
 import hr.foi.air602.notification.configuration.Config;
 import hr.foi.air602.notification.essentials.NotificationOptions;
-import hr.foi.air602.notification.service.MyFirebaseMessagingService;
 import hr.foi.air602.notification.util.NotificationUtils;
-import hr.foi.air602.watchme.notification_options.SilentNotification;
-import hr.foi.air602.watchme.notification_options.SoundNotification;
-import hr.foi.air602.watchme.notification_options.SoundVibrationNotification;
-import hr.foi.air602.watchme.notification_options.VibrationNotification;
+import hr.foi.air602.notification.notification_options.SilentNotification;
+import hr.foi.air602.notification.notification_options.SoundNotification;
+import hr.foi.air602.notification.notification_options.SoundVibrationNotification;
+import hr.foi.air602.notification.notification_options.VibrationNotification;
 import hr.foi.air602.watchme.strategies.ScheduledNotificationStrategy;
 
 /**
@@ -60,13 +59,6 @@ public class UserSettings extends AppCompatActivity {
                 editor.putInt("minutes",Integer.parseInt(editTextMinutes.getText().toString()));
                 editor.apply();
                 ScheduledNotificationStrategy.getInstance(getApplicationContext()).setMinutes(Integer.parseInt(editTextMinutes.getText().toString()));
-                NotificationOptions notificationOptions = null;
-                if(checkBoxSound.isChecked() && checkBoxVibration.isChecked()) notificationOptions = new SoundVibrationNotification();
-                else if(checkBoxSound.isChecked()) notificationOptions = new SoundNotification();
-                else if(checkBoxVibration.isChecked()) notificationOptions = new VibrationNotification();
-                else notificationOptions = new SilentNotification();
-                NotificationUtils.applyNotificationSettings(notificationOptions);
-                MyFirebaseMessagingService.getInstance().schedulingNotifs();
                 uSettings.finish();
             }
         });

@@ -1,4 +1,4 @@
-package hr.foi.air602.notification.essentials;
+package hr.foi.air602.watchme.strategies;
 
 import java.io.Serializable;
 

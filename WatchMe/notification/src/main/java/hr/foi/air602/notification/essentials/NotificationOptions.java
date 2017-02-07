@@ -1,5 +1,9 @@
 package hr.foi.air602.notification.essentials;
 
+import android.app.PendingIntent;
+import android.content.Context;
+import android.support.v7.app.NotificationCompat;
+
 /**
  * Created by Goran on 26.1.2017..
  */
@@ -8,6 +12,5 @@ package hr.foi.air602.notification.essentials;
     Sučelje služi za definiranje ima li notifikacija zvuka i/ili vibraciju ili ništa od toga.
  */
 public interface NotificationOptions {
-    boolean getSound();
-    boolean getVibration();
+    void showNotification(NotificationCompat.Builder mBuilder, String title, String message, PendingIntent resultPendingIntent, Context ctx);
 }

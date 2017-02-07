@@ -61,6 +61,7 @@ public class UserFavoriteAdapter extends DataAdapter {
             FavoriteAdapter favoriteAdapter = new FavoriteAdapter(ctx);
             favorites.add(favoriteAdapter.getFavoriteById(favoriteid));
         }
+        cursor.close();
         return favorites;
     }
 }
