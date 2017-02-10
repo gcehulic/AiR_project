@@ -13,7 +13,8 @@ import java.util.List;
 import java.util.Locale;
 
 import hr.foi.air602.notification.configuration.Config;
-import hr.foi.air602.notification.service.MyFirebaseMessagingService;
+import hr.foi.air602.notification.essentials.NotificationListener;
+import hr.foi.air602.notification.util.NotificationUtils;
 import hr.foi.air602.watchme.database.FavoriteAdapter;
 import hr.foi.air602.watchme.database.UserFavoriteAdapter;
 import hr.foi.air602.watchme.database.entities.Favorite;
@@ -34,23 +35,22 @@ public class ScheduledNotificationStrategy implements Strategy {
     private int minutesToShow = 20;
     private DateTimeZone myTimeZone = DateTimeZone.forID("Europe/Zagreb");
     private FavoriteAdapter favoriteAdapter = null;
+    private UserFavoriteAdapter userFavoriteAdapter = null;
     private boolean work = true;
     public Context ctx = null;
+    private int userId = -1;
+    private NotificationListener notificationListener = null;
 
     public static ScheduledNotificationStrategy getInstance(Context ctx){
         if(INSTANCE == null){
             INSTANCE = new ScheduledNotificationStrategy();
             INSTANCE.favoriteAdapter = new FavoriteAdapter(ctx);
+            INSTANCE.userFavoriteAdapter = new UserFavoriteAdapter(ctx);
             INSTANCE.ctx = ctx;
+            INSTANCE.notificationListener = new NotificationUtils(ctx).getListener();
         }
 
         return INSTANCE;
-    }
-
-
-    public void updateList(List<Favorite> favorites){
-        this.favorites = favorites;
-        this.work = false;
     }
 
     /**
@@ -62,23 +62,18 @@ public class ScheduledNotificationStrategy implements Strategy {
     public void run() {
         Log.e(TAG, "run: strategy run");
         SharedPreferences sp = ctx.getSharedPreferences(Config.SHARED_PREF_OPTIONS, MODE_PRIVATE);
-        this.minutesToShow = sp.getInt("minutes",20);
-        this.work = true;
-        this.setup();
+        SharedPreferences sp2 = ctx.getSharedPreferences("loggeduser", MODE_PRIVATE);
+        this.userId = sp2.getInt("user",-1);
+        this.minutesToShow = sp.getInt("minutes",2310);
+        this.favorites = userFavoriteAdapter.getAllUnnotifiedFavorites(userId);
         for(Favorite fav : this.favorites){
             Log.e(TAG, "run: " + fav.slug + " --> " + fav.airs);
         }
         this.operateFavorites();
         for(Favorite fav : this.favorites){
             Log.e(TAG, "run: " + fav.slug + " --> " + fav.airs);
+            this.notifyShow(fav);
         }
-        do{
-            for(Favorite fav : this.favorites){
-                this.notifyShow(fav);
-            }
-            Log.e(TAG, "run: sleeping");
-            SystemClock.sleep(55000);
-        }while(work);
         Log.e(TAG, "run: ended");
     }
 
@@ -127,43 +122,28 @@ public class ScheduledNotificationStrategy implements Strategy {
 
     //ako treba obavjestiti šalje zahtjev na web servis koji vraća notifikaciju
     private void notifyShow(Favorite favorite){
-        if(isNotificationNeeded(favorite)){
-            Log.e(TAG, "notifyShow: notif needed");
-            String[] airsStringArray = favorite.airs.split(" ");
-            String title = favorite.title;
-            String message = airsStringArray[0] + ", " + airsStringArray[1]+"! Get Ready! :) ";
-            MyFirebaseMessagingService.getInstance().sendPush(title, message);
+        Log.e(TAG, "notifyShow: notif needed");
+        String[] airsStringArray = favorite.airs.split(" ");
+        String title = favorite.title;
+        String message = airsStringArray[0] + ", " + airsStringArray[1]+"! Get Ready! :) ";
+        String[] vrijemeArray = airsStringArray[0].split(":");
+        String sati = vrijemeArray[0];
+        String minute = vrijemeArray[1];
 
-        }
+        DateTime dt = new DateTime();
+        dt = dt.withDayOfWeek(Integer.parseInt(airsStringArray[2])+1);
+        dt = dt.withHourOfDay(Integer.parseInt(sati));
+        dt = dt.withMinuteOfHour(Integer.parseInt(minute));
+        dt = dt.minusMinutes(this.minutesToShow);
+        Log.e(TAG, "notifyShow: final time: " + dt.toString() );
+        int notificationId = userFavoriteAdapter.getNotificationId(favorite,userId);
+        Log.e(TAG, "notifyShow: id: " + notificationId);
+
+        this.notificationListener.onNotificationSchedule(title,message,dt,notificationId);
+
+        userFavoriteAdapter.setNotified(favorite,userId);
     }
 
-    //provjerava treba li obavjestiti
-    private boolean isNotificationNeeded(Favorite favorite){
-        DateTime now = DateTime.now(myTimeZone);
-        String[] airsArray = favorite.airs.split(" ");
-        String airsTime = airsArray[0];
-        String airsDayName = airsArray[1];
-        int airsDayIndex = Integer.parseInt(airsArray[2]);
-
-        String[] airsTimeArray = airsTime.split(":");
-        int airsHours = Integer.parseInt(airsTimeArray[0]);
-        int airsMinutes = Integer.parseInt(airsTimeArray[1]);
-
-        DateTime timeWhenNotify = now.plusMinutes(this.minutesToShow);
-        Log.e(TAG, "isNotificationNeeded: " + this.minutesToShow );
-        Log.e(TAG, "isNotificationNeeded: " + favorite.slug + " " + favorite.airs );
-        Log.e(TAG, "isNotificationNeeded: " + timeWhenNotify.toString());
-        Log.e(TAG, "isNotificationNeeded: day "+timeWhenNotify.dayOfWeek().getAsText(Locale.ENGLISH).toLowerCase()+" <> " + airsDayName.toLowerCase());
-        Log.e(TAG, "isNotificationNeeded:  hour " + timeWhenNotify.getHourOfDay()+" <> "+ airsHours );
-        Log.e(TAG, "isNotificationNeeded: minutes " + timeWhenNotify.getMinuteOfHour() + " <> " + airsMinutes );
-
-        if(timeWhenNotify.dayOfWeek().getAsText(Locale.ENGLISH).toLowerCase().equals(airsDayName.toLowerCase()) &&
-                timeWhenNotify.hourOfDay().get() == airsHours &&
-                timeWhenNotify.minuteOfHour().get() == airsMinutes){
-            return true;
-        }
-        return false;
-    }
 
 
 }

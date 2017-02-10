@@ -2,6 +2,8 @@ package hr.foi.air602.watchme;
 
 import android.animation.Animator;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -35,10 +37,12 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 
-import hr.foi.air602.notification.essentials.SetupListener;
-import hr.foi.air602.notification.service.MyFirebaseMessagingService;
+import hr.foi.air602.notification.service.NotificationPublisher;
+import hr.foi.air602.notification.util.NotificationUtils;
 import hr.foi.air602.watchme.background_service.SchedulingMessagesBackgroundService;
 import hr.foi.air602.watchme.fragments.HomeFragment;
 import hr.foi.air602.watchme.fragments.FavoritesFragment;
@@ -71,7 +75,7 @@ public class BottomNavigationActivity extends AppCompatActivity {
     private HomeFragment mHomeFragment;
     private Fragment fragment;
     private Intent mIntent;
-    private SetupListener firebaseSetup;
+
 
 
     @Override
@@ -98,9 +102,6 @@ public class BottomNavigationActivity extends AppCompatActivity {
         Toast.makeText(this, email, Toast.LENGTH_LONG).show();
 
         SchedulingMessagesBackgroundService.setStrategy(ScheduledNotificationStrategy.getInstance(getApplicationContext()));
-
-        this.firebaseSetup = MyFirebaseMessagingService.getInstance().initialize();
-        this.firebaseSetup.onFirebaseSetup(getApplicationContext(), email);
 
         Intent intent = new Intent(getApplicationContext(), SchedulingMessagesBackgroundService.class);
         startService(intent);
@@ -272,14 +273,14 @@ public class BottomNavigationActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MyFirebaseMessagingService.getInstance().registerBroadcast();
+
         Log.e(TAG, "onResume: Setting up bsckground service..");
 
     }
 
     @Override
     protected void onPause() {
-        MyFirebaseMessagingService.getInstance().unregisterBroadcast();
+
         super.onPause();
     }
 

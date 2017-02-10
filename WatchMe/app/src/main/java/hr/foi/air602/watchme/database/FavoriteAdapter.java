@@ -34,6 +34,26 @@ public class FavoriteAdapter extends DataAdapter{
         userAdapter = new UserAdapter(context);
     }
 
+    public boolean doesFavoriteExists(Favorite favorite){
+
+        String[] columns = new String[]{"id"};
+        SQLiteDatabase db = openToRead();
+
+        String[] args = {favorite.id};
+
+        Cursor cursor = db.query(TABLE, columns, "id=?", args, null, null, null);
+        boolean result = false;
+        for(cursor.moveToFirst(); !(cursor.isAfterLast()); cursor.moveToNext()){
+            String id = cursor.getString(cursor.getColumnIndex("id"));
+            if(id.equals(favorite.id)){
+                result = true;
+                break;
+            }
+        }
+
+        cursor.close();
+        return result;
+    }
 
     public long insertFavorite(Favorite favorite){
         ContentValues contentValues = new ContentValues();

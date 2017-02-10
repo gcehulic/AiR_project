@@ -1,5 +1,7 @@
 package hr.foi.air602.watchme;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -16,7 +18,9 @@ import com.amulyakhare.textdrawable.util.ColorGenerator;
 
 import java.util.ArrayList;
 
-import hr.foi.air602.notification.service.MyFirebaseMessagingService;
+import hr.foi.air602.notification.essentials.NotificationListener;
+import hr.foi.air602.notification.service.NotificationPublisher;
+import hr.foi.air602.notification.util.NotificationUtils;
 import hr.foi.air602.watchme.background_service.SchedulingMessagesBackgroundService;
 import hr.foi.air602.watchme.database.FavoriteAdapter;
 import hr.foi.air602.watchme.database.UserAdapter;
@@ -36,11 +40,12 @@ public class SeriesListAdapter extends BaseAdapter {
     private ArrayList<Series> serije;
     private Context context;
     private boolean mChecked;
-
+    private NotificationListener notificationListener;
 
     public SeriesListAdapter(ArrayList<Series> serije, Context context) {
         this.serije = serije;
         this.context = context;
+        this.notificationListener = new NotificationUtils(context).getListener();
     }
 
     @Override
@@ -172,21 +177,27 @@ public class SeriesListAdapter extends BaseAdapter {
                 int korisnik = userAdapter.getUserFromSharedPrefs();
                 if(holder.odabirSerije.isChecked()){
                     if(!userFavoriteAdapter.doesFavoriteExists(korisnik, serijaID)){
-                        favoriteAdapter.insertFavorite(new Favorite(serijaID, naslovSerije, holder.slug.getText().toString(),holder.zanrovi.getText().toString(),holder.emitiranje.getText().toString(),holder.mreza.getText().toString())); //PROMENITI
-                        userFavoriteAdapter.insertUserFavorite(new UserFavorite(korisnik,serijaID));
+                        Favorite newFav = new Favorite(serijaID, naslovSerije, holder.slug.getText().toString(),holder.zanrovi.getText().toString(),holder.emitiranje.getText().toString(),holder.mreza.getText().toString());
+                        if(!favoriteAdapter.doesFavoriteExists(newFav))favoriteAdapter.insertFavorite(newFav); //PROMENITI
+                        int id = userFavoriteAdapter.generateNewId(korisnik);
+                        userFavoriteAdapter.insertUserFavorite(new UserFavorite(korisnik,serijaID, id ,false));
 
-                        Log.d("WATCHME", "onClick: oznaceno " + serijaID + " dodano u bazu" );
+                        Log.d("WATCHME", "onClick: oznaceno " + serijaID + " dodano u bazu , nov id: " + id);
                     }
 
                 } else {
                     if(userFavoriteAdapter.doesFavoriteExists(korisnik,serijaID)){
-                        userFavoriteAdapter.deleteUserFavorite(new UserFavorite(korisnik,serijaID));
+                        //cancel notif
+                        int id = userFavoriteAdapter.getNotificationId(favoriteAdapter.getFavoriteById(serijaID),korisnik);
+
+                        notificationListener.onNotificationCancel(id);
+
+                        userFavoriteAdapter.deleteUserFavorite(new UserFavorite(korisnik,serijaID, -1, false));
                         favoriteAdapter.deleteFavorite(new Favorite(serijaID, "","","","",""));
                         Log.d("WATCHME", "onClick: odznaceno i obrisano");
                     }
 
                 }
-                ScheduledNotificationStrategy.getInstance(context.getApplicationContext()).updateList(favoriteAdapter.getAllFavorites());
                 Intent intent = new Intent(context, SchedulingMessagesBackgroundService.class);
                 context.startService(intent);
             }

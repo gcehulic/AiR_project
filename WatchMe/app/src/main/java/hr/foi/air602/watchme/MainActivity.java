@@ -40,6 +40,10 @@ public class MainActivity extends AppCompatActivity{
                     }
                 });
 
+
+        ((EditText) findViewById(R.id.kor_ime)).setText("dd");
+        ((EditText) findViewById(R.id.password)).setText("ddddddd");
+        btnPrijava.callOnClick();
     }
 
 // Metoda za prijavu u aplikaciju
