@@ -7,16 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
 
 import hr.foi.air602.notification.configuration.Config;
-import hr.foi.air602.notification.essentials.NotificationOptions;
+import hr.foi.air602.notification.essentials.NotificationListener;
 import hr.foi.air602.notification.util.NotificationUtils;
-import hr.foi.air602.notification.notification_options.SilentNotification;
-import hr.foi.air602.notification.notification_options.SoundNotification;
-import hr.foi.air602.notification.notification_options.SoundVibrationNotification;
-import hr.foi.air602.notification.notification_options.VibrationNotification;
 import hr.foi.air602.watchme.strategies.ScheduledNotificationStrategy;
 
 /**
@@ -27,9 +23,9 @@ import hr.foi.air602.watchme.strategies.ScheduledNotificationStrategy;
 public class UserSettings extends AppCompatActivity {
 
     private Button btnSaveSettings = null;
-    private CheckBox checkBoxSound = null;
-    private CheckBox checkBoxVibration = null;
     private EditText editTextMinutes = null;
+    private RadioButton radioSound, radioVibration;
+    private NotificationListener notificationListener = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,14 +34,18 @@ public class UserSettings extends AppCompatActivity {
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
+        this.notificationListener = NotificationUtils.getInstance(this).getListener();
+
+        this.radioSound = (RadioButton) findViewById(R.id.radioSound);
+        this.radioVibration = (RadioButton) findViewById(R.id.radioVibration);
+
         this.btnSaveSettings = (Button) findViewById(R.id.btnSaveSettings);
-        this.checkBoxSound = (CheckBox) findViewById(R.id.checkBoxSound);
-        this.checkBoxVibration = (CheckBox) findViewById(R.id.checkBoxVibration);
         this.editTextMinutes = (EditText) findViewById(R.id.editTextMinutes);
         SharedPreferences sp = getSharedPreferences(Config.SHARED_PREF_OPTIONS, Context.MODE_PRIVATE);
-        this.checkBoxVibration.setChecked(sp.getBoolean("vibration", false));
-        this.checkBoxSound.setChecked(sp.getBoolean("sound", true));
         this.editTextMinutes.setText(sp.getInt("minutes", 20)+"");
+        int flag = sp.getInt("radioSettings",1);
+        this.radioSound.setChecked(flag == 1);
+        this.radioVibration.setChecked(flag == 2);
         final UserSettings uSettings = this;
 
         this.btnSaveSettings.setOnClickListener(new View.OnClickListener() {
@@ -54,11 +54,14 @@ public class UserSettings extends AppCompatActivity {
 
                 SharedPreferences sp = getSharedPreferences(Config.SHARED_PREF_OPTIONS, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sp.edit();
-                editor.putBoolean("sound",checkBoxSound.isChecked());
-                editor.putBoolean("vibration",checkBoxVibration.isChecked());
                 editor.putInt("minutes",Integer.parseInt(editTextMinutes.getText().toString()));
+                editor.putInt("radioSettings",radioSound.isChecked() ? 1 : 2);
                 editor.apply();
                 ScheduledNotificationStrategy.getInstance(getApplicationContext()).setMinutes(Integer.parseInt(editTextMinutes.getText().toString()));
+
+                if(radioSound.isChecked()) notificationListener.onNotificationSettingsChange(1);
+                else notificationListener.onNotificationSettingsChange(2);
+
                 uSettings.finish();
             }
         });

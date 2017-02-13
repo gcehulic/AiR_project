@@ -23,32 +23,36 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         >
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10px"
-        android:textSize="35px"
-        android:text=" Notifikacije"
-        android:layout_gravity="center"
-        android:textColor="#000000"
-        android:textStyle="bold" />
-
-        <CheckBox
-            android:text="Omogući zvuk za notifikacije"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10px"
+            android:textSize="35px"
+            android:text=" Notifikacije"
             android:layout_gravity="center"
-            android:id="@+id/checkBoxSound"
-            android:checked="true"/>
+            android:textColor="#000000"
+            android:textStyle="bold" />
 
 
-        <CheckBox
-        android:text="Omogući vibraciju za notifikacije"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:id="@+id/checkBoxVibration" />
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <RadioButton
+                android:text="Zvuk notifikacije"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioSound"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:text="Vibracija notifikacije"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioVibration"
+                android:layout_weight="1" />
+        </RadioGroup>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -71,11 +75,11 @@
         </LinearLayout>
 
         <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Spremi"
-        android:id="@+id/btnSaveSettings" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Spremi"
+            android:id="@+id/btnSaveSettings" />
 
     </LinearLayout>
 

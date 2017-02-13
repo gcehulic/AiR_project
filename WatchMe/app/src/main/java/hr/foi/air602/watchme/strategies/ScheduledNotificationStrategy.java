@@ -47,7 +47,7 @@ public class ScheduledNotificationStrategy implements Strategy {
             INSTANCE.favoriteAdapter = new FavoriteAdapter(ctx);
             INSTANCE.userFavoriteAdapter = new UserFavoriteAdapter(ctx);
             INSTANCE.ctx = ctx;
-            INSTANCE.notificationListener = new NotificationUtils(ctx).getListener();
+            INSTANCE.notificationListener = NotificationUtils.getInstance(ctx).getListener();
         }
 
         return INSTANCE;
@@ -64,7 +64,7 @@ public class ScheduledNotificationStrategy implements Strategy {
         SharedPreferences sp = ctx.getSharedPreferences(Config.SHARED_PREF_OPTIONS, MODE_PRIVATE);
         SharedPreferences sp2 = ctx.getSharedPreferences("loggeduser", MODE_PRIVATE);
         this.userId = sp2.getInt("user",-1);
-        this.minutesToShow = sp.getInt("minutes",2310);
+        this.minutesToShow = sp.getInt("minutes",20);
         this.favorites = userFavoriteAdapter.getAllUnnotifiedFavorites(userId);
         for(Favorite fav : this.favorites){
             Log.e(TAG, "run: " + fav.slug + " --> " + fav.airs);

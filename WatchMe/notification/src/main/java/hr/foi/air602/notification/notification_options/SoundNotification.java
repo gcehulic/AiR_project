@@ -8,29 +8,22 @@ import android.support.v7.app.NotificationCompat;
 
 import hr.foi.air602.notification.R;
 import hr.foi.air602.notification.configuration.Config;
-import hr.foi.air602.notification.essentials.NotificationOptions;
+import hr.foi.air602.notification.essentials.NotificationStyle;
 
 /**
  * Created by Goran on 26.1.2017..
  */
 
-public class SoundNotification implements NotificationOptions {
+public class SoundNotification implements NotificationStyle {
 
     @Override
-    public void showNotification(NotificationCompat.Builder mBuilder, String title, String message, PendingIntent resultPendingIntent, Context context) {
-        NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
-        inboxStyle.addLine(message);
-        Notification notification;
-        mBuilder.setTicker(title).setWhen(0)
-                .setAutoCancel(true)
-                .setContentTitle(title)
-                .setContentIntent(resultPendingIntent)
-                .setStyle(inboxStyle)
-                .setContentText(message)
-                .setSmallIcon(R.mipmap.ic_launcher);
-        mBuilder.setDefaults(Notification.DEFAULT_SOUND);
-        notification = mBuilder.build();
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(Config.NOTIFICATION_ID, notification);
+    public Notification getNotification(String title, String message, Context ctx) {
+        Notification.Builder builder = new Notification.Builder(ctx);
+        builder.setContentTitle(title);
+        builder.setContentText(message);
+        builder.setSmallIcon(R.mipmap.ic_launcher);
+        builder.setAutoCancel(true);
+        builder.setDefaults(Notification.DEFAULT_SOUND);
+        return builder.build();
     }
 }

@@ -1,5 +1,6 @@
 package hr.foi.air602.watchme.database;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -23,6 +24,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         Log.d("WATCHME", "onCreate: baza");
         db.execSQL("CREATE TABLE User (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, surname TEXT, mail TEXT, username TEXT, password TEXT);");
+
         db.execSQL("CREATE TABLE Favorite (id TEXT PRIMARY KEY,title TEXT, slug TEXT, genres TEXT, airs TEXT, network TEXT);");
         db.execSQL("CREATE TABLE UserFavorites (userid INTEGER, favoriteid TEXT, notificationId INTEGER default 0, isNotified BOOLEAN default false, PRIMARY KEY(userid, favoriteid),FOREIGN KEY (userid) REFERENCES User(id), FOREIGN KEY (favoriteid) REFERENCES Favorite(id));");
         Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
@@ -33,6 +35,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 c.moveToNext();
             }
         }
+
     }
 
 

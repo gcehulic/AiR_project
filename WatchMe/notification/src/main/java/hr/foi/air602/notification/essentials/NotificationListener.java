@@ -9,4 +9,5 @@ import org.joda.time.DateTime;
 public interface NotificationListener {
     void onNotificationSchedule(String title, String content, DateTime dt, int notificationID);
     void onNotificationCancel(int notificationID);
+    void onNotificationSettingsChange(int flag);
 }

@@ -45,7 +45,7 @@ public class SeriesListAdapter extends BaseAdapter {
     public SeriesListAdapter(ArrayList<Series> serije, Context context) {
         this.serije = serije;
         this.context = context;
-        this.notificationListener = new NotificationUtils(context).getListener();
+        this.notificationListener = NotificationUtils.getInstance(context).getListener();
     }
 
     @Override
@@ -203,7 +203,7 @@ public class SeriesListAdapter extends BaseAdapter {
             }
         });
 
-      return convertView;
+        return convertView;
 
     }
 
