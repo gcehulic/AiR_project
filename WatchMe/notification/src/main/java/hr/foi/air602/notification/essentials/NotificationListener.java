@@ -10,4 +10,5 @@ public interface NotificationListener {
     void onNotificationSchedule(String title, String content, DateTime dt, int notificationID);
     void onNotificationCancel(int notificationID);
     void onNotificationSettingsChange(int flag);
+    void onNotifyMinutesBeforeShow(int minutes);
 }

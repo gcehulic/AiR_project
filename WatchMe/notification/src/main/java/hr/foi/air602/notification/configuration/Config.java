@@ -7,6 +7,5 @@ package hr.foi.air602.notification.configuration;
     Klasa predefiniranih vrijednosti za modul.
  */
 public class Config {
-    public static final int NOTIFICATION_ID = 100;
     public static final String SHARED_PREF_OPTIONS = "watchme_notification_options";
 }

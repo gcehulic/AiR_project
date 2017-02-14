@@ -97,9 +97,9 @@ public class BottomNavigationActivity extends AppCompatActivity {
 
         mIntent = getIntent();
 
-        SharedPreferences sp2 = getSharedPreferences("loggeduser", Context.MODE_PRIVATE);
-        String email = sp2.getString("email",null);
-        Toast.makeText(this, email, Toast.LENGTH_LONG).show();
+        //SharedPreferences sp2 = getSharedPreferences("loggeduser", Context.MODE_PRIVATE);
+        //String email = sp2.getString("email",null);
+        //Toast.makeText(this, email, Toast.LENGTH_LONG).show();
 
         SchedulingMessagesBackgroundService.setStrategy(ScheduledNotificationStrategy.getInstance(getApplicationContext()));
 
@@ -274,7 +274,7 @@ public class BottomNavigationActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        Log.e(TAG, "onResume: Setting up bsckground service..");
+        // Log.e(TAG, "onResume: Setting up bsckground service..");
 
     }
 

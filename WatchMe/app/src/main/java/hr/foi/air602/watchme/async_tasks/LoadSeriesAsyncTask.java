@@ -36,12 +36,7 @@ public class LoadSeriesAsyncTask extends AsyncTask<String, String, String> {
         this.scroll = 0;
     }
 
-    public LoadSeriesAsyncTask(SeriesLoadedListener seriesLoadedListener, Context context, String url, int scroll) {
-        this.seriesLoadedListener = seriesLoadedListener;
-        this.context = context;
-        this.url = url;
-        this.scroll = scroll;
-    }
+
 
     @Override
     protected String doInBackground(String... params) {

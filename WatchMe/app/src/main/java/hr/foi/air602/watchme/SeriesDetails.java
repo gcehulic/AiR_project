@@ -49,7 +49,7 @@ public class SeriesDetails extends YouTubeBaseActivity implements YouTubePlayer.
     }
 
 
-// Postavljanje podataka o seriji
+    // Postavljanje podataka o seriji
     private void setData() {
         naslov.setText(series.getNaslov()+" ");
         godina.setText(series.getGodina()+" ");
@@ -107,7 +107,7 @@ public class SeriesDetails extends YouTubeBaseActivity implements YouTubePlayer.
     // Kreira objekt klase series
     private void getIntentData() {
 
-     series = new Series();
+        series = new Series();
 
         series.setNaslov(getIntent().getStringExtra("naslov"));
         series.setGodina(getIntent().getIntExtra("godina",2013));

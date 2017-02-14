@@ -37,12 +37,6 @@ public class LoadSeriesRecommendedAsyncTask extends AsyncTask<String, String, St
         this.scroll = 0;
     }
 
-    public LoadSeriesRecommendedAsyncTask(SeriesLoadedRecommendedListener seriesLoadedListener, Context context, String url, int scroll) {
-        this.seriesLoadedListener = seriesLoadedListener;
-        this.context = context;
-        this.url = url;
-        this.scroll = scroll;
-    }
 
     @Override
     protected String doInBackground(String... params) {

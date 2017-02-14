@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,5 +94,37 @@ public class UserAdapter extends DataAdapter{
     public int getUserFromSharedPrefs(){
         SharedPreferences sp = context.getSharedPreferences("loggeduser",Context.MODE_PRIVATE);
         return sp.getInt("user",0);
+    }
+
+    public void createDefaultUser(){
+        if(!this.doesDefaultUserExists()){
+            Log.e("UserAdapter", "createDefaultUser: Default user doesn't exists.");
+            long result = this.insertDefaultUser();
+        } else Log.e("UserAdapter", "createDefaultUser: Default user exists.");
+    }
+
+    private boolean doesDefaultUserExists(){
+        String[] columns = new String[]{KEY_ID, "name", "surname", "mail", "username", "password"};
+        SQLiteDatabase db = openToRead();
+
+        String[] args = {"user", "password", "user@user.us"};
+        Cursor cursor = db.query(TABLE, columns, "username=? AND password=? AND mail = ?", args, null, null, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count == 1;
+    }
+
+    private long insertDefaultUser(){
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put("name", "user");
+        contentValues.put("surname", "user");
+        contentValues.put("mail", "user@user.us");
+        contentValues.put("username", "user");
+        contentValues.put("password", "password");
+
+        SQLiteDatabase db = openToWrite();
+
+        return db.insert(TABLE, null, contentValues);
     }
 }

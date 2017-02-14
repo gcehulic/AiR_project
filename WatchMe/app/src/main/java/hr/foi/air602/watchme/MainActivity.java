@@ -37,12 +37,14 @@ public class MainActivity extends AppCompatActivity{
         btnPrijava.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 signIn(v);
-                    }
-                });
+            }
+        });
+
+        userAdapter.createDefaultUser();
 
     }
 
-// Metoda za prijavu u aplikaciju
+    // Metoda za prijavu u aplikaciju
     public void signIn(View V){
         final EditText editTextUserName = (EditText) findViewById(R.id.kor_ime);
         final EditText editTextPassword = (EditText) findViewById(R.id.password);

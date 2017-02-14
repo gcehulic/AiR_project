@@ -71,7 +71,7 @@ public class UserRegistration extends AppCompatActivity {
                 else  if (!isValidEmail(mail1)) {
                     editTextEmail.setError("Pogrešan mail: net@net.hr");
                 }
-               else if (!isValidPassword(pass)) {
+                else if (!isValidPassword(pass)) {
                     editTextLozinka.setError("Pogrešna lozinka, potrebno više od 6 znakova");
                 }
                 // Upiši korisnika u bazu

@@ -58,7 +58,7 @@ public class Utilities {
         String timeString = timeArray[1];
         String[] timeStringArray = timeString.split(":");
         String timezoneString = timeArray[2];
-        String[] daysOfWeek = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+        String[] daysOfWeek = {"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"};
         int dayIndex = -1;
         for(int i = 0; i<daysOfWeek.length; i++){
             if(daysOfWeek[i].toLowerCase().equals(dayString.toLowerCase())){
@@ -71,10 +71,11 @@ public class Utilities {
         DateTime myTime = apiTime.withZone(myTimeZone);
         myTime = myTime.minusMinutes(18);
 
-        if(apiTime.hourOfDay().get() > 12 && myTime.getHourOfDay() < 12) dayIndex = (dayIndex+1)%7;
+        if(apiTime.getDayOfMonth() < myTime.getDayOfMonth()) dayIndex = (dayIndex+1)%7;
         String myMinutes = null;
         if(myTime.minuteOfHour().get() < 10) myMinutes = "0" + myTime.minuteOfHour().getAsString();
         else myMinutes = myTime.minuteOfHour().getAsString();
+        Log.e("UTIL", "convertTime: " + myTime.toString() );
         return myTime.hourOfDay().getAsString()+":"+myMinutes + " " + daysOfWeek[dayIndex] + " " + dayIndex;
 
     }
