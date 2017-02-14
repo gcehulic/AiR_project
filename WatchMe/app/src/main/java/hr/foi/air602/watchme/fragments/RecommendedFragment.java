@@ -64,7 +64,6 @@ public class RecommendedFragment extends Fragment implements SeriesLoadedRecomme
         initialize();
     }
 
-    //dohvat serija sa interneta po žanrovima
     public void initialize(){
         dohvaceneSerije = new ArrayList<>();
         preporucenoListaSerija = (ListView) this.getActivity().findViewById(R.id.preporucenoListaSerija);

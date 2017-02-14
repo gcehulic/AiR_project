@@ -9,8 +9,8 @@ import java.io.Serializable;
 public class Favorite {
     public String id;
     public String slug;
-    public String genres; // odvojeno ;
-    public String airs; //json
+    public String genres;
+    public String airs;
     public String network;
     public String title;
 

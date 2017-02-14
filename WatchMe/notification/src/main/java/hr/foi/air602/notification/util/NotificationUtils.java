@@ -26,7 +26,6 @@ import hr.foi.air602.notification.service.NotificationPublisher;
  * Created by Goran on 18.1.2017..
  */
 
-//Klasa kreira i pokazuje notifikacije
 public class NotificationUtils  implements NotificationListener{
     private static String TAG = NotificationUtils.class.getSimpleName();
     private Context mContext;

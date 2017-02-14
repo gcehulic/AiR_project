@@ -50,8 +50,5 @@ dependencies {
     compile files('src/main/java/hr/foi/air602/watchme/libs/YouTubeAndroidPlayerApi.jar')
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     compile project (':notification')
-    //JUnit 4 framework
-    testCompile 'junit:junit:4.12'
-    //Mockito framework
-    testCompile 'org.mockito:mockito-core:1.10.19'
+
 }

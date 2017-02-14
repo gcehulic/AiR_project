@@ -22,7 +22,7 @@ import hr.foi.air602.watchme.database.entities.UserFavorite;
 /**
  * Created by Goran on 20.12.2016..
  */
-//Klasa za rad s tablicom favorita
+
 public class FavoriteAdapter extends DataAdapter{
 
     private UserFavoriteAdapter userFavoriteAdapter = null;
@@ -68,7 +68,6 @@ public class FavoriteAdapter extends DataAdapter{
         return db.insert(TABLE,null,contentValues);
     }
 
-    // pregled svih favorita return null;
     public List<Favorite> getAllFavorites(){
         List<Favorite> result = new ArrayList<>();
 
@@ -130,9 +129,6 @@ public class FavoriteAdapter extends DataAdapter{
         Cursor cursor = db.query(TABLE, columns, null, null, null, null, null);
 
 
-        //ako id serije za korisnika X postoji u tablici UserFavorite i u Favorite, tek onda se
-        // radi popis žanrova koji se sviđaju korisniku X
-
         String tempGenres = "";
         for(cursor.moveToFirst(); !(cursor.isAfterLast()); cursor.moveToNext()){
             boolean postojiZanr = false;
@@ -148,7 +144,6 @@ public class FavoriteAdapter extends DataAdapter{
         }
         if(tempGenres == "") return "";
 
-        //Kreira se JSON objekt da broji pojave žanrova
         String[] tempGenresArray = tempGenres.split(",");
         JSONObject tempGenresJson = new JSONObject();
         int count = 0;
@@ -164,7 +159,6 @@ public class FavoriteAdapter extends DataAdapter{
                 }
             }
 
-            //Traži se žanr sa najviše pojava
             int maxCount = 0;
             for(Iterator<String> iter = tempGenresJson.keys(); iter.hasNext();){
                 String genre = iter.next();

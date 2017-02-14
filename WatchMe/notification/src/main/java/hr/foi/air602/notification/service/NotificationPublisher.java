@@ -18,7 +18,7 @@ import hr.foi.air602.notification.util.NotificationUtils;
 
 public class NotificationPublisher extends BroadcastReceiver {
     public static int NOTIFY_BEFORE_MINUTES = 0;
-    private int REPEATING_TIME =  7 * 60 * 24; //7 dana
+    private int REPEATING_TIME =  7 * 60 * 24;
     @Override
     public void onReceive(Context context, Intent intent) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);

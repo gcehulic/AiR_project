@@ -11,7 +11,7 @@ import android.widget.Toast;
 /**
  * Created by Mateo on 7.12.2016..
  */
-//Klasa služi za kreiranje baze i ažuriranje iste
+
 public class DbHelper extends SQLiteOpenHelper {
 
     public DbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version)
@@ -19,7 +19,6 @@ public class DbHelper extends SQLiteOpenHelper {
         super(context, name, factory, version);
     }
 
-    //Pokreće se kada se traži pristup bazi, a ona ne postoji
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d("WATCHME", "onCreate: baza");

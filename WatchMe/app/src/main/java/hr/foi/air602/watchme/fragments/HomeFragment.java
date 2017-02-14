@@ -74,7 +74,6 @@ public class HomeFragment extends Fragment implements SeriesLoadedListener,Adapt
         initialize();
     }
 
-    //metoda dohvaća serije sa interneta
     public  void initialize(){
         dohvaceneSerije = new ArrayList<>();
         listaSerija = (ListView) this.getActivity().findViewById(R.id.homeListaSerija);

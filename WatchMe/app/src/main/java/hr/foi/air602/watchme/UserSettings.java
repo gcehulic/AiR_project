@@ -19,7 +19,6 @@ import hr.foi.air602.watchme.strategies.ScheduledNotificationStrategy;
  * Created by markopc on 11/22/2016.
  */
 
-// Korisnikove postavke o zvuku, vibraciji i koliko prije dolazi obavijest
 public class UserSettings extends AppCompatActivity {
 
     private Button btnSaveSettings = null;

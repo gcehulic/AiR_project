@@ -19,7 +19,6 @@ import com.amulyakhare.textdrawable.util.ColorGenerator;
 import java.util.ArrayList;
 
 import hr.foi.air602.notification.essentials.NotificationListener;
-import hr.foi.air602.notification.service.NotificationPublisher;
 import hr.foi.air602.notification.util.NotificationUtils;
 import hr.foi.air602.watchme.background_service.SchedulingMessagesBackgroundService;
 import hr.foi.air602.watchme.database.FavoriteAdapter;
@@ -27,14 +26,11 @@ import hr.foi.air602.watchme.database.UserAdapter;
 import hr.foi.air602.watchme.database.UserFavoriteAdapter;
 import hr.foi.air602.watchme.database.entities.Favorite;
 import hr.foi.air602.watchme.database.entities.UserFavorite;
-import hr.foi.air602.watchme.strategies.ScheduledNotificationStrategy;
 
 /**
  * Created by Goran on 23.11.2016..
  */
 
-
-// Definira prikaz podataka o serijama
 public class SeriesListAdapter extends BaseAdapter {
 
     private ArrayList<Series> serije;
@@ -157,7 +153,7 @@ public class SeriesListAdapter extends BaseAdapter {
         }
 
         TextDrawable drawable = TextDrawable.builder()
-                .buildRoundRect(prvoSlovoNaslova, boja, 100); // radius u px
+                .buildRoundRect(prvoSlovoNaslova, boja, 100);
         holder.prvoSlovoNaslova.setImageDrawable(drawable);
         UserAdapter userAdapter = new UserAdapter(context);
         UserFavoriteAdapter userFavoriteAdapter = new UserFavoriteAdapter(context);
@@ -178,7 +174,7 @@ public class SeriesListAdapter extends BaseAdapter {
                 if(holder.odabirSerije.isChecked()){
                     if(!userFavoriteAdapter.doesFavoriteExists(korisnik, serijaID)){
                         Favorite newFav = new Favorite(serijaID, naslovSerije, holder.slug.getText().toString(),holder.zanrovi.getText().toString(),holder.emitiranje.getText().toString(),holder.mreza.getText().toString());
-                        if(!favoriteAdapter.doesFavoriteExists(newFav))favoriteAdapter.insertFavorite(newFav); //PROMENITI
+                        if(!favoriteAdapter.doesFavoriteExists(newFav))favoriteAdapter.insertFavorite(newFav);
                         int id = userFavoriteAdapter.generateNewId(korisnik);
                         userFavoriteAdapter.insertUserFavorite(new UserFavorite(korisnik,serijaID, id ,false));
 
@@ -187,7 +183,7 @@ public class SeriesListAdapter extends BaseAdapter {
 
                 } else {
                     if(userFavoriteAdapter.doesFavoriteExists(korisnik,serijaID)){
-                        //cancel notif
+
                         int id = userFavoriteAdapter.getNotificationId(favoriteAdapter.getFavoriteById(serijaID),korisnik);
 
                         notificationListener.onNotificationCancel(id);
@@ -243,6 +239,5 @@ public class SeriesListAdapter extends BaseAdapter {
             this.mreza = (TextView) v.findViewById(R.id.mreza);
         }
     }
-
 
 }

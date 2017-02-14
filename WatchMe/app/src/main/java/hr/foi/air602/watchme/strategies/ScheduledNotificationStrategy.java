@@ -27,7 +27,6 @@ import static android.content.Context.MODE_PRIVATE;
  * Created by Mateo on 24.1.2017..
  */
 
-//Klasa za funkcionalnost izvršavanja obavijesti o seriji
 public class ScheduledNotificationStrategy implements Strategy {
 
     private static ScheduledNotificationStrategy INSTANCE = null;
@@ -37,7 +36,6 @@ public class ScheduledNotificationStrategy implements Strategy {
     private DateTimeZone myTimeZone = DateTimeZone.forID("Europe/Zagreb");
     private FavoriteAdapter favoriteAdapter = null;
     private UserFavoriteAdapter userFavoriteAdapter = null;
-    //private boolean work = true;
     public Context ctx = null;
     private int userId = -1;
     private NotificationListener notificationListener = null;
@@ -54,11 +52,6 @@ public class ScheduledNotificationStrategy implements Strategy {
         return INSTANCE;
     }
 
-    /**
-     * Pokreće se svaki puta kada ga pokrene pozadinski web servis
-     *  Dohvaća sve favorite i onda konvertira vrijeme emitiranja u našu vremensku zonu
-     *  do...while petlja svakih 55 sekundi provjerava ima li šta za obavijestiti
-     */
     @Override
     public void run() {
         Log.e(TAG, "run: strategy run");
@@ -78,11 +71,6 @@ public class ScheduledNotificationStrategy implements Strategy {
         Log.e(TAG, "run: ended");
     }
 
-    /* private void setup(){
-         this.favorites = this.favoriteAdapter.getAllFavorites();
-     }
- */
-    //pretvara vrijeme u našu vremensku zonu
     private void operateFavorites(){
         for(Favorite fav : this.favorites){
             fav.airs = this.convertTime(fav.airs);
@@ -111,18 +99,10 @@ public class ScheduledNotificationStrategy implements Strategy {
         DateTime myTime = apiTime.withZone(myTimeZone);
         myTime = myTime.minusMinutes(18);
 
-
-
-        // DateTime noon = myTime.withHourOfDay(12);
-        //  noon = noon.withMinuteOfHour(0);
-        //  noon = noon.withSecondOfMinute(0);
-
-        //if(apiTime.hourOfDay().get() > 12 && myTime.getHourOfDay() < 12) dayIndex = (dayIndex+1)%7;
         if(apiTime.getDayOfMonth() < myTime.getDayOfMonth()) dayIndex = (dayIndex+1)%7;
 
         Log.e(TAG, "convertTime: myTime -  " + myTime.toString());
         Log.e(TAG, "convertTime: apiTime -  " + apiTime.toString());
-        // Log.e(TAG, "convertTime: noonTime -  " + noon.toString());
         Log.e(TAG, "convertTime: day -  " + dayIndex);
 
         return myTime.hourOfDay().getAsString()+":"+myTime.minuteOfHour().getAsString() + " " + daysOfWeek[dayIndex] + " " + dayIndex;
@@ -133,7 +113,6 @@ public class ScheduledNotificationStrategy implements Strategy {
         this.minutesToShow = minutes;
     }
 
-    //ako treba obavjestiti šalje zahtjev na web servis koji vraća notifikaciju
     private void notifyShow(Favorite favorite){
         Log.e(TAG, "notifyShow: notif needed");
         String[] airsStringArray = favorite.airs.split(" ");
@@ -147,7 +126,6 @@ public class ScheduledNotificationStrategy implements Strategy {
         dt = dt.withDayOfWeek(Integer.parseInt(airsStringArray[2])+1);
         dt = dt.withHourOfDay(Integer.parseInt(sati));
         dt = dt.withMinuteOfHour(Integer.parseInt(minute));
-        // Log.e(TAG, "notifyShow: final time: " + dt.toString() );
         int notificationId = userFavoriteAdapter.getNotificationId(favorite,userId);
         Log.e(TAG, "notifyShow: id: " + notificationId);
         Log.e(TAG, "notifyShow: before: " + this.minutesToShow);

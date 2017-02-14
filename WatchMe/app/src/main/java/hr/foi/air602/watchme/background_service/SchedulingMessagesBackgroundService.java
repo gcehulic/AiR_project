@@ -10,7 +10,7 @@ import hr.foi.air602.watchme.strategies.Strategy;
  * Created by markopc on 24.1.2017..
  */
 
-//Klasa je pozadinski servis koji pokreće funkcionalnost 'serviceStrategy'
+
 public class SchedulingMessagesBackgroundService extends IntentService {
 
     private static final String TAG = SchedulingMessagesBackgroundService.class.getSimpleName();
@@ -24,7 +24,6 @@ public class SchedulingMessagesBackgroundService extends IntentService {
         serviceStrategy = strategy;
     }
 
-    //Pokreće se nakon onStartCommand
     @Override
     protected void onHandleIntent(Intent intent) {
         Log.e(TAG, "onHandleIntent: working began" );

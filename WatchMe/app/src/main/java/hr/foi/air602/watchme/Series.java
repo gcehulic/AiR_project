@@ -10,7 +10,6 @@ import org.json.JSONObject;
  * Created by Goran on 23.11.2016..
  */
 
-// Dohvaćanje podataka o seriji s API-ja
 public class Series {
 
     private String naslov;

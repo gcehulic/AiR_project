@@ -15,7 +15,7 @@ import hr.foi.air602.watchme.database.entities.User;
 /**
  * Created by Mateo on 7.12.2016..
  */
-//Klasa za rad s tablicom korisnika
+
 public class UserAdapter extends DataAdapter{
 
     private static final String TABLE = "User";
@@ -27,7 +27,6 @@ public class UserAdapter extends DataAdapter{
         this.context = context;
     }
 
-    // dodavanje novog korisnika
     public long insertUser(User user){
         ContentValues contentValues = new ContentValues();
 
@@ -42,7 +41,6 @@ public class UserAdapter extends DataAdapter{
         return db.insert(TABLE, null, contentValues);
     }
 
-    // pregled svih korisnika return null;
     public List<User> getAllUsers(){
         List<User> result = new ArrayList<User>();
 

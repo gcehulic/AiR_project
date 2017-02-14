@@ -32,7 +32,7 @@ import hr.foi.air602.watchme.listeners.SeriesLoadedFromIdListener;
 /**
  * Created by markopc on 11/2/2016.
  */
-//Fragment gdje se prikazuju favoriti.
+
 public class FavoritesFragment extends Fragment implements AdapterView.OnItemClickListener, SeriesLoadedFromIdListener {
 
     private UserFavoriteAdapter userFavoriteAdapter = null;
@@ -65,7 +65,7 @@ public class FavoritesFragment extends Fragment implements AdapterView.OnItemCli
         super.onViewCreated(view, savedInstanceState);
     }
 
-    //Ako je korisnik povezan na internet, dohvaća serije po ID-u
+
     private  void initialize(){
         dohvaceneSerije = new ArrayList<>();
         listaSerija = (ListView) this.getActivity().findViewById(R.id.pregledListaSerija);
@@ -110,7 +110,6 @@ public class FavoritesFragment extends Fragment implements AdapterView.OnItemCli
         };
     }
 
-    //metoda pokreće dohvat serija po ID-u
     private void loadSeriesFromId(String url){
         new LoadSeriesFromIdAsyncTask(this,this.getContext(),url).execute();
     }
@@ -130,7 +129,6 @@ public class FavoritesFragment extends Fragment implements AdapterView.OnItemCli
         startActivity(i);
     }
 
-    //dodavanje serije u listu serija kada stigne
     @Override
     public void seriesLoadedFromId(Series series) {
         FavoritesFragment.dohvaceneSerije.add(series);

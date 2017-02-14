@@ -21,7 +21,7 @@ import hr.foi.air602.watchme.listeners.SeriesLoadedListener;
 /**
  * Created by Goran on 23.11.2016..
  */
-//Klasa za asinkrono dohvaćanje serija sa interneta.
+
 public class LoadSeriesAsyncTask extends AsyncTask<String, String, String> {
 
     private SeriesLoadedListener seriesLoadedListener;

@@ -12,8 +12,6 @@ import android.widget.Toast;
 import hr.foi.air602.watchme.database.UserAdapter;
 import hr.foi.air602.watchme.database.entities.User;
 
-//Prijava u aplikaciju; Sadrži gumb za ulazak u formu za registraciju
-
 public class MainActivity extends AppCompatActivity{
 
     private Button btnPrijava, btnRegistracija;
@@ -44,7 +42,6 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-    // Metoda za prijavu u aplikaciju
     public void signIn(View V){
         final EditText editTextUserName = (EditText) findViewById(R.id.kor_ime);
         final EditText editTextPassword = (EditText) findViewById(R.id.password);
@@ -65,7 +62,6 @@ public class MainActivity extends AppCompatActivity{
             editor.putInt("user",userAdapter.getUserId(userName,password));
             editor.putString("email",userAdapter.getUserEmail(userName,password));
             editor.commit();
-            //Toast.makeText(MainActivity.this, "Prijava je uspješno izvršena!", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(MainActivity.this, BottomNavigationActivity.class);
             startActivity(i);
         } else {

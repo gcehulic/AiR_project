@@ -12,13 +12,11 @@ import org.joda.time.DateTimeZone;
  * Created by Goran on 23.11.2016..
  */
 
-// Podaci o poveznicama za pristupanje API-jima
 public class Utilities {
 
     public static String BASE_URL = "https://api.trakt.tv/";
     public static final String YOUTUBE_API_KEY = "AIzaSyA0Fqtk9oTJzXTL9nyozp0RLtlvTSCUg6A";
 
-    //Provjerava konekciju na internet
     public static boolean connection(Context context){
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
@@ -26,7 +24,6 @@ public class Utilities {
         else return false;
     }
 
-    //Kreira url za dohvat svih serija
     public static String makeUrlSeries(String kategorija, int stranica){
         StringBuilder url = new StringBuilder();
         url.append(BASE_URL).append("shows").append("/").append(kategorija).append("?page=").append(stranica).append("&extended=full");
@@ -34,7 +31,6 @@ public class Utilities {
         return url.toString();
     }
 
-    //kreira url za dohvat serije po id serije
     public static String makeUrlSeriesFromId(String id){
         StringBuilder url = new StringBuilder();
         url.append(BASE_URL).append("search").append("/").append("trakt").append("/").append(id).append("?type=show").append("&extended=full");
@@ -42,7 +38,6 @@ public class Utilities {
         return url.toString();
     }
 
-    //Kreira url serije za filtriranje prema žanru
     public static String makeUrlSeriesRecommended(String kategorija, String zanrovi){
         StringBuilder url = new StringBuilder();
         url.append(BASE_URL).append("shows").append("/").append(kategorija).append("?limit=").append(20).append("&extended=full").append("&genres=").append(zanrovi);
@@ -50,7 +45,6 @@ public class Utilities {
         return url.toString();
     }
 
-    //Pretvaranje dohvaćenog vremena u našu vremensku zonu
     public static String convertTime(String time){
         DateTimeZone myTimeZone = DateTimeZone.forID("Europe/Zagreb");
         String[] timeArray = time.split(";");

@@ -15,7 +15,6 @@ import hr.foi.air602.watchme.database.UserAdapter;
 import hr.foi.air602.watchme.database.entities.User;
 
 
-//Registracija novog korisnika
 public class UserRegistration extends AppCompatActivity {
 
     EditText editTextIme, editTextPrezime, editTextEmail, editTextKorIme, editTextLozinka;
@@ -52,7 +51,6 @@ public class UserRegistration extends AppCompatActivity {
 
                 boolean postoji = false;
 
-                //Provjerava da li postoji username u bazi
                 for(User user : userAdapter.getAllUsers()){
                     if(user.username.equals(korisnickoIme)) {
                         postoji = true;
@@ -74,7 +72,7 @@ public class UserRegistration extends AppCompatActivity {
                 else if (!isValidPassword(pass)) {
                     editTextLozinka.setError("Pogrešna lozinka, potrebno više od 6 znakova");
                 }
-                // Upiši korisnika u bazu
+
                 else
                 {
                     userAdapter.insertUser(new User(ime, prezime, mail, korisnickoIme, lozinka));
@@ -87,7 +85,6 @@ public class UserRegistration extends AppCompatActivity {
         });
     }
 
-    // Provjera ispravnosti maila
     public boolean isValidEmail(String mail1) {
         String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -97,7 +94,6 @@ public class UserRegistration extends AppCompatActivity {
         return matcher.matches();
     }
 
-    // Provjera ispravnosti lozinke. (min 7 znakova)
     public boolean isValidPassword(String pass) {
         if (pass != null && pass.length() > 6) {
             return true;

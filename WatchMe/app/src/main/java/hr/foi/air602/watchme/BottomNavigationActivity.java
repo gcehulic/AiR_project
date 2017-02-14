@@ -27,8 +27,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.Toast;
-
-
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
@@ -36,13 +34,7 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
-
-import org.joda.time.DateTime;
-
 import java.util.ArrayList;
-
-import hr.foi.air602.notification.service.NotificationPublisher;
-import hr.foi.air602.notification.util.NotificationUtils;
 import hr.foi.air602.watchme.background_service.SchedulingMessagesBackgroundService;
 import hr.foi.air602.watchme.fragments.HomeFragment;
 import hr.foi.air602.watchme.fragments.FavoritesFragment;
@@ -61,14 +53,10 @@ public class BottomNavigationActivity extends AppCompatActivity {
     private Context mContext;
     private Activity mActivity;
 
-    // UI
     private AHBottomNavigationViewPager mNavigationViewPager;
     private AHBottomNavigation mBottomNavigation;
     private FloatingActionButton mFloatingActionButton;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
+
     private GoogleApiClient client;
     private FavoritesFragment mFavoritesFragment;
     private RecommendedFragment mRecommendedFragment;
@@ -88,18 +76,12 @@ public class BottomNavigationActivity extends AppCompatActivity {
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         initUI();
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
         mFavoritesFragment = new FavoritesFragment();
         mRecommendedFragment = new RecommendedFragment();
         mHomeFragment = new HomeFragment();
 
         mIntent = getIntent();
-
-        //SharedPreferences sp2 = getSharedPreferences("loggeduser", Context.MODE_PRIVATE);
-        //String email = sp2.getString("email",null);
-        //Toast.makeText(this, email, Toast.LENGTH_LONG).show();
 
         SchedulingMessagesBackgroundService.setStrategy(ScheduledNotificationStrategy.getInstance(getApplicationContext()));
 
@@ -108,9 +90,6 @@ public class BottomNavigationActivity extends AppCompatActivity {
 
     }
 
-
-
-    /*Options menu*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -120,9 +99,6 @@ public class BottomNavigationActivity extends AppCompatActivity {
         return true;
     }
 
-
-
-    /*Akcija na selektirani item*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.action_settings){
@@ -141,7 +117,6 @@ public class BottomNavigationActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
     private void initUI() {
 
@@ -171,12 +146,10 @@ public class BottomNavigationActivity extends AppCompatActivity {
         mNavigationViewPager.setOffscreenPageLimit(4);
         mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         if (getIntent().getBooleanExtra("reload", false)) {
-            //mBottomNavigation.setCurrentItem(2);
             mNavigationViewPager.setCurrentItem(2);
         }
 
         mNavigationViewPager.setAdapter(mViewPagerAdapter);
-        //mBottomNavigation.setNotification("16", 1);
 
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -274,8 +247,6 @@ public class BottomNavigationActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        // Log.e(TAG, "onResume: Setting up bsckground service..");
-
     }
 
     @Override
@@ -292,14 +263,9 @@ public class BottomNavigationActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
     public Action getIndexApiAction() {
         Thing object = new Thing.Builder()
-                .setName("BottomNavigation Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
+                .setName("BottomNavigation Page")
                 .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
                 .build();
         return new Action.Builder(Action.TYPE_VIEW)
@@ -311,9 +277,6 @@ public class BottomNavigationActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
         client.connect();
         AppIndex.AppIndexApi.start(client, getIndexApiAction());
     }
@@ -321,9 +284,6 @@ public class BottomNavigationActivity extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
     }
@@ -340,7 +300,6 @@ public class BottomNavigationActivity extends AppCompatActivity {
             fragment = new Fragment();
             switch (position) {
                 case 0:
-                    // fragment = new HomeFragment();
                     fragment = mHomeFragment;
                     break;
 
@@ -382,10 +341,7 @@ public class BottomNavigationActivity extends AppCompatActivity {
             } else if(position == 0){
 
                 mHomeFragment.initialize();
-                //  finish();
-                //  Intent intent = new Intent(mActivity, BottomNavigationActivity.class);
-                //  intent.putExtra("reload", true);
-                //  startActivity(intent);
+
             }
             else {
                 showFloatingActionButton(false);
@@ -394,7 +350,5 @@ public class BottomNavigationActivity extends AppCompatActivity {
             return true;
         }
     }
-
-
 
 }

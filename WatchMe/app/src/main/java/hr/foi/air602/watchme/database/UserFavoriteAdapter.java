@@ -16,7 +16,7 @@ import hr.foi.air602.watchme.database.entities.UserFavorite;
 /**
  * Created by Goran on 20.12.2016..
  */
-//Klasa za rad s tablicom UserFavorites
+
 public class UserFavoriteAdapter extends DataAdapter {
     private static final String TABLE = "UserFavorites";
     private Context ctx = null;
