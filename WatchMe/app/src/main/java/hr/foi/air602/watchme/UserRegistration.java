@@ -88,7 +88,7 @@ public class UserRegistration extends AppCompatActivity {
     }
 
     // Provjera ispravnosti maila
-    private boolean isValidEmail(String mail1) {
+    public boolean isValidEmail(String mail1) {
         String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
@@ -98,7 +98,7 @@ public class UserRegistration extends AppCompatActivity {
     }
 
     // Provjera ispravnosti lozinke. (min 7 znakova)
-    private boolean isValidPassword(String pass) {
+    public boolean isValidPassword(String pass) {
         if (pass != null && pass.length() > 6) {
             return true;
         }
